@@ -34,53 +34,40 @@ public class Login extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            // connect database
             DBBean db = new DBBean();
             Connection con = (Connection) getServletContext().getAttribute("con");
             db.connect(con);
-            //
-            
-            // get username and password
             String _username = request.getParameter("username");
             String _password = request.getParameter("password");
-            String uname = db.getRecords("SELECT UNAME FROM APP.USERS WHERE UNAME ='"+_username+"' ")[0][0];
-            String passwd = db.getRecords("SELECT PASSWD FROM APP.USERS WHERE PASSWD ='"+_password+"' ")[0][0];
 
-//            out.print(a);
-            HttpSession session = request.getSession();
-            
-            if (_username != null && _password != null)
-            {
-                if(_username.equals(uname) && _password.equals(passwd))
-                {
-                    
+            if (_username != null && _password != null) {
+                // connect database
+
+                //
+                // get username and password
+                String uname = db.getRecords("SELECT UNAME FROM ROOT.USERS WHERE UNAME ='" + _username + "' ")[0][0];
+                String passwd = db.getRecords("SELECT PASSWD FROM ROOT.USERS WHERE PASSWD ='" + _password + "' ")[0][0];
+//            boolean valid = false;
+
+                if (_username.equals(uname) && _password.equals(passwd)) {
+                    HttpSession session = request.getSession();
 //                    session.setAttribute("login", "admin");
                     session.setAttribute("a", uname);
                     session.setAttribute("u", _username);
                     session.setAttribute("p", _password);
-            
+
                     response.sendRedirect("viewer/login.jsp");
 //                    request.getRequestDispatcher("login.jsp").forward(request, response);
-                }
-                else
-                {
+                } else {
                     out.println("Invalid username or password");
                 }
+            } else if (_username == null && _password == null) {
+                out.println("Invalid username or password");
+                out.close();
+
             }
-            else
-            {
-                    out.println("Empty username or password");
-                    }
             /* TODO output your page here. You may use following sample code. */
-//            out.println("<!DOCTYPE html>");
-//            out.println("<html>");
-//            out.println("<head>");
-//            out.println("<title>Servlet Login</title>");            
-//            out.println("</head>");
-//            out.println("<body>");
-//            out.println("<h1>Servlet Login at " + request.getContextPath() + "</h1>");
-//            out.println("</body>");
-//            out.println("</html>");
+//         
         }
     }
 
