@@ -40,12 +40,12 @@ public class DBBean {
     }
     
     public boolean insertEmployee(String[] values) {
-        // [username, employeeName, employeeAddress]
-        if (values.length != 3) 
+        // [username, employeeName, employeeAddress, rate]
+        if (values.length != 4) 
             return false;
         
-        String query = String.format("INSERT INTO app.employees(uname, ename, eaddress) "
-                + "VALUES ('%s', '%s', '%s')", values[0], values[1], values[2]);
+        String query = String.format("INSERT INTO app.employees(uname, ename, eaddress, erate) "
+                + "VALUES ('%s', '%s', '%s', %s)", values[0], values[1], values[2], values[3]);
         return executeUpdate(query);
     }
     
@@ -59,8 +59,8 @@ public class DBBean {
         return executeUpdate(query);
     }
     
-    public boolean insertOperation(String[] values) {
-        // [employeeName, clientName, year, month, day, hour, minute, slot, charge]
+    public boolean insertSchedule(String[] values) {
+        // [employeeName, clientName, type, year, month, day, hour, minute, slot]
         // formats [year: yyyy, month: m OR mm, day: d OR dd, hour: h OR hh, minute: mm]
         if (values.length != 9) 
             return false;
@@ -69,28 +69,31 @@ public class DBBean {
         String eid = find[0][0];
         find = getRecords("SELECT cid FROM app.clients WHERE cname='" + values[1] + "'");
         String cid = find[0][0];
-        String date = String.format("%s-%s-%s", values[2], values[3], values[4]);
-        String time = String.format("%s:%s", values[5], values[6]);
+        String date = String.format("%s-%s-%s", values[3], values[4], values[5]);
+        String time = String.format("%s:%s", values[6], values[7]);
+        String slot = values[2].equals("surgery") ? "0" : values[8];
         
-        String query = String.format("INSERT INTO app.operations(eid, cid, odate, otime, nslot, charge) "
-                + "VALUES (%s, %s, '%s','%s', %s, %s)", eid, cid, date, time, values[7], values[8]);
+        String query = String.format("INSERT INTO app.schedule(eid, cid, stype, sdate, stime, nslot) "
+                + "VALUES (%s, %s, '%s','%s', '%s', %s)", eid, cid, values[2], date, time, slot);
         return executeUpdate(query);
     }
     
-    public boolean insertBooking(String[] values) {
-        // [employeeName, clientID, year, month, day, hour, minute]
-        if (values.length != 7) 
+    public boolean insertBilling(String[] values) {
+        // [sId, charge]
+        if (values.length != 2) 
             return false;
         
-        String[][] find = getRecords("SELECT eid FROM app.employees WHERE ename='" + values[0] + "'");
-        String eid = find[0][0];
-        find = getRecords("SELECT cid FROM app.clients WHERE cname='" + values[1] + "'");
-        String cid = find[0][0];
-        String date = String.format("%s-%s-%s", values[2], values[3], values[4]);
-        String time = String.format("%s:%s", values[5], values[6]);
+        String type = getRecords( "SELECT sType FROM app.schedule WHERE sid=" + values[0] )[0][0]; // get schedule type
+        String charge = values[1];
+        if (type.equals("appointment")) {
+            String[][] schedule = getRecords("SELECT eid, nslot FROM app.schedule WHERE sid=" + values[0]);
+            String eid = schedule[0][0];                    // get eid to later get eRate
+            int nslot = Integer.parseInt(schedule[0][1]);   // get number of slot
+            float rate = Float.parseFloat(getRecords("SELECT erate FROM app.employees WHERE eid=" + eid )[0][0]);
+            charge = String.valueOf(nslot * rate);          // calculate the charge
+        }
         
-        String query = String.format("INSERT INTO app.booking_slots(eid, cid, sdate, stime) "
-                + "VALUES (%s, %s, '%s','%s')", eid, cid, date, time);
+        String query = String.format("INSERT INTO app.billing(sid, charge) VALUES (%s, %s)", values[0], charge);
         return executeUpdate(query);
     }
     
