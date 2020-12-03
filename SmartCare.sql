@@ -18,31 +18,31 @@ create table employees(
             generated always as identity (start with 1, increment by 1), 
 	eName varchar(50),
 	eAddress varchar(100),
+	eRate float,
 	uName varchar(20) references users(uname) on delete cascade
 );
 
-create table operations(
-    oID int not null primary key
+create table schedule (
+	sID int not null primary key
             generated always as identity (start with 1, increment by 1), 
     eID int references employees(eID),
     cID int references clients(cID),
-    oDate date,
-    oTime time,
-    nSlot int,
-    charge float,
-	ongoing boolean default true
-);
-
-
-create table booking_slots(
-    sID int not null primary key
-            generated always as identity (start with 1, increment by 1),
-    eID int references employees(eID) on delete no action,
-    cID int references clients(cID) on delete no action,
+	sType varchar(11),
+	nSlot int default 0,
     sDate date,
     sTime time,
-	ongoing boolean default true
+	cancelled boolean default false
 );
+-- nSlot=0 for surgery, nSlot will later be used to calculate billing.charge (nSlot * rate) for appointment
+-- sType is either "appointment" or "surgery"
+
+create table billing(
+    bID int not null primary key
+            generated always as identity (start with 1, increment by 1),
+    sID int references schedule(sID) on delete cascade,
+    charge float
+);
+-- charge for appointment will be calculated, for surgery will be manually entered
 
 INSERT INTO USERS (UNAME, PASSWD, "ROLE") VALUES ('meaydin', 'aydinme', 'doctor');
 INSERT INTO USERS (UNAME, PASSWD, "ROLE") VALUES ('eaydin', '12345me', 'nurse');
@@ -50,8 +50,8 @@ INSERT INTO USERS (UNAME, PASSWD, "ROLE") VALUES ('caidan', '5432@10', 'client')
 INSERT INTO USERS (UNAME, PASSWD, "ROLE") VALUES ('princehassan', 'prince_passwd', 'client');
 INSERT INTO USERS (UNAME, PASSWD, "ROLE") VALUES ('admin', 'admin_passwd', 'admin');
 
-INSERT INTO EMPLOYEES (ENAME, EADDRESS, UNAME) VALUES ('Mehmet Aydin', 'Mehmets Address, London, NW4 0BH', 'meaydin');
-INSERT INTO EMPLOYEES (ENAME, EADDRESS, UNAME) VALUES ('Emin Aydin', 'Emiin''s Address, Bristol, BS16', 'eaydin');
+INSERT INTO EMPLOYEES (ENAME, EADDRESS, UNAME) VALUES ('Mehmet Aydin', 'Mehmets Address, London, NW4 0BH', 80, 'meaydin');
+INSERT INTO EMPLOYEES (ENAME, EADDRESS, UNAME) VALUES ('Emin Aydin', 'Emiin''s Address, Bristol, BS16', 76, 'eaydin');
 
 INSERT INTO CLIENTS (CNAME, CADDRESS, CTYPE, UNAME) VALUES ('Charly Aidan', '14 King Street, Aberdeen, AB24 1BR', 'NHS', 'caidan');
 INSERT INTO CLIENTS (CNAME, CADDRESS, CTYPE, UNAME) VALUES ('Prince Hassan', 'Non-UK street, Non-UK Town, Non_UK', 'private', 'princehassan');
