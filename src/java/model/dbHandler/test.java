@@ -25,18 +25,18 @@ public class test extends HttpServlet {
             db.connect(con);
             boolean in = true;
 
-//            boolean in1 = db.insertUser(new String[] {"josie", "restingputface", "doctor"});
-//            boolean in2 = db.insertUser(new String[] {"hope", "tribid", "client"});
-//            boolean in3 = db.insertEmployee(new String[] {"josie", "Josie Saltzman", "Mystic Falls", "97"});
-//            boolean in4 = db.insertClient(new String[] {"hope", "Hope Michaelson", "New Orleans", "private"});
-//            boolean in5 = db.insertSchedule(new String[] {"Josie Saltzman", "Hope Michaelson", "appointment", "2021", "1", "20", "9", "00", "1"});
-//            boolean in6 = db.insertSchedule(new String[] {"Josie Saltzman", "Hope Michaelson", "surgery", "2021", "1", "24", "21", "00", "1"});
-//            boolean in7 = db.insertBilling(new String[] {"2", "4553.6"});   // surgery
-            boolean in8 = db.insertBilling(new String[] {"1", "thisfielddoesn'tmatter"});   // appointment
+//            boolean in1 = db.insertUser(new String[] {"raelle", "deathwish", "doctor"});
+//            boolean in2 = db.insertUser(new String[] {"scylla", "notaspree", "client"});
+//            boolean in3 = db.insertEmployee(new String[] {"raelle", "Raelle Collar", "Chippewa Cession, Carolina", "140"});
+//            boolean in4 = db.insertClient(new String[] {"scylla", "Scylla Ramshorn", "Fort Salem", "NHS"});
+//            boolean in5 = db.insertSchedule(new String[] {"Raelle Collar", "Scylla Ramshorn", "appointment", "2021-01-21", "14:40", "4"});
+//            boolean in6 = db.insertSchedule(new String[] {"Raelle Collar", "Scylla Ramshorn", "surgery", "2021-01-22", "19:00", "1"});
+//            boolean in7 = db.insertBilling(new String[] {"Raelle Collar", "2021-01-22", "19:00", "1223"});   // surgery
+//            boolean in8 = db.insertBilling(new String[] {"Raelle Collar", "2021-01-21", "14:40", "thisfielddoesn'tmatter"});   // appointment
 
 
             // check if inserting is successful
-            out.print("<h3> insert successful? " + in8 + "</h3>");
+            out.print("<h3> insert successful? " + in + "</h3>");
             String[][] res = db.getAllRecords("users");
             for (String[] rec : res) {
                 for (String col : rec) 
@@ -44,8 +44,9 @@ public class test extends HttpServlet {
                 out.print("<br>");
             }
             
-            // get records using query
-//            String[][] select = db.getRecords("SELECT * FROM app.clients WHERE ctype = 'NHS'");
+//             get records using query
+//            String[][] select = db.getRecords(String.format("SELECT sid,stype,nslot FROM app.schedule "
+//                            + "WHERE eid=%s AND sdate='%s' AND stime='%s'", 4, "2021-01-21", "14:40"));
 //            for (String[] rec : select) {
 //                for (String col : rec) 
 //                    out.print(col + " __ ");
