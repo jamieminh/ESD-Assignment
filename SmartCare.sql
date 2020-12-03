@@ -50,8 +50,8 @@ INSERT INTO USERS (UNAME, PASSWD, "ROLE") VALUES ('caidan', '5432@10', 'client')
 INSERT INTO USERS (UNAME, PASSWD, "ROLE") VALUES ('princehassan', 'prince_passwd', 'client');
 INSERT INTO USERS (UNAME, PASSWD, "ROLE") VALUES ('admin', 'admin_passwd', 'admin');
 
-INSERT INTO EMPLOYEES (ENAME, EADDRESS, ERATE, UNAME) VALUES ('Mehmet Aydin', 'Mehmets Address, London, NW4 0BH', 80, 'meaydin');
-INSERT INTO EMPLOYEES (ENAME, EADDRESS, ERATE, UNAME) VALUES ('Emin Aydin', 'Emiin''s Address, Bristol, BS16', 76, 'eaydin');
+INSERT INTO EMPLOYEES (ENAME, EADDRESS, UNAME) VALUES ('Mehmet Aydin', 'Mehmets Address, London, NW4 0BH', 80, 'meaydin');
+INSERT INTO EMPLOYEES (ENAME, EADDRESS, UNAME) VALUES ('Emin Aydin', 'Emiin''s Address, Bristol, BS16', 76, 'eaydin');
 
 INSERT INTO CLIENTS (CNAME, CADDRESS, CTYPE, UNAME) VALUES ('Charly Aidan', '14 King Street, Aberdeen, AB24 1BR', 'NHS', 'caidan');
 INSERT INTO CLIENTS (CNAME, CADDRESS, CTYPE, UNAME) VALUES ('Prince Hassan', 'Non-UK street, Non-UK Town, Non_UK', 'private', 'princehassan');

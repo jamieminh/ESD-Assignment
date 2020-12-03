@@ -59,50 +59,43 @@ public class DBBean {
         return executeUpdate(query);
     }
     
-    // html date and time pickers should be used
     public boolean insertSchedule(String[] values) {
-        // date: yyyy-mm-dd is the default format of the HTML date picker
-        // time: hh:mm is the default format of the HTML time picker
-        // [employeeName, clientName, type, date, time, slot]
-        // sql formats [year: yyyy, month: m OR mm, day: d OR dd, hour: h OR hh, minute: mm]
-        if (values.length != 6) 
+        // [employeeName, clientName, type, year, month, day, hour, minute, slot]
+        // formats [year: yyyy, month: m OR mm, day: d OR dd, hour: h OR hh, minute: mm]
+        if (values.length != 9) 
             return false;
         
         String[][] find = getRecords("SELECT eid FROM app.employees WHERE ename='" + values[0] + "'");
         String eid = find[0][0];
         find = getRecords("SELECT cid FROM app.clients WHERE cname='" + values[1] + "'");
         String cid = find[0][0];
-        String slot = values[2].equals("surgery") ? "0" : values[5];
+        String date = String.format("%s-%s-%s", values[3], values[4], values[5]);
+        String time = String.format("%s:%s", values[6], values[7]);
+        String slot = values[2].equals("surgery") ? "0" : values[8];
         
         String query = String.format("INSERT INTO app.schedule(eid, cid, stype, sdate, stime, nslot) "
-                + "VALUES (%s, %s, '%s','%s', '%s', %s)", eid, cid, values[2], values[3], values[4], slot);
+                + "VALUES (%s, %s, '%s','%s', '%s', %s)", eid, cid, values[2], date, time, slot);
         return executeUpdate(query);
     }
     
     public boolean insertBilling(String[] values) {
-        // [employeeName, date, time, charge]
-        if (values.length != 4) 
+        // [sId, charge]
+        if (values.length != 2) 
             return false;
         
-        String eid = getRecords("SELECT eid FROM app.employees WHERE ename='" + values[0] +"'")[0][0];
-        String charge = values[3];
-        String[][] schedule = getRecords(String.format("SELECT sid,stype,nslot FROM app.schedule "
-                            + "WHERE eid=%s AND sdate='%s' AND stime='%s'", eid, values[1], values[2]));
-        String type = schedule[0][1];
-        
+        String type = getRecords( "SELECT sType FROM app.schedule WHERE sid=" + values[0] )[0][0]; // get schedule type
+        String charge = values[1];
         if (type.equals("appointment")) {
-            int nslot = Integer.parseInt(schedule[0][2]);   // get number of slot
+            String[][] schedule = getRecords("SELECT eid, nslot FROM app.schedule WHERE sid=" + values[0]);
+            String eid = schedule[0][0];                    // get eid to later get eRate
+            int nslot = Integer.parseInt(schedule[0][1]);   // get number of slot
             float rate = Float.parseFloat(getRecords("SELECT erate FROM app.employees WHERE eid=" + eid )[0][0]);
             charge = String.valueOf(nslot * rate);          // calculate the charge
         }
         
-        String query = String.format("INSERT INTO app.billing(sid, charge) VALUES (%s, %s)", schedule[0][0], charge);
+        String query = String.format("INSERT INTO app.billing(sid, charge) VALUES (%s, %s)", values[0], charge);
         return executeUpdate(query);
     }
-
-//    public boolean cancelSchedule(String eName, String ) {
-//        
-//    }
     
     private boolean executeUpdate(String query) {
         boolean isSuccess = false;
@@ -116,7 +109,7 @@ public class DBBean {
             System.err.println("Error: " + e);
         }
 
-        return isSuccess;
+        return false;
     }
     
     private String[][] select(String table, String query) {

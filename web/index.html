@@ -6,11 +6,50 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title>TODO supply a title</title>
+        <title>Login</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"/>
+        <style>
+            td{
+                padding: 10px;
+            }
+            div{
+                width: 50%;
+                border: 1px solid black;
+                border-radius: 3px;
+                background-color: lightslategray;
+            }
+        </style>
     </head>
     <body>
-        <div>TODO write content</div>
+    <center><h1><u>Login</u></h1></center>
+        <form action="Login" method="POST">
+            <center>
+            <div >
+                
+                    <table>
+               
+                   <tr style="margin-bottom: 20px">
+                    <th> <label for="username">Username:</label></th>
+                    <td><input type="text" class="form-control" name="username"/></td>
+                </tr>
+                <tr>
+                    <th> <label for="password">Password:</label> </th>
+                    <td><input type="password" class="form-control" name="password" maxlength="16" required/></td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center">
+                        <input type="submit" class="btn btn-success" value="Submit"/>
+                    </td>
+                </tr>
+            
+                
+            </table>
+               
+   </div>
+                 </center>
+           
+        </form>
     </body>
 </html>
