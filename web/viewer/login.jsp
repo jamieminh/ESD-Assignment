@@ -15,6 +15,5 @@
         <h1>Hello  <%= request.getSession().getAttribute("a")%>!</h1>
        
 
-        
     </body>
 </html>
