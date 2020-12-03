@@ -6,11 +6,25 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title>TODO supply a title</title>
+        <title>Login</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <div>TODO write content</div>
+        <h1>LOGIN</h1>
+        <form action="Login.do" name="login" method="POST">
+            
+            <div>
+            <label for="username">Username:</label>
+            <input name="username" type="text"><br>
+            </div>
+            
+            <div>
+            <label for="password">Password:</label> 
+            <input name="password" type="password" maxlength="16" required><br>
+            </div>
+            
+            <input type="Submit" value="Submit">
+        </form>
     </body>
 </html>
