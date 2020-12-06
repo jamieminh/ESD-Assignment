@@ -39,35 +39,25 @@ public class Login extends HttpServlet {
             db.connect(con);
             String _username = request.getParameter("username");
             String _password = request.getParameter("password");
+            if (!_username.equals("") && !_password.equals("")) {
+                String[][] record = db.getRecords(String.format("SELECT role FROM ROOT.USERS WHERE uname='%s' AND passwd='%s'", _username, _password));
 
-            if (_username != null && _password != null) {
-                // connect database
-
-                //
-                // get username and password
-                String uname = db.getRecords("SELECT UNAME FROM ROOT.USERS WHERE UNAME ='" + _username + "' ")[0][0];
-                String passwd = db.getRecords("SELECT PASSWD FROM ROOT.USERS WHERE PASSWD ='" + _password + "' ")[0][0];
-//            boolean valid = false;
-
-                if (_username.equals(uname) && _password.equals(passwd)) {
+                if (record.length != 0) {
                     HttpSession session = request.getSession();
-//                    session.setAttribute("login", "admin");
-                    session.setAttribute("a", uname);
-                    session.setAttribute("u", _username);
-                    session.setAttribute("p", _password);
+                    String role = record[0][0];
+                    session.setAttribute("role", role);
+                    String name = "";
+                    if (role.equals("client"))
+                        name = db.getRecords("SELECT cname FROM ROOT.clients WHERE uname='" + _username + "'")[0][0];
+                    else if (!role.equals("admin"))
+                        name = db.getRecords("SELECT ename FROM ROOT.employees WHERE uname='" + _username + "'")[0][0];
 
-                    response.sendRedirect("viewer/login.jsp");
-//                    request.getRequestDispatcher("login.jsp").forward(request, response);
-                } else {
-                    out.println("Invalid username or password");
+                    session.setAttribute("name", name);
+                    request.getRequestDispatcher("/viewer/welcome.jsp").forward(request, response);
                 }
-            } else if (_username == null && _password == null) {
-                out.println("Invalid username or password");
-                out.close();
-
             }
-            /* TODO output your page here. You may use following sample code. */
-//         
+            request.setAttribute("err", "Invalid user");
+            request.getRequestDispatcher("/viewer/login.jsp").forward(request, response);
         }
     }
 
