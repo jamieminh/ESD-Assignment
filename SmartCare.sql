@@ -55,4 +55,3 @@ INSERT INTO EMPLOYEES (ENAME, EADDRESS, ERATE, UNAME) VALUES ('Emin Aydin', 'Emi
 
 INSERT INTO CLIENTS (CNAME, CADDRESS, CTYPE, UNAME) VALUES ('Charly Aidan', '14 King Street, Aberdeen, AB24 1BR', 'NHS', 'caidan');
 INSERT INTO CLIENTS (CNAME, CADDRESS, CTYPE, UNAME) VALUES ('Prince Hassan', 'Non-UK street, Non-UK Town, Non_UK', 'private', 'princehassan');
-

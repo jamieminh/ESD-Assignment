@@ -1,4 +1,9 @@
-package model.dbHandler;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Login;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -7,57 +12,53 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import model.dbHandler.DBBean;
 
 /**
  *
- * @author Jamie
+ * @author Admin
  */
-public class test extends HttpServlet {
+public class Login extends HttpServlet {
 
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             DBBean db = new DBBean();
-
             Connection con = (Connection) getServletContext().getAttribute("con");
             db.connect(con);
-            boolean in = true;
+            String _username = request.getParameter("username");
+            String _password = request.getParameter("password");
+            if (!_username.equals("") && !_password.equals("")) {
+                String[][] record = db.getRecords(String.format("SELECT role FROM ROOT.USERS WHERE uname='%s' AND passwd='%s'", _username, _password));
 
-//            boolean in1 = db.insertUser(new String[] {"josie", "restingputface", "doctor"});
-//            boolean in2 = db.insertUser(new String[] {"hope", "tribid", "client"});
-//            boolean in3 = db.insertEmployee(new String[] {"josie", "Josie Saltzman", "Mystic Falls", "97"});
-//            boolean in4 = db.insertClient(new String[] {"hope", "Hope Michaelson", "New Orleans", "private"});
-//            boolean in5 = db.insertSchedule(new String[] {"Josie Saltzman", "Hope Michaelson", "appointment", "2021", "1", "20", "9", "00", "1"});
-//            boolean in6 = db.insertSchedule(new String[] {"Josie Saltzman", "Hope Michaelson", "surgery", "2021", "1", "24", "21", "00", "1"});
-//            boolean in7 = db.insertBilling(new String[] {"2", "4553.6"});   // surgery
-            boolean in8 = db.insertBilling(new String[] {"1", "thisfielddoesn'tmatter"});   // appointment
+                if (record.length != 0) {
+                    HttpSession session = request.getSession();
+                    String role = record[0][0];
+                    session.setAttribute("role", role);
+                    String name = "";
+                    if (role.equals("client"))
+                        name = db.getRecords("SELECT cname FROM ROOT.clients WHERE uname='" + _username + "'")[0][0];
+                    else if (!role.equals("admin"))
+                        name = db.getRecords("SELECT ename FROM ROOT.employees WHERE uname='" + _username + "'")[0][0];
 
-
-            // check if inserting is successful
-            out.print("<h3> insert successful? " + in8 + "</h3>");
-            String[][] res = db.getAllRecords("users");
-            for (String[] rec : res) {
-                for (String col : rec) 
-                    out.print(col + " __ ");
-                out.print("<br>");
+                    session.setAttribute("name", name);
+                    request.getRequestDispatcher("/viewer/welcome.jsp").forward(request, response);
+                }
             }
-            
-            // get records using query
-//            String[][] select = db.getRecords("SELECT * FROM app.clients WHERE ctype = 'NHS'");
-//            for (String[] rec : select) {
-//                for (String col : rec) 
-//                    out.print(col + " __ ");
-//                out.print("<br>");
-//            }
-
-//            String[][] find = db.getRecords("SELECT cid FROM app.clients WHERE cname='Hope Michaelson'");
-//            String eid = find[0][0];
-//            out.print(eid);
-            
-
+            request.setAttribute("err", "Invalid user");
+            request.getRequestDispatcher("/viewer/login.jsp").forward(request, response);
         }
-        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
