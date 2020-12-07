@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Login;
 
 import java.io.IOException;
@@ -17,73 +12,77 @@ import model.dbHandler.DBBean;
 
 /**
  *
- * @author Admin
+ * @author BaoBui - modified by Jamie
  */
 public class Login extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            // connect database
             DBBean db = new DBBean();
             Connection con = (Connection) getServletContext().getAttribute("con");
             db.connect(con);
-            //
+            String _username = request.getParameter("username").trim();
+            String _password = request.getParameter("password").trim();
             
-            // get username and password
-            String _username = request.getParameter("username");
-            String _password = request.getParameter("password");
-            String uname = db.getRecords("SELECT UNAME FROM APP.USERS WHERE UNAME ='"+_username+"' ")[0][0];
-            String passwd = db.getRecords("SELECT PASSWD FROM APP.USERS WHERE PASSWD ='"+_password+"' ")[0][0];
+            // if the 2 fields are not empty
+            if (!_username.equals("") && !_password.equals("")) {
+                String[][] record = db.getRecords(String.format("SELECT role FROM APP.USERS WHERE uname='%s' AND passwd='%s'", _username, _password));
 
-//            out.print(a);
-            HttpSession session = request.getSession();
-            
-            if (_username != null && _password != null)
-            {
-                if(_username.equals(uname) && _password.equals(passwd))
-                {
+                if (record.length != 0) {
+                    HttpSession session = request.getSession();
+                    String role = record[0][0];
+                    String name = "";
+                    if (role.equals("client"))
+                        name = db.getRecords("SELECT cname FROM APP.clients WHERE uname='" + _username + "'")[0][0];
+                    else if (!role.equals("admin"))
+                        name = db.getRecords("SELECT ename FROM APP.employees WHERE uname='" + _username + "'")[0][0];
+
+                    String[] pages;
+                    switch(role) {
+                        case "admin":
+                            pages = new String[] {"Add Employees", "Cancel Surgery", "Produce Documents", "Lists"};
+                            break;
+                        case "client":
+                            pages = new String[] {"Book Appointment", "See Schedule", "Request Prescription"};
+                            break;
+                        case "doctor":
+                            pages = new String[] {"See Schedule", "Issue Prescription", "Forward Patient"};
+                            break;
+                        case "nurse":
+                            pages = new String[] {"See Schedule", "Issue Prescription"};
+                            break;    
+                        default:
+                            pages = new String[] {};
+                    }
+
+                    session.setAttribute("isLoggedIn", true);
+                    session.setAttribute("fullName", name);
+                    session.setAttribute("role", role);
+                    session.setAttribute("title", "Dashboard: " + name);
+                    session.setAttribute("folderUrl", "/viewer/" + role + "/");
+                    session.setAttribute("pages", pages);
                     
-//                    session.setAttribute("login", "admin");
-                    session.setAttribute("a", uname);
-                    session.setAttribute("u", _username);
-                    session.setAttribute("p", _password);
-            
-                    response.sendRedirect("viewer/login.jsp");
-//                    request.getRequestDispatcher("login.jsp").forward(request, response);
+                    response.sendRedirect("/viewer/Home.jsp");
                 }
-                else
-                {
-                    out.println("Invalid username or password");
+                // if user input are incorrect
+                else {
+                    request.setAttribute("errUser", "Your Username or Password is Incorrect");
+                    request.getRequestDispatcher("/viewer/Login.jsp").forward(request, response);
                 }
             }
-            else
-            {
-                    out.println("Empty username or password");
-                    }
-            /* TODO output your page here. You may use following sample code. */
-//            out.println("<!DOCTYPE html>");
-//            out.println("<html>");
-//            out.println("<head>");
-//            out.println("<title>Servlet Login</title>");            
-//            out.println("</head>");
-//            out.println("<body>");
-//            out.println("<h1>Servlet Login at " + request.getContextPath() + "</h1>");
-//            out.println("</body>");
-//            out.println("</html>");
+            // if one or both are empty
+            else {
+                if (_username.equals(""))
+                    request.setAttribute("errName", "Please enter username");
+                if (_password.equals(""))
+                    request.setAttribute("errPass", "Please enter password");
+                request.getRequestDispatcher("/viewer/Login.jsp").forward(request, response);
+            }
         }
     }
-
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
