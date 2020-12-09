@@ -54,8 +54,5 @@ INSERT INTO EMPLOYEES (ENAME, EADDRESS, ERATE, UNAME) VALUES ('Mehmet Aydin', 'M
 INSERT INTO EMPLOYEES (ENAME, EADDRESS, ERATE, UNAME) VALUES ('Emin Aydin', 'Emiin''s Address, Bristol, BS16', 76, 'eaydin');
 
 INSERT INTO CLIENTS (CNAME, CADDRESS, CTYPE, UNAME) VALUES ('Charly Aidan', '14 King Street, Aberdeen, AB24 1BR', 'NHS', 'caidan');
-<<<<<<< HEAD
+
 INSERT INTO CLIENTS (CNAME, CADDRESS, CTYPE, UNAME) VALUES ('Prince Hassan', 'Non-UK street, Non-UK Town, Non_UK', 'private', 'princehassan');
-=======
-INSERT INTO CLIENTS (CNAME, CADDRESS, CTYPE, UNAME) VALUES ('Prince Hassan', 'Non-UK street, Non-UK Town, Non_UK', 'private', 'princehassan');
->>>>>>> 1ea9dbdb842790854f9f14c70d44e22d90b424de
