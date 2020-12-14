@@ -5,7 +5,6 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
         <footer class="page-footer">
             <!-- Copyright -->
             <div class="footer-copyright text-center py-3">©2021 Copyright:
