@@ -24,6 +24,10 @@
         <servlet-name>SignUp</servlet-name>
         <servlet-class>Login.SignUp</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SignUpClient</servlet-name>
+        <servlet-class>Login.SignUpClient</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>test</servlet-name>
         <url-pattern>/test</url-pattern>
@@ -39,6 +43,10 @@
     <servlet-mapping>
         <servlet-name>SignUp</servlet-name>
         <url-pattern>/SignUp</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SignUpClient</servlet-name>
+        <url-pattern>/SignUpClient</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

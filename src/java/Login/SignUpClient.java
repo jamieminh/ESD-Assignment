@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package Login;
 
 import java.io.IOException;
@@ -7,14 +12,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import model.dbHandler.DBBean;
 
 /**
  *
  * @author Jamie
  */
-public class SignUp extends HttpServlet {
+public class SignUpClient extends HttpServlet {
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -24,24 +29,32 @@ public class SignUp extends HttpServlet {
             db.connect(con);
             String username = request.getParameter("username").trim();
             String fullName = request.getParameter("fullname").trim();
-            String role = request.getParameter("role").trim();
             String address = request.getParameter("address").trim();
-            String rate = request.getParameter("rate").trim();
+            String type = request.getParameter("type").trim();
             String password= request.getParameter("password").trim();
             String password_repeat= request.getParameter("repeat-password").trim();
 
             // if passwords are the same
-            if (password.equals(password_repeat)) {
-                String authorized = "false";
-                boolean insertRole;
+            if (password.equals(password_repeat)) {                
+                String findUsername = "SELECT uname FROM APP.USERS WHERE uname='" + username + "'";
+                String found = db.getRecords(findUsername)[0][0];
+                if (!found.equals("")) {
+                    request.setAttribute("userExist", "Username is already taken");
+                    request.getRequestDispatcher("/viewer/SignUpClient.jsp").forward(request, response);
+                }
                 
-                if (role.equals("client"))
-                    authorized = "true";
+                boolean inserted = db.insertUser(new String[] {username, password, "client", "true"});
+                boolean insertRole = false;
+                out.print(" Hi " + found);
+
+                if (inserted)
+                    insertRole = db.insertClient(new String[] {username, fullName, address, type});
                 
-                boolean inserted = db.insertUser(new String[] {username, password, role, authorized});
+                if (insertRole) {
+                    request.setAttribute("successSignup", "Signup Successful");
+                    request.getRequestDispatcher("/viewer/SignUpClient.jsp").forward(request, response);
+                }
                 
-//                if (role.equals("client"))
-//                    insertRole = db.insertClient(values)
             }
             
             else {                
@@ -50,13 +63,11 @@ public class SignUp extends HttpServlet {
                 // send these back so user dont have to enter again
                 request.setAttribute("nameSignup", username);
                 request.setAttribute("fullNameSignup", fullName);
-                request.setAttribute("roleSignup", role);
+                request.setAttribute("typeSignup", type);
                 request.setAttribute("addressSignup", address);
-                request.setAttribute("rateSignup", rate);
 
                 request.getRequestDispatcher("/viewer/SignUp.jsp").forward(request, response);
             }
-        
         }
     }
 

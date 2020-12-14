@@ -27,5 +27,11 @@ public class User {
     public void logout(){
     
     }
+    
+    public void signup(String username, String fullName, String password, String role, String address, String authorized) {
+        String insertUSer = String.format("INSERT INTO USERS (UNAME, PASSWD, ROLE, AUTHORIZED) VALUES ('%s', '%s', '%s', '%s')",
+                                        username, password, role, authorized);
+        
+    }
    
 }

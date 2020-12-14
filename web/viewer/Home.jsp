@@ -12,11 +12,12 @@
     if (session.getAttribute("isLoggedIn") != null) {
         loggedIn = true;
     }
-    
-
 %>
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/jamienguyen
 <jsp:include page="/viewer/Header.jsp"/>
 <div class="container-fluid">
     <h1>Home</h1>
