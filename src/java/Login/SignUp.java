@@ -40,7 +40,7 @@ public class SignUp extends HttpServlet {
                 
                 boolean inserted = db.insertUser(new String[] {username, password, role, authorized});
                 
-//                if (role.equals("client"))
+    //                if (role.equals("client"))
 //                    insertRole = db.insertClient(values)
             }
             

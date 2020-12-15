@@ -1,0 +1,15 @@
+/* 
+    Created on : Dec 15, 2020, 4:42:16 PM
+    Author     : Jamie
+*/
+
+#unauth-staff {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#unauth-staff td, #unauth-staff th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+

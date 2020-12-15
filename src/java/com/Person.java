@@ -1,29 +1,38 @@
-///*
-// * To change this license header, choose License Headers in Project Properties.
-// * To change this template file, choose Tools | Templates
-// * and open the template in the editor.
-// */
-//package listener.common;
-//import listener.common.User;
-//
-///**
-// *
-// * @author zZMerciZz
-// */
-//public class Person extends User {
+package com;
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+import com.User;
+
+/**
+ *
+ * @author zZMerciZz
+ */
+public class Person extends User {
 //    private int id;
-//    private String name;
-//    private String address;
-//    
-//    public Person(String username, String password, String role, int id, String name, String address) {
-//        super(username, password, role);
+    private String name;
+    private String address;
+    
+    public Person(String username, String password, String role, boolean authorized, 
+            String name, String address) {
+        super(username, password, role, authorized);
 //        this.id = id;
-//        this.name = name;
-//        this.address = address;
-//    }
-//    
-//}
-//
+        this.name = name;
+        this.address = address;
+    }
+    
+    @Override
+    public void signup() {
+        super.signup();
+        System.out.println("[Person]");        
+    }
+    
+}
+
 //class Client extends Person {
 //    private String type;
 //
@@ -74,6 +83,6 @@
 //        
 //    }
 //} 
-//
-//
-//
+
+
+

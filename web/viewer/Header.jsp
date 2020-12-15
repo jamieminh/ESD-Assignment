@@ -44,6 +44,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Nova+Mono&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
         <link rel="stylesheet" href="/style/style.css">
+        <link rel="stylesheet" href="/style/table.css">
 
     </head>
     <body>
@@ -96,7 +97,7 @@
             <div class="navbar-brand ml-auto d-none d-lg-block"><span id="UserName"><%=welcome%></span></div>
 
         </nav>
-        
+        <div class="content-wrapper ">
 
 
 
