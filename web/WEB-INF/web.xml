@@ -28,6 +28,10 @@
         <servlet-name>SignUpClient</servlet-name>
         <servlet-class>Login.SignUpClient</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AddEmployees</servlet-name>
+        <servlet-class>model.Admin.AddEmployees</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>test</servlet-name>
         <url-pattern>/test</url-pattern>
@@ -47,6 +51,10 @@
     <servlet-mapping>
         <servlet-name>SignUpClient</servlet-name>
         <url-pattern>/SignUpClient</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddEmployees</servlet-name>
+        <url-pattern>/AddEmployees</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

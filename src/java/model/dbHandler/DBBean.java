@@ -104,6 +104,39 @@ public class DBBean {
 //        
 //    }
     
+    public boolean updateTableData(String table, String[] updateAtts, String[] updateVals,
+            String[] whereAtts, String[] whereVals) {
+        // updateAtts: the attributes to be update
+        // updateVals: the values to be update
+        // whereAtts: the attributes for the 'WHERE' condition
+        // whereVals: the values for the 'WHERE' condition
+        // 
+        if (updateAtts.length != updateVals.length)
+            return false;
+        if (whereAtts.length != whereVals.length)
+            return false;
+        
+        // the SET clause in the sql query
+        String sets = "UPDATE APP." + table + " SET ";
+        String where = "WHERE ";
+        
+        for (int i=0; i<updateAtts.length; i++) {
+            if (i == updateAtts.length-1)
+                sets += updateAtts[i] + "='" + updateVals[i] + "' ";
+            else 
+                sets += updateAtts[i] + "='" + updateVals[i] + "', ";            
+        }
+        
+        for (int i=0; i<whereAtts.length; i++) {
+            if (i == whereAtts.length-1)
+                where += whereAtts[i] + "='" + whereVals[i] + "' ";
+            else 
+                where += whereAtts[i] + "='" + whereVals[i] + "', ";            
+        }
+        
+        return executeUpdate(sets + where);        
+    }
+    
     private boolean executeUpdate(String query) {
         boolean isSuccess = false;
         try {

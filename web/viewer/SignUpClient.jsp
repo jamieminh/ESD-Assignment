@@ -33,7 +33,7 @@
                     String fullName = (request.getAttribute("fullNameSignup") == null) ? "" : (String) request.getAttribute("fullNameSignup");
                     String option = (request.getAttribute("typeSignup") == null) ? "" : (String) request.getAttribute("typeSignup");
                     String address = (request.getAttribute("addressSignup") == null) ? "" : (String) request.getAttribute("addressSignup");
-                                        
+
                 %>
 
             <!-- username -->    
@@ -54,8 +54,8 @@
                     <span><i class="fas fa-user-tag"></i></span>
                     <select class="form-control" name="type" class="SelectForm" required>
                         <option value=""  selected>Signup as...</option>
-                        <option value="Private" <% out.print(option.equals("private") ? "selected" : ""); %>>Private</option>
-                        <option value="NHS" <% out.print(option.equals("nhs") ? "selected" : ""); %>>NHS</option>
+                        <option value="private" <% out.print(option.equals("private") ? "selected" : ""); %>>Private</option>
+                        <option value="nhs" <% out.print(option.equals("nhs") ? "selected" : ""); %>>NHS</option>
                     </select>
                 </div>
 

@@ -40,11 +40,11 @@ public class Login extends HttpServlet {
                     
                     HttpSession session = request.getSession();
                     String role = record[0][0];
-                    String name = "";
-//                    if (role.equals("client"))
-//                        name = db.getRecords("SELECT cname FROM APP.clients WHERE uname='" + _username + "'")[0][0];
-//                    else if (!role.equals("admin"))
-//                        name = db.getRecords("SELECT ename FROM APP.employees WHERE uname='" + _username + "'")[0][0];
+                    String name = "Admin";
+                    if (role.equals("client"))
+                        name = db.getRecords("SELECT cname FROM APP.clients WHERE uname='" + _username + "'")[0][0];
+                    else if (!role.equals("admin"))
+                        name = db.getRecords("SELECT ename FROM APP.employees WHERE uname='" + _username + "'")[0][0];
 
                     String[] pages;
                     switch(role) {

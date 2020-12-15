@@ -37,22 +37,20 @@ public class SignUpClient extends HttpServlet {
             // if passwords are the same
             if (password.equals(password_repeat)) {                
                 String findUsername = "SELECT uname FROM APP.USERS WHERE uname='" + username + "'";
-                String found = db.getRecords(findUsername)[0][0];
-                if (!found.equals("")) {
+                String[][] res = db.getRecords(findUsername);
+                if (res.length != 0) {
                     request.setAttribute("userExist", "Username is already taken");
                     request.getRequestDispatcher("/viewer/SignUpClient.jsp").forward(request, response);
                 }
                 
                 boolean inserted = db.insertUser(new String[] {username, password, "client", "true"});
                 boolean insertRole = false;
-                out.print(" Hi " + found);
 
                 if (inserted)
                     insertRole = db.insertClient(new String[] {username, fullName, address, type});
                 
                 if (insertRole) {
-                    request.setAttribute("successSignup", "Signup Successful");
-                    request.getRequestDispatcher("/viewer/SignUpClient.jsp").forward(request, response);
+                    request.getRequestDispatcher("/viewer/Login.jsp").forward(request, response);
                 }
                 
             }
