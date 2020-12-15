@@ -34,7 +34,7 @@ public class DBBean {
         // [username, password, role, authorized]
         if (values.length != 4) 
             return false;
-        String query = String.format("INSERT INTO app.users VALUES ('%s', '%s', '%s', '%s)",
+        String query = String.format("INSERT INTO app.users VALUES ('%s', '%s', '%s', '%s')",
                 values[0], values[1], values[2], values[3]);
         return executeUpdate(query);
     }

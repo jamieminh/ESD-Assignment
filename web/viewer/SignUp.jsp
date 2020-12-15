@@ -61,15 +61,13 @@
                 </div>
 
             <!-- role -->       
-<!--                <div class="formitem">
+                <div class="formitem">
                     <span><i class="fas fa-user-tag"></i></span>
                     <select class="form-control" name="role" class="SelectForm" required>
                         <option value=""  selected>Signup as...</option>
-                        <option value="client" <% out.print(option.equals("client") ? "selected" : ""); %>>Client</option>
                         <option value="doctor" <% out.print(option.equals("doctor") ? "selected" : ""); %>>Doctor</option>
                         <option value="nurse"  <% out.print(option.equals("nurse") ? "selected" : ""); %>>Nurse</option>
-                        <option value="admin"  <% out.print(option.equals("admin") ? "selected" : ""); %>>Admin</option>
-                    </select>
+                    </select><!--
                 </div>-->
 
             <!-- address -->       
