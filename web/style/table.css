@@ -9,7 +9,40 @@
 }
 
 #unauth-staff td, #unauth-staff th {
-  border: 1px solid #ddd;
-  padding: 8px;
+    border: 1px solid #ddd;
+    padding: 8px;
 }
+#patientList {
+    border-collapse: collapse;
 
+    display :grid;
+    grid-template-columns: 20% 20% 20% 20% 20%;
+
+}
+#patientList>div{
+    border: 1px solid #ddd;
+    /*padding: 8px;*/
+
+}
+#billingList{
+    border-collapse: collapse;
+
+    display :grid;
+    grid-template-columns: 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5%;
+}
+#billingList>div{
+    border: 1px solid #ddd;
+    /*padding: 8px;*/
+
+}
+#billingInfoList{
+     border-collapse: collapse;
+
+    display :grid;
+    grid-template-columns: 33% 33% 33% ;
+}
+#billingInfoList>div{
+    border: 1px solid #ddd;
+    /*padding: 8px;*/
+
+}

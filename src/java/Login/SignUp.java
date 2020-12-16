@@ -38,13 +38,14 @@ public class SignUp extends HttpServlet {
                 if (found.length != 0) {
                     request.setAttribute("userExist", "Username is already taken");
                     request.getRequestDispatcher("/viewer/SignUp.jsp").forward(request, response);
-                }
-//                out.print(1);
-                boolean inserted = db.insertUser(new String[]{username, password, role, "false"});
-                if (inserted) {
-                    boolean insertEmployee = db.insertEmployee(new String[]{username, fullName, address, rate});
-                    response.sendRedirect("viewer/Login.jsp");
+                } //                out.print(1);
+                else {
+                    boolean inserted = db.insertUser(new String[]{username, password, role, "false"});
+                    if (inserted) {
+                        boolean insertEmployee = db.insertEmployee(new String[]{username, fullName, address, rate});
+                        response.sendRedirect("viewer/Login.jsp");
 
+                    }
                 }
 //                out.print(1);
 

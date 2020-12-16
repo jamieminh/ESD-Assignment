@@ -86,7 +86,7 @@ public class AddEmployees extends HttpServlet {
                 
                 session.setAttribute("unAuthStaff", "false");
                 request.setAttribute("success", true);
-//                request.getRequestDispatcher("/viewer/admin/AddEmployees.jsp").forward(request, response);
+                request.getRequestDispatcher("/viewer/admin/AddEmployees.jsp").forward(request, response);
             }       
 
         }

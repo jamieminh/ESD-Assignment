@@ -32,6 +32,10 @@
         <servlet-name>AddEmployees</servlet-name>
         <servlet-class>model.Admin.AddEmployees</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ProduceDocuments</servlet-name>
+        <servlet-class>model.Admin.ProduceDocuments</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>test</servlet-name>
         <url-pattern>/test</url-pattern>
@@ -55,6 +59,10 @@
     <servlet-mapping>
         <servlet-name>AddEmployees</servlet-name>
         <url-pattern>/AddEmployees</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProduceDocuments</servlet-name>
+        <url-pattern>/ProduceDocuments</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
