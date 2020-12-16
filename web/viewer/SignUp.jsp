@@ -23,7 +23,6 @@
     <body>
         <div class="container SignUp">
             <div class="Description">
-                <!--<h2 class="BrandName">SMART<img src="/logo/caduceus.png"/>CARE</h2>-->
                 <h2 class="BrandName">SMARTCARE</h2>
                 <h2>Sign Up</h2>
             </div>

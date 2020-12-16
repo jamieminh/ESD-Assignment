@@ -30,15 +30,14 @@ public class SignUp extends HttpServlet {
             String rate = request.getParameter("rate").trim();
             String password = request.getParameter("password").trim();
             String password_repeat = request.getParameter("repeat-password").trim();
-//            out.print(username+""+fullName+""+role+""+address+""+rate+""+password+""+password_repeat+"");
-            // if passwords are the same
+
             if (password.equals(password_repeat)) {
                 String findUsername = "SELECT uname FROM APP.USERS WHERE uname='" + username + "'";
                 String[][] found = db.getRecords(findUsername);
                 if (found.length != 0) {
                     request.setAttribute("userExist", "Username is already taken");
                     request.getRequestDispatcher("/viewer/SignUp.jsp").forward(request, response);
-                } //                out.print(1);
+                }
                 else {
                     boolean inserted = db.insertUser(new String[]{username, password, role, "false"});
                     if (inserted) {
@@ -46,23 +45,8 @@ public class SignUp extends HttpServlet {
                         response.sendRedirect("viewer/Login.jsp");
 
                     }
-                }
-//                out.print(1);
-
-//                boolean insertEmployee = db.insertEmployee(new String[]{username, fullName, address, rate});
-//                out.print(insertEmployee);
-//                    if (inserted) {
-//                        out.print(1);
-//                        if (insertEmployee) {
-//                        }
-//                    }
-            } //                String authorized = "false";
-            //                boolean insertRole;
-            //                
-            //                if (role.equals("client"))
-            //                    authorized = "true";
-            //                if (role.equals("client"))
-            //                    insertRole = db.insertClient(values)
+                }              
+            } 
             else {
                 request.setAttribute("errRepeatPw", "Confirmation Password not Correct");
 
