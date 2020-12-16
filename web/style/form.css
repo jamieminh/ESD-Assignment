@@ -1,0 +1,102 @@
+
+/* 
+    Created on : Dec 7, 2020, 6:53:06 PM
+    Author     : Jamie
+*/
+
+html {
+    height: 100%;
+}
+
+body{
+    font-family: 'Maven Pro', sans-serif;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(-152deg, #6937EA 0%, #377FEA 65%);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.SignUp, .Login {
+    background-color: transparent;
+    width: 400px;
+    padding: 20px;
+    /*box-shadow: 0px 5px 10px 0px rgba(50, 50, 50, 0.52);*/
+    /*border-radius: 3px;*/
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    overflow: visible;
+
+}
+
+.BrandName {
+    font-family: 'Nova Mono', sans-serif;
+}
+
+.SignUp > .Description,
+.Login > .Description{
+    text-align: center;
+    margin: 10px 0 20px;
+    color: white;
+}
+
+.SignUp #logo,
+.Login #logo {
+    margin-bottom: 5px;
+}
+
+
+
+/*.formitem{
+    position:relative;
+}
+
+.formitem i {
+    position:absolute;
+    left: 15px;
+    top: -10px;
+    color: gray
+}*/
+
+/*.formitem {
+    margin-top: 10px;
+    margin-bottom: 30px;
+}*/
+
+.formitem span {
+    position: absolute;
+    margin-left: 12px;
+    height: 25px;
+    margin-top: 7px;    
+    display: flex;
+    align-items: center;
+    color: grey;
+    margin-right: 30px; 
+}
+.formitem input,
+.formitem select{
+    padding-left: 35px;
+    margin-bottom: 25px;
+
+}
+.Error {
+    background-color: #E74C3C;
+    padding: 7px 20px;
+    border-radius: 5px;
+    color: white;
+}
+
+.SignUp-Link {
+    margin-top: 10px;
+}
+
+.SignUp-Link a {
+    text-decoration: none;
+    color: white;
+}
+
+.SignUp-Link a:hover {
+    opacity: 0.8;
+}

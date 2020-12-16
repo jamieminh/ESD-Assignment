@@ -1,9 +1,8 @@
-<!-- 
-    Document   : SignUp
-    Created on : Dec 6, 2020, 2:01:06 PM
-    Author     : Jamie
--->
-
+<%-- 
+    Document   : SignUpClient
+    Created on : Dec 14, 2020, 5:05:32 PM
+    Author     : WIN 10
+--%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -25,21 +24,16 @@
             <div class="Description">
                 <!--<h2 class="BrandName">SMART<img src="/logo/caduceus.png"/>CARE</h2>-->
                 <h2 class="BrandName">SMARTCARE</h2>
-                <h2>Sign Up</h2>
+                <h2>Client Sign Up</h2>
             </div>
 
-            <form action="/SignUp" method="POST">
+            <form action="/SignUpClient" method="POST">
                 <%
-                    String option = (request.getAttribute("roleSignup") == null) ? "" : (String) request.getAttribute("roleSignup");
                     String name = (request.getAttribute("nameSignup") == null) ? "" : (String) request.getAttribute("nameSignup");
                     String fullName = (request.getAttribute("fullNameSignup") == null) ? "" : (String) request.getAttribute("fullNameSignup");
-                    String rate = (request.getAttribute("rateSignup") == null) ? "" : (String) request.getAttribute("rateSignup");
+                    String option = (request.getAttribute("typeSignup") == null) ? "" : (String) request.getAttribute("typeSignup");
                     String address = (request.getAttribute("addressSignup") == null) ? "" : (String) request.getAttribute("addressSignup");
 
-                    if (request.getAttribute("errUser") != null)
-                        out.print("<small class=\"Error\">" + request.getAttribute("errUser") + "</small><br>");
-                    else
-                        out.print("<br>");
                 %>
 
             <!-- username -->    
@@ -47,12 +41,7 @@
                     <span><i class="fa fa-user" aria-hidden="true"></i></span>
                     <input required type="text" class="form-control" name="username" placeholder="username" value="<%=name%>"/>
                 </div>
-                
-                <%
-                    if (request.getAttribute("userExist") != null) 
-                        out.print("<small class=\"Error\">" + request.getAttribute("userExist") + "</small><br>");
 
-                %>
 
             <!-- full name -->    
                 <div class="formitem">
@@ -60,29 +49,20 @@
                     <input required type="text" class="form-control" name="fullname" placeholder="full name" value="<%=fullName%>"/>
                 </div>
 
-            <!-- role -->       
-<!--                <div class="formitem">
+            <!-- type -->       
+                <div class="formitem">
                     <span><i class="fas fa-user-tag"></i></span>
-                    <select class="form-control" name="role" class="SelectForm" required>
+                    <select class="form-control" name="type" class="SelectForm" required>
                         <option value=""  selected>Signup as...</option>
-                        <option value="client" <% out.print(option.equals("client") ? "selected" : ""); %>>Client</option>
-                        <option value="doctor" <% out.print(option.equals("doctor") ? "selected" : ""); %>>Doctor</option>
-                        <option value="nurse"  <% out.print(option.equals("nurse") ? "selected" : ""); %>>Nurse</option>
-                        <option value="admin"  <% out.print(option.equals("admin") ? "selected" : ""); %>>Admin</option>
+                        <option value="private" <% out.print(option.equals("private") ? "selected" : ""); %>>Private</option>
+                        <option value="nhs" <% out.print(option.equals("nhs") ? "selected" : ""); %>>NHS</option>
                     </select>
-                </div>-->
+                </div>
 
             <!-- address -->       
                 <div class="formitem">
                     <span><i class="fas fa-map"></i></span>
                     <input required type="text" class="form-control" name="address" placeholder="address" value="<%=address%>"/>
-                </div>
-
-            
-            <!-- rate -->       
-                <div class="formitem">
-                    <span><i class="fas fa-money-bill-wave"></i></span>
-                    <input required type="text" class="form-control" name="rate" placeholder="rate" value="<%=rate%>"/>
                 </div>
 
                 
@@ -102,9 +82,9 @@
                 <%            
                     if (request.getAttribute("errRepeatPw") != null) {
                         out.print("<small class=\"Error\">" + request.getAttribute("errRepeatPw") + "</small><br>");
-                    } else {
-                        out.print("");
-                    }
+                    } 
+                    if (request.getAttribute("userExist") != null)
+                        out.print("<small class=\"Error\">" + request.getAttribute("userExist") + "</small><br>");
                 %>            
 
                 

@@ -28,12 +28,19 @@ public class Login extends HttpServlet {
             
             // if the 2 fields are not empty
             if (!_username.equals("") && !_password.equals("")) {
-                String[][] record = db.getRecords(String.format("SELECT role FROM APP.USERS WHERE uname='%s' AND passwd='%s'", _username, _password));
+                String[][] record = db.getRecords(String.format("SELECT role, authorized FROM APP.USERS WHERE uname='%s' AND passwd='%s'", _username, _password));
 
                 if (record.length != 0) {
+                    String authorized = record[0][1];
+                    if (authorized.equals("false")) {
+                        request.setAttribute("authorized", false);
+                        request.getRequestDispatcher("/viewer/Login.jsp").forward(request, response);
+                    }
+            
+                    
                     HttpSession session = request.getSession();
                     String role = record[0][0];
-                    String name = "";
+                    String name = "Admin";
                     if (role.equals("client"))
                         name = db.getRecords("SELECT cname FROM APP.clients WHERE uname='" + _username + "'")[0][0];
                     else if (!role.equals("admin"))
@@ -72,12 +79,9 @@ public class Login extends HttpServlet {
                     request.getRequestDispatcher("/viewer/Login.jsp").forward(request, response);
                 }
             }
-            // if one or both are empty
             else {
-                if (_username.equals(""))
-                    request.setAttribute("errName", "Please enter username");
-                if (_password.equals(""))
-                    request.setAttribute("errPass", "Please enter password");
+                // send these back so user dont have to enter again
+                request.setAttribute("nameLogin", _username);
                 request.getRequestDispatcher("/viewer/Login.jsp").forward(request, response);
             }
         }
