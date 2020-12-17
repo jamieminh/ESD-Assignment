@@ -77,7 +77,6 @@
         <url-pattern>/CancelSurgery</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-<<<<<<< HEAD
         <servlet-name>ProduceDocuments</servlet-name>
         <url-pattern>/ProduceDocuments</url-pattern>
     </servlet-mapping>
@@ -88,10 +87,9 @@
     <servlet-mapping>
         <servlet-name>SignUp</servlet-name>
         <url-pattern>/SignUp</url-pattern>
-=======
+
         <servlet-name>ChangePrices</servlet-name>
         <url-pattern>/ChangePrices</url-pattern>
->>>>>>> origin/jamienguyen
     </servlet-mapping>
     <session-config>
         <session-timeout>
