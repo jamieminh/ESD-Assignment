@@ -30,8 +30,7 @@ public class CancelSurgery extends HttpServlet {
             HttpSession session = request.getSession();
 
             // if 'surgeries' is not set
-            if (session.getAttribute("surgeries") == null
-                    || ((session.getAttribute("surgeries") != null) && session.getAttribute("surgeries").equals("false"))) {
+            if (session.getAttribute("surgeries") == null) {
 
                 String[][] surgeries = getSurgeriesData(db);
                 session.setAttribute("surgeries", surgeries);

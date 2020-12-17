@@ -36,8 +36,7 @@ public class AddEmployees extends HttpServlet {
             // if unAuthStaff is not set, or is set but set to false
             // meaning the data is not loaded or, the admin has made some change
             // and now the data must be updated
-            if (session.getAttribute("unAuthStaff") == null
-                    || ((session.getAttribute("unAuthStaff") != null) && session.getAttribute("unAuthStaff").equals("false"))) {
+            if (session.getAttribute("unAuthStaff") == null) {
 
                 String[][] unAuthEmps = getUsersData(db);
                 session.setAttribute("unAuthStaff", unAuthEmps);

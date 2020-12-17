@@ -33,8 +33,7 @@ public class ChangePrices extends HttpServlet {
             HttpSession session = request.getSession();
 
             // if 'servicesPrice' is not set
-            if (session.getAttribute("servicesPrice") == null
-                    || ((session.getAttribute("servicesPrice") != null) && session.getAttribute("servicesPrice").equals("false"))) {
+            if (session.getAttribute("servicesPrice") == null) {
 
                 // get employee info
                 String[][] empsRates = getEmpsData(db);
