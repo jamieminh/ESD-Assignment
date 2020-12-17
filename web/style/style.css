@@ -110,7 +110,8 @@ footer {
    position: absolute;
    bottom: 0;
    width: 100%;
-   background-color: #54bee3;
+   background-color: #18212B;
    color: white;
+   font-size: 10px;
    text-align: center;
 }

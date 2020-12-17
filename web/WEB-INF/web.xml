@@ -4,6 +4,14 @@
         <param-name>db_name</param-name>
         <param-value>assignment</param-value>
     </context-param>
+    <filter>
+        <filter-name>AuthenticationFilter</filter-name>
+        <filter-class>filters.AuthenticationFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AuthenticationFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
     <listener>
         <description>ServletContextListener</description>
         <listener-class>listener.DatabaseListener</listener-class>
@@ -33,8 +41,17 @@
         <servlet-class>model.Admin.AddEmployees</servlet-class>
     </servlet>
     <servlet>
+<<<<<<< HEAD
         <servlet-name>ProduceDocuments</servlet-name>
         <servlet-class>model.Admin.ProduceDocuments</servlet-class>
+=======
+        <servlet-name>CancelSurgery</servlet-name>
+        <servlet-class>model.Admin.CancelSurgery</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ChangePrices</servlet-name>
+        <servlet-class>model.Admin.ChangePrices</servlet-class>
+>>>>>>> origin/jamienguyen
     </servlet>
     <servlet-mapping>
         <servlet-name>test</servlet-name>
@@ -61,15 +78,24 @@
         <url-pattern>/AddEmployees</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+<<<<<<< HEAD
         <servlet-name>ProduceDocuments</servlet-name>
         <url-pattern>/ProduceDocuments</url-pattern>
+=======
+        <servlet-name>CancelSurgery</servlet-name>
+        <url-pattern>/CancelSurgery</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChangePrices</servlet-name>
+        <url-pattern>/ChangePrices</url-pattern>
+>>>>>>> origin/jamienguyen
     </servlet-mapping>
     <session-config>
         <session-timeout>
-            30
+            20
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>/viewer/Home.jsp</welcome-file>
+        <welcome-file>/Login.html</welcome-file>
     </welcome-file-list>
 </web-app>

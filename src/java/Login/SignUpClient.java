@@ -31,40 +31,35 @@ public class SignUpClient extends HttpServlet {
             String fullName = request.getParameter("fullname").trim();
             String address = request.getParameter("address").trim();
             String type = request.getParameter("type").trim();
-            String password= request.getParameter("password").trim();
-            String password_repeat= request.getParameter("repeat-password").trim();
+            String password = request.getParameter("password").trim();
+            String password_repeat = request.getParameter("repeat-password").trim();
 
             // if passwords are the same
-            if (password.equals(password_repeat)) {                
+            if (password.equals(password_repeat)) {
                 String findUsername = "SELECT uname FROM APP.USERS WHERE uname='" + username + "'";
                 String[][] res = db.getRecords(findUsername);
                 if (res.length != 0) {
-                    request.setAttribute("userExist", "Username is already taken");
-                    request.getRequestDispatcher("/viewer/SignUpClient.jsp").forward(request, response);
+                    out.print("<small class=\"Error Error-Signup\">This username is already taken</small>");
+                    request.getRequestDispatcher("/SignUpClient.html").include(request, response);
                 }
-                
-                boolean inserted = db.insertUser(new String[] {username, password, "client", "true"});
+
+                // insert new user to 'users' table
+                boolean inserted = db.insertUser(new String[]{username, password, "client", "true"});
                 boolean insertRole = false;
 
-                if (inserted)
-                    insertRole = db.insertClient(new String[] {username, fullName, address, type});
+                // insert user info to 'clients' table
+                if (inserted) 
+                    insertRole = db.insertClient(new String[]{username, fullName, address, type});
                 
-                if (insertRole) {
-                    request.getRequestDispatcher("/viewer/Login.jsp").forward(request, response);
-                }
-                
-            }
-            
-            else {                
-                request.setAttribute("errRepeatPw", "Confirmation Password not Correct");
-                
-                // send these back so user dont have to enter again
-                request.setAttribute("nameSignup", username);
-                request.setAttribute("fullNameSignup", fullName);
-                request.setAttribute("typeSignup", type);
-                request.setAttribute("addressSignup", address);
+                // redirect user to Login page
+                if (insertRole)
+                    request.getRequestDispatcher("/Login.html").forward(request, response);                
 
-                request.getRequestDispatcher("/viewer/SignUp.jsp").forward(request, response);
+            } 
+            else {
+                out.print("<small class=\"Error Error-Signup\">Confirmation Password is Incorrect</small>");
+                request.getRequestDispatcher("/SignUpClient.html").include(request, response);
+                // .include(), NOT .forward(), to print the error message
             }
         }
     }

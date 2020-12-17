@@ -47,24 +47,6 @@ body{
     margin-bottom: 5px;
 }
 
-
-
-/*.formitem{
-    position:relative;
-}
-
-.formitem i {
-    position:absolute;
-    left: 15px;
-    top: -10px;
-    color: gray
-}*/
-
-/*.formitem {
-    margin-top: 10px;
-    margin-bottom: 30px;
-}*/
-
 .formitem span {
     position: absolute;
     margin-left: 12px;
@@ -81,11 +63,22 @@ body{
     margin-bottom: 25px;
 
 }
-.Error {
+.Error, .Error-Login, .Error-Signup {
     background-color: #E74C3C;
     padding: 7px 20px;
     border-radius: 5px;
     color: white;
+}
+
+.Error-Login, .Error-Signup {
+    position: absolute;
+    left: 50%;
+    top: 27%;
+    transform: translate(-50%, -50%);
+}
+
+.Error-Signup {
+    top: 15%;
 }
 
 .SignUp-Link {

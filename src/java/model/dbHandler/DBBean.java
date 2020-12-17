@@ -100,10 +100,22 @@ public class DBBean {
         return executeUpdate(query);
     }
 
-//    public boolean cancelSchedule(String eName, String ) {
-//        
-//    }
+    public boolean cancelSchedule(String sid ) {
+        String query = "UPDATE APP.SCHEDULE SET cancelled='true' WHERE sid=" + sid;
+        return executeUpdate(query);
+    }
     
+    public boolean authorizeUser(String username) {
+        String query = "UPDATE APP.USERS SET authorized='true' WHERE uname='" + username + "' ";
+        return executeUpdate(query);
+    }
+    
+    public boolean changePrice(String username, String rate) {
+        String query = String.format("UPDATE APP.EMPLOYEES SET erate=%s WHERE uname='%s'", rate, username);
+        return executeUpdate(query);
+    }
+    
+    // THIS METHOD IS LIMITED TO STRING VALUES
     public boolean updateTableData(String table, String[] updateAtts, String[] updateVals,
             String[] whereAtts, String[] whereVals) {
         // updateAtts: the attributes to be update
