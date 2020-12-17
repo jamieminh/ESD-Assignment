@@ -41,11 +41,12 @@
         <servlet-class>model.Admin.AddEmployees</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>ProduceDocuments</servlet-name>
-        <servlet-class>model.Admin.ProduceDocuments</servlet-class>
-
         <servlet-name>CancelSurgery</servlet-name>
         <servlet-class>model.Admin.CancelSurgery</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ProduceDocuments</servlet-name>
+        <servlet-class>model.Admin.ProduceDocuments</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ChangePrices</servlet-name>
@@ -76,10 +77,12 @@
         <url-pattern>/AddEmployees</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>ProduceDocuments</servlet-name>
-        <url-pattern>/ProduceDocuments</url-pattern>
         <servlet-name>CancelSurgery</servlet-name>
         <url-pattern>/CancelSurgery</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProduceDocuments</servlet-name>
+        <url-pattern>/ProduceDocuments</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ChangePrices</servlet-name>

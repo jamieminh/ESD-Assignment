@@ -36,11 +36,14 @@ public class AddEmployees extends HttpServlet {
             // and now the data must be updated
             if (session.getAttribute("unAuthStaff") == null
                     || ((session.getAttribute("unAuthStaff") != null) && session.getAttribute("unAuthStaff").equals("false"))) {
-
+                
                 String[][] unAuthEmps = getUsersData(db);
                 session.setAttribute("unAuthStaff", unAuthEmps);
                 response.sendRedirect("/viewer/admin/AddEmployees.jsp");
+
             } else {
+
+           
                 Set<String> paramNames = request.getParameterMap().keySet();
                 // if admin doesn't change anything, send back
                 if (paramNames.size() == 1) {// only the submit button                
@@ -68,6 +71,9 @@ public class AddEmployees extends HttpServlet {
                 session.setAttribute("unAuthStaff", "false");
                 request.setAttribute("success", true);
                 request.getRequestDispatcher("/viewer/admin/AddEmployees.jsp").forward(request, response);
+                String[][] updated = getUsersData(db);
+                session.setAttribute("unAuthStaff", updated);
+                response.sendRedirect("/viewer/admin/AddEmployees.jsp");
             }
 
             String[][] updated = getUsersData(db);
@@ -93,6 +99,8 @@ public class AddEmployees extends HttpServlet {
 
         return unAuthEmps;
     }
+
+   
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

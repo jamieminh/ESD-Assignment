@@ -14,52 +14,57 @@
     width: 100%;
 }
 
-
-#unauth-staff td, #unauth-staff th {
-    border: 1px solid #ddd;
-    padding: 8px;
-
 .FormTable th {
     text-align: center;
     background-color: #54BEE3;
     color: white;
-
 }
-#patientList {
-    border-collapse: collapse;
 
-
-    display :grid;
-    grid-template-columns: 20% 20% 20% 20% 20%;
-
+<<<<<<< HEAD (1764837) - update from branch jami
+.FormTable td:nth-child(5),
+#cancel-surgery td:nth-child(4),
+#services-price td:nth-child(4){
+    text-align: right;
 }
-#patientList>div{
-    border: 1px solid #ddd;
-    /*padding: 8px;*/
 
+.FormTable td:last-child{
+    text-align: center;
 }
-#billingList{
-    border-collapse: collapse;
 
-    display :grid;
-    grid-template-columns: 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5%;
+#cancel-surgery td:first-child{
+    text-align: center;
 }
-#billingList>div{
-    border: 1px solid #ddd;
-    /*padding: 8px;*/
 
+#services-price td:nth-child(3){
+    text-transform: capitalize;
 }
-#billingInfoList{
-     border-collapse: collapse;
 
-    display :grid;
-    grid-template-columns: 33% 33% 33% ;
+#services-price input[type="number"] {
+    width: 150px;
+    border: 1px solid #f7fffe;
+    border-radius: 5px;
+    outline: none;
+    text-align: right;
+    padding: 2px 5px;    
 }
-#billingInfoList>div{
-    border: 1px solid #ddd;
-    /*padding: 8px;*/
 
+td.changed {
+    background-color: lightgreen;  
+}
 
+.FormTable input[type="submit"]{
+    margin: 20px auto 0;
+    display: block;
+    width: 150px;
+    font-size: 20px;
+    background-color: #59B259;    
+    outline: none;
+    border: none;
+    border-radius: 3px;
+    padding: 10px;
+    text-transform: uppercase;
+}
+=======
 .FormTable td, .FormTable th {
     border: 1px solid #ddd;
     padding: 8px;
@@ -108,3 +113,4 @@ td.changed {
     padding: 10px;
     text-transform: uppercase;
 }
+>>>>>>> origin/jamienguyen (bddbd94) - update {c
