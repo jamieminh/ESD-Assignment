@@ -36,52 +36,52 @@ public class Login extends HttpServlet {
                 // login with unauthorized username and info
                 if (authorized.equals("false")) {
                     request.setAttribute("authorized", false);
-                    request.getRequestDispatcher("/viewer/Login.jsp").forward(request, response);
+                    out.print("<small class=\"Error Error-Login\">Unauthorized User</small>");
+                    request.getRequestDispatcher("/Login.html").include(request, response);
+                } else {
+
+                    HttpSession session = request.getSession();
+                    String role = record[0][0];
+                    String name = "Admin";
+                    if (role.equals("client")) {
+                        name = db.getRecords("SELECT cname FROM APP.clients WHERE uname='" + _username + "'")[0][0];
+                    } else if (!role.equals("admin")) {
+                        name = db.getRecords("SELECT ename FROM APP.employees WHERE uname='" + _username + "'")[0][0];
+                    }
+
+                    String[] pages;
+                    switch (role) {
+                        case "admin":
+                            pages = new String[]{"Add Employees", "Cancel Surgery", "Change Prices", "Produce Documents"};
+                            break;
+                        case "client":
+                            pages = new String[]{"Book Appointment", "See Schedule", "Request Prescription"};
+                            break;
+                        case "doctor":
+                            pages = new String[]{"See Schedule", "Issue Prescription", "Forward Patient"};
+                            break;
+                        case "nurse":
+                            pages = new String[]{"See Schedule", "Issue Prescription"};
+                            break;
+                        default:
+                            pages = new String[]{};
+                    }
+
+                    session.setAttribute("isLoggedIn", true);
+                    session.setAttribute("fullName", name);
+                    session.setAttribute("role", role);
+                    session.setAttribute("title", "Dashboard: " + name);
+                    session.setAttribute("folderUrl", "/viewer/" + role + "/");
+                    session.setAttribute("pages", pages);
+
+                    // set cookie to remember usr
+                    Cookie username = new Cookie("user", _username);
+                    username.setMaxAge(5 * 24 * 60 * 60);   // 10 days
+                    response.addCookie(username);
+
+                    response.sendRedirect("/viewer/Home.jsp");
                 }
-
-                HttpSession session = request.getSession();
-                String role = record[0][0];
-                String name = "Admin";
-                if (role.equals("client")) {
-                    name = db.getRecords("SELECT cname FROM APP.clients WHERE uname='" + _username + "'")[0][0];
-                } else if (!role.equals("admin")) {
-                    name = db.getRecords("SELECT ename FROM APP.employees WHERE uname='" + _username + "'")[0][0];
-                }
-
-                String[] pages;
-                switch (role) {
-                    case "admin":
-                        pages = new String[]{"Add Employees", "Cancel Surgery", "Change Prices", "Produce Documents"};
-                        break;
-                    case "client":
-                        pages = new String[]{"Book Appointment", "See Schedule", "Request Prescription"};
-                        break;
-                    case "doctor":
-                        pages = new String[]{"See Schedule", "Issue Prescription", "Forward Patient"};
-                        break;
-                    case "nurse":
-                        pages = new String[]{"See Schedule", "Issue Prescription"};
-                        break;
-                    default:
-                        pages = new String[]{};
-                }
-
-                session.setAttribute("isLoggedIn", true);
-                session.setAttribute("fullName", name);
-                session.setAttribute("role", role);
-                session.setAttribute("title", "Dashboard: " + name);
-                session.setAttribute("folderUrl", "/viewer/" + role + "/");
-                session.setAttribute("pages", pages);
-
-                // set cookie to remember usr
-                Cookie username = new Cookie("user", _username);
-                username.setMaxAge(5 * 24 * 60 * 60);   // 10 days
-                response.addCookie(username);
-                
-
-                response.sendRedirect("/viewer/Home.jsp");
-            } 
-            // if user input are incorrect
+            } // if user input are incorrect
             else {
                 out.print("<small class=\"Error Error-Login\">Your Username or Password is Incorrect</small>");
                 request.getRequestDispatcher("/Login.html").include(request, response);
@@ -131,4 +131,3 @@ public class Login extends HttpServlet {
     }// </editor-fold>
 
 }
-    

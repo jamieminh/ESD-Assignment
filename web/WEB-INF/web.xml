@@ -29,10 +29,6 @@
         <servlet-class>Login.Logout</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>SignUp</servlet-name>
-        <servlet-class>Login.SignUp</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>SignUpClient</servlet-name>
         <servlet-class>Login.SignUpClient</servlet-class>
     </servlet>
@@ -52,6 +48,10 @@
         <servlet-name>ChangePrices</servlet-name>
         <servlet-class>model.Admin.ChangePrices</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SignUp</servlet-name>
+        <servlet-class>Login.SignUp</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>test</servlet-name>
         <url-pattern>/test</url-pattern>
@@ -63,10 +63,6 @@
     <servlet-mapping>
         <servlet-name>Logout</servlet-name>
         <url-pattern>/Logout</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>SignUp</servlet-name>
-        <url-pattern>/SignUp</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>SignUpClient</servlet-name>
@@ -87,6 +83,10 @@
     <servlet-mapping>
         <servlet-name>ChangePrices</servlet-name>
         <url-pattern>/ChangePrices</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SignUp</servlet-name>
+        <url-pattern>/SignUp</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

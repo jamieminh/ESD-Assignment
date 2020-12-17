@@ -30,55 +30,52 @@ public class AddEmployees extends HttpServlet {
             Connection con = (Connection) getServletContext().getAttribute("con");
             db.connect(con);
 
+            out.print(1);
+
             HttpSession session = request.getSession();
             // if unAuthStaff is not set, or is set but set to false
             // meaning the data is not loaded or, the admin has made some change
             // and now the data must be updated
             if (session.getAttribute("unAuthStaff") == null
                     || ((session.getAttribute("unAuthStaff") != null) && session.getAttribute("unAuthStaff").equals("false"))) {
-                
+
                 String[][] unAuthEmps = getUsersData(db);
                 session.setAttribute("unAuthStaff", unAuthEmps);
                 response.sendRedirect("/viewer/admin/AddEmployees.jsp");
 
             } else {
+                out.print(1);
 
-           
                 Set<String> paramNames = request.getParameterMap().keySet();
                 // if admin doesn't change anything, send back
                 if (paramNames.size() == 1) {// only the submit button                
                     response.sendRedirect("/viewer/admin/AddEmployees.jsp");
-                }
+                } else {
+                    String[][] unAuthEmps = (String[][]) session.getAttribute("unAuthStaff");
+                    // arr to store usernames and their auth state after submit 
+                    String[][] usersChecks = new String[unAuthEmps.length][2];
 
-                String[][] unAuthEmps = (String[][]) session.getAttribute("unAuthStaff");
-                // arr to store usernames and their auth state after submit 
-                String[][] usersChecks = new String[unAuthEmps.length][2];
-
-                // store usernames and their checked status
-                for (int i = 0; i < unAuthEmps.length; i++) {
-                    usersChecks[i][0] = unAuthEmps[i][0];
-                    boolean check = request.getParameter("auth-" + unAuthEmps[i][0]) != null;
-                    usersChecks[i][1] = String.valueOf(check);
-                }
-
-                // update db
-                for (String[] user : usersChecks) {
-                    if (user[1].equals("true")) {
-                        db.authorizeUser(user[0]);
+                    // store usernames and their checked status
+                    for (int i = 0; i < unAuthEmps.length; i++) {
+                        usersChecks[i][0] = unAuthEmps[i][0];
+                        boolean check = request.getParameter("auth-" + unAuthEmps[i][0]) != null;
+                        usersChecks[i][1] = String.valueOf(check);
                     }
+//
+//                // update db
+                    for (String[] user : usersChecks) {
+                        if (user[1].equals("true")) {
+                            db.authorizeUser(user[0]);
+                        }
+                    }
+//
+                    String[][] updated = getUsersData(db);
+                    session.setAttribute("unAuthStaff", updated);
+                    response.sendRedirect("/viewer/admin/AddEmployees.jsp");
                 }
 
-                session.setAttribute("unAuthStaff", "false");
-                request.setAttribute("success", true);
-                request.getRequestDispatcher("/viewer/admin/AddEmployees.jsp").forward(request, response);
-                String[][] updated = getUsersData(db);
-                session.setAttribute("unAuthStaff", updated);
-                response.sendRedirect("/viewer/admin/AddEmployees.jsp");
             }
 
-            String[][] updated = getUsersData(db);
-            session.setAttribute("unAuthStaff", updated);
-            response.sendRedirect("/viewer/admin/AddEmployees.jsp");
         }
 
     }
@@ -99,8 +96,6 @@ public class AddEmployees extends HttpServlet {
 
         return unAuthEmps;
     }
-
-   
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
