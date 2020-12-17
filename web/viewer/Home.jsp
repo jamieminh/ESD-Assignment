@@ -3,7 +3,7 @@
     Created on : Dec 5, 2020, 12:56:04 PM
     Author     : Jamie
 --%>
-
+<%--<%@page session="false" %>--%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%
@@ -12,28 +12,33 @@
     if (session.getAttribute("isLoggedIn") != null) {
         loggedIn = true;
     }
-    
-
 %>
 
-<!DOCTYPE html>
+
 <jsp:include page="/viewer/Header.jsp"/>
-<div class="container-fluid">
-    <h1>Home</h1>
-    <p style="color: salmon">The main (home) page lets users select the type of user and action ahead</p>
-    <p style="color: salmon">A user should be able to access its own dashboard and the home page from any page</p>
-    
-    <%
+<div class="MainContent">
+    <% 
         if (loggedIn) { 
-            String fullName = (String) session.getAttribute("fullName");   
-            out.println("<h3>You are currently logged in as <span style=\"font-weight: bold\">" + fullName +"</span> </h3>");
-        }
-        else { %>
-            <h1>Welcome to SmartCare!</h1>
-            <h3>You are not logged in.</h3>
-    
-    <%
-        }
+            String[] tasks = (String[]) session.getAttribute("pages"); 
+            String userUrl = (String) session.getAttribute("folderUrl");
+            String fullName = (String) session.getAttribute("fullName");
     %>
+    <h3>You are currently logged in as <span style="font-weight: bold"><%=fullName%></span> </h3>
+    <h4>What do you want to do?</h4>
+    <ul>
+        <% 
+            for (String task : tasks) {
+                String url = userUrl + task.trim().replace(" ", "") + ".jsp";
+//                out.print("<li><a href=\"/" + task.trim().replace(" ", "") +"\">" + task + "</a></li>");
+                out.print("<li><a href=\"" + url +"\">" + task + "</a></li>");
+            }
+        %>
+    </ul>
+
+    <% } else { %>
+    <h1>Welcome to SmartCare!</h1>
+    <h3>You are not logged in.</h3>
+
+    <% } %>
 </div>
 <jsp:include page="/viewer/Footer.jsp"/>

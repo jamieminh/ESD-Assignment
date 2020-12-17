@@ -41,8 +41,10 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Maven+Pro:wght@500;600&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Nova+Mono&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
         <link rel="stylesheet" href="/style/style.css">
+        <link rel="stylesheet" href="/style/table.css">
     </head>
     <body>
         <%
@@ -54,9 +56,13 @@
             }
             
             %>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light ">
-            <a href="/viewer/Home.jsp" class="navbar-brand"><img src="/logo/caduceus.png" id="logo"></a>
-            <div class="navbar-brand mr-auto"><span id="BrandName">SmartCare</span></div>
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <div class="navbar-brand mr-auto">
+                <a href="/viewer/Home.jsp"><span class="BrandName">SMART<img src="/logo/caduceus.png"/>CARE</span></a>
+            </div>
+            <!--<a href="/viewer/Home.jsp"><h2 class="BrandName">SMART<img src="/logo/caduceus.png"/>CARE</h2></a>-->
+<!--            <a href="/viewer/Home.jsp" class="navbar-brand"><img src="/logo/caduceus.png" id="logo"></a>
+            <div class="navbar-brand mr-auto"><span id="BrandName">SmartCare</span></div>-->
 
             <div class="navbar-brand ml-auto d-lg-none"><span id="UserName"><%=welcome%></span></div>
 
@@ -90,7 +96,7 @@
             <div class="navbar-brand ml-auto d-none d-lg-block"><span id="UserName"><%=welcome%></span></div>
 
         </nav>
-        
+        <div class="content-wrapper ">
 
 
 

@@ -24,19 +24,19 @@ public class test extends HttpServlet {
             db.connect(con);
             boolean in = true;
 
-//            boolean in1 = db.insertUser(new String[] {"josie", "restingputface", "doctor"});
-//            boolean in2 = db.insertUser(new String[] {"hope", "tribid", "client"});
+//            boolean in1 = db.insertUser(new String[] {"josie", "restingputface", "doctor", "true"});
+//            boolean in2 = db.insertUser(new String[] {"hope", "tribid", "client", "true"});
 //            boolean in3 = db.insertEmployee(new String[] {"josie", "Josie Saltzman", "Mystic Falls", "97"});
 //            boolean in4 = db.insertClient(new String[] {"hope", "Hope Michaelson", "New Orleans", "private"});
-//            boolean in5 = db.insertSchedule(new String[] {"Josie Saltzman", "Hope Michaelson", "appointment", "2021", "1", "20", "9", "00", "1"});
-//            boolean in6 = db.insertSchedule(new String[] {"Josie Saltzman", "Hope Michaelson", "surgery", "2021", "1", "24", "21", "00", "1"});
+//            boolean in5 = db.insertSchedule(new String[] {"Josie Saltzman", "Hope Michaelson", "appointment", "2021-01-20", "9:00", "1"});
+            boolean in6 = db.insertSchedule(new String[] {"Josie Saltzman", "Hope Michaelson", "surgery", "2021-2-3", "21:00", "1"});
 //            boolean in7 = db.insertBilling(new String[] {"2", "4553.6"});   // surgery
-            boolean in8 = db.insertBilling(new String[] {"1", "thisfielddoesn'tmatter"});   // appointment
+//            boolean in8 = db.insertBilling(new String[] {"1", "thisfielddoesn'tmatter"});   // appointment
 
 
             // check if inserting is successful
-            out.print("<h3> insert successful? " + in8 + "</h3>");
-            String[][] res = db.getAllRecords("users");
+            out.print("<h3> insert successful? " + in6 + "</h3>");
+            String[][] res = db.getAllRecords("schedule");
             for (String[] rec : res) {
                 for (String col : rec) 
                     out.print(col + " __ ");
