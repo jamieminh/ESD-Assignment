@@ -7,24 +7,24 @@
 
 <%
     String[][] unAuthEmps = new String[1][1];
-    if (session.getAttribute("isLoggedIn") != null) {   // if a user is logged in
-        if (!session.getAttribute("role").equals("admin")) {    // if the user is NOT admin
-            response.sendRedirect("/viewer/Login.jsp");
-        }
 
-        // if the session dont have the required info to load the page
-        if (session.getAttribute("unAuthStaff") == null || 
-                    ((session.getAttribute("unAuthStaff") != null) && session.getAttribute("unAuthStaff").equals("false"))) {
-            response.sendRedirect("/AddEmployees");
-        } else {
-            unAuthEmps = (String[][]) session.getAttribute("unAuthStaff");
-        }
+    if (session.getAttribute("unAuthStaff") == null) 
+        response.sendRedirect("/AddEmployees");
+    else 
+        unAuthEmps = (String[][]) session.getAttribute("unAuthStaff");
+    
 
-    } else { // if a user is NOT logged in
-        response.sendRedirect("/viewer/Login.jsp");
-    }
-
-//    String[][] unAuthEmps = (String[][]) session.getAttribute("unAuthStaff");
+//    String username = null;
+//    String sessionID = null;
+//    Cookie[] cookies = request.getCookies();
+//    if (cookies != null) {
+//        for (Cookie cookie : cookies) {
+//            if (cookie.getName().equals("user"))
+//                username = cookie.getValue();
+//            if (cookie.getName().equals("JSESSIONID"))
+//                sessionID = cookie.getValue();
+//        }
+//    }
 
 %>
 
@@ -37,9 +37,9 @@
 
 <div class="MainContent">
 
-    <h3>There are <%=unAuthEmps.length%> new employees registered!</h3>
+    <h3>There are <span class="data-num"><%=unAuthEmps.length%></span> new employee(s) registered!</h3>
 
-    <form action="/AddEmployees" method="get">
+    <form action="/AddEmployees" method="post" class="FormTable">
         <table id="unauth-staff">
             <tr>
                 <th>Username</th>
@@ -50,30 +50,22 @@
                 <th>Authorzied</th>
             </tr>
             <%
-                for (String[] emp : unAuthEmps) {
-                    out.print("<tr>");
-                    for (String info : emp) {
-                        out.print("<td>" + info + "</td>");
+                if (unAuthEmps.length == 0) {
+                    out.print("<tr><td colspan=\"6\">Empty</td></tr>");
+                } else {
+                    for (String[] emp : unAuthEmps) {
+                        out.print("<tr>");
+                        for (String info : emp) {
+                            out.print("<td>" + info + "</td>");
+                        }
+                        out.print("<td><input type=\"checkbox\" name=\"auth-" + emp[0] + "\" /></td>");
+                        out.print("</tr>");
                     }
-                    out.print("<td><input type=\"checkbox\" name=\"auth-" + emp[0] + "\" /></td>");
-                    out.print("</tr>");
                 }
             %>
         </table>
         <input type="submit" name="auth-submit" value="Confirm"/>
     </form>
 
-    <%
-        out.print(request.getAttribute("success"));
-        if (request.getAttribute("success") != null) {
-            out.print("UWU");%>
-        
-            <script type="text/javascript">
-                    alert("Successful");
-                    location='viewer/admin/AddEmployees.jsp';
-            </script> 
-            alertName();
-    <%    }
-    %> 
 </div>
 <jsp:include page="/viewer/Footer.jsp"/>

@@ -15,6 +15,7 @@ import model.dbHandler.DBBean;
  * @author Jamie
  */
 public class SignUp extends HttpServlet {
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -27,40 +28,35 @@ public class SignUp extends HttpServlet {
             String role = request.getParameter("role").trim();
             String address = request.getParameter("address").trim();
             String rate = request.getParameter("rate").trim();
-            String password= request.getParameter("password").trim();
-            String password_repeat= request.getParameter("repeat-password").trim();
+            String password = request.getParameter("password").trim();
+            String password_repeat = request.getParameter("repeat-password").trim();
 
-            // if passwords are the same
             if (password.equals(password_repeat)) {
-                String authorized = "false";
-                boolean insertRole;
+                String findUsername = "SELECT uname FROM APP.USERS WHERE uname='" + username + "'";
+                String[][] found = db.getRecords(findUsername);
+                if (found.length != 0) {
+                    out.print("<small class=\"Error Error-Signup\">This Username is Already Taken</small>");
+                    request.getRequestDispatcher("/SignUp.html").include(request, response);
+                }
                 
-                if (role.equals("client"))
-                    authorized = "true";
+                boolean inserted = db.insertUser(new String[]{username, password, role, "false"});
+                boolean insertRole = false;
+                if (inserted) 
+                    insertRole = db.insertEmployee(new String[]{username, fullName, address, rate});
                 
-                boolean inserted = db.insertUser(new String[] {username, password, role, authorized});
-                
-    //                if (role.equals("client"))
-//                    insertRole = db.insertClient(values)
-            }
-            
-            else {                
-                request.setAttribute("errRepeatPw", "Confirmation Password not Correct");
-                
-                // send these back so user dont have to enter again
-                request.setAttribute("nameSignup", username);
-                request.setAttribute("fullNameSignup", fullName);
-                request.setAttribute("roleSignup", role);
-                request.setAttribute("addressSignup", address);
-                request.setAttribute("rateSignup", rate);
+                if (insertRole)
+                    request.getRequestDispatcher("/Login.html").forward(request, response);  
 
-                request.getRequestDispatcher("/viewer/SignUp.jsp").forward(request, response);
+                
+            } else {
+                out.print("<small class=\"Error Error-Signup\">Confirmation Password is Incorrect</small>");
+                request.getRequestDispatcher("/SignUp.html").include(request, response);
             }
-        
+
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

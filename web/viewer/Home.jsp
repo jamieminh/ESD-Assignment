@@ -3,7 +3,7 @@
     Created on : Dec 5, 2020, 12:56:04 PM
     Author     : Jamie
 --%>
-
+<%--<%@page session="false" %>--%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%
@@ -14,14 +14,16 @@
     }
 %>
 
+
 <jsp:include page="/viewer/Header.jsp"/>
 <div class="MainContent">
     <% 
         if (loggedIn) { 
             String[] tasks = (String[]) session.getAttribute("pages"); 
             String userUrl = (String) session.getAttribute("folderUrl");
+            String fullName = (String) session.getAttribute("fullName");
     %>
-    <h3>You are currently logged in as <span style="font-weight: bold">Admin</span> </h3>
+    <h3>You are currently logged in as <span style="font-weight: bold"><%=fullName%></span> </h3>
     <h4>What do you want to do?</h4>
     <ul>
         <% 
