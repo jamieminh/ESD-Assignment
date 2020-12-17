@@ -41,17 +41,15 @@
         <servlet-class>model.Admin.AddEmployees</servlet-class>
     </servlet>
     <servlet>
-<<<<<<< HEAD
         <servlet-name>ProduceDocuments</servlet-name>
         <servlet-class>model.Admin.ProduceDocuments</servlet-class>
-=======
+
         <servlet-name>CancelSurgery</servlet-name>
         <servlet-class>model.Admin.CancelSurgery</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ChangePrices</servlet-name>
         <servlet-class>model.Admin.ChangePrices</servlet-class>
->>>>>>> origin/jamienguyen
     </servlet>
     <servlet-mapping>
         <servlet-name>test</servlet-name>
@@ -78,17 +76,14 @@
         <url-pattern>/AddEmployees</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-<<<<<<< HEAD
         <servlet-name>ProduceDocuments</servlet-name>
         <url-pattern>/ProduceDocuments</url-pattern>
-=======
         <servlet-name>CancelSurgery</servlet-name>
         <url-pattern>/CancelSurgery</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ChangePrices</servlet-name>
         <url-pattern>/ChangePrices</url-pattern>
->>>>>>> origin/jamienguyen
     </servlet-mapping>
     <session-config>
         <session-timeout>
