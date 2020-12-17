@@ -87,9 +87,6 @@
     <servlet-mapping>
         <servlet-name>SignUp</servlet-name>
         <url-pattern>/SignUp</url-pattern>
-
-        <servlet-name>ChangePrices</servlet-name>
-        <url-pattern>/ChangePrices</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

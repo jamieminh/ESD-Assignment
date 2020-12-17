@@ -33,41 +33,42 @@ public class CancelSurgery extends HttpServlet {
             if (session.getAttribute("surgeries") == null
                     || ((session.getAttribute("surgeries") != null) && session.getAttribute("surgeries").equals("false"))) {
 
-                String[][] surgeries = getSurgeriesData(db);                
+                String[][] surgeries = getSurgeriesData(db);
                 session.setAttribute("surgeries", surgeries);
                 response.sendRedirect("/viewer/admin/CancelSurgery.jsp");
-            } 
-            else {
+            } else {
                 int paramSize = request.getParameterMap().keySet().size();
                 // if admin doesn't change anything, send back
                 if (paramSize == 1) // only the submit button
+                {
                     response.sendRedirect("/viewer/admin/CancelSurgery.jsp");
+                } else {
+                    String[][] surgeries = (String[][]) session.getAttribute("surgeries");
+                    // arr to store surgery ids and their cancellation state after submit 
+                    String[][] surgChecks = new String[surgeries.length][2];
 
-                String[][] surgeries = (String[][]) session.getAttribute("surgeries");
-                // arr to store surgery ids and their cancellation state after submit 
-                String[][] surgChecks = new String[surgeries.length][2];
-
-                // store surgery ids and their checked status
-                for (int i = 0; i < surgeries.length; i++) {
-                    surgChecks[i][0] = surgeries[i][0];
-                    boolean check = request.getParameter("surg-" + surgeries[i][0]) != null;
-                    surgChecks[i][1] = String.valueOf(check);
-                }
-
-                for (String[] surg : surgChecks) {
-                    if (surg[1].equals("true")) {
-                        db.cancelSchedule(surg[0]);
+                    // store surgery ids and their checked status
+                    for (int i = 0; i < surgeries.length; i++) {
+                        surgChecks[i][0] = surgeries[i][0];
+                        boolean check = request.getParameter("surg-" + surgeries[i][0]) != null;
+                        surgChecks[i][1] = String.valueOf(check);
                     }
-                }
 
-                // re-fetch data
-                String[][] updated = getSurgeriesData(db);                
-                session.setAttribute("surgeries", updated);
-                response.sendRedirect("/viewer/admin/CancelSurgery.jsp");
-
-            } 
-                    }
+                    for (String[] surg : surgChecks) {
+                        if (surg[1].equals("true")) {
+                            db.cancelSchedule(surg[0]);
                         }
+                    }
+
+                    // re-fetch data
+                    String[][] updated = getSurgeriesData(db);
+                    session.setAttribute("surgeries", updated);
+                    response.sendRedirect("/viewer/admin/CancelSurgery.jsp");
+                }
+
+            }
+        }
+    }
 
     String[][] getSurgeriesData(DBBean db) {
         Date today = new Date();
