@@ -144,4 +144,52 @@ td.changed {
     border: 1px solid #ddd;
     /*padding: 8px;*/
 
+.FormTable td, .FormTable th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.FormTable td:nth-child(5),
+#cancel-surgery td:nth-child(4),
+#services-price td:nth-child(4){
+    text-align: right;
+}
+
+.FormTable td:last-child{
+    text-align: center;
+}
+
+#cancel-surgery td:first-child{
+    text-align: center;
+}
+
+#services-price td:nth-child(3){
+    text-transform: capitalize;
+}
+
+#services-price input[type="number"] {
+    width: 150px;
+    border: 1px solid #f7fffe;
+    border-radius: 5px;
+    outline: none;
+    text-align: right;
+    padding: 2px 5px;    
+}
+
+td.changed {
+    background-color: lightgreen;  
+}
+
+.FormTable input[type="submit"]{
+    margin: 20px auto 0;
+    display: block;
+    width: 150px;
+    font-size: 20px;
+    background-color: #59B259;    
+    outline: none;
+    border: none;
+    border-radius: 3px;
+    padding: 10px;
+    text-transform: uppercase;
+>>>>>>> origin/jamienguyen
 }

@@ -65,9 +65,9 @@ public class CancelSurgery extends HttpServlet {
                 session.setAttribute("surgeries", updated);
                 response.sendRedirect("/viewer/admin/CancelSurgery.jsp");
 
-            }
-        }
-    }
+            } 
+                    }
+                        }
 
     String[][] getSurgeriesData(DBBean db) {
         Date today = new Date();
