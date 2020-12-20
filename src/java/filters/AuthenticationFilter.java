@@ -109,7 +109,7 @@ public class AuthenticationFilter implements Filter {
 
     public boolean adminAccess(String uri) {
         return (uri.endsWith("/Home.jsp")
-                || uri.equals("/viewer/admin/ManageStaff.jsp") || uri.equals("/ManageStaff")
+                || uri.equals("/viewer/admin/AddEmployees.jsp") || uri.equals("/AddEmployees")
                 || uri.equals("/viewer/admin/CancelSurgery.jsp") || uri.equals("/CancelSurgery")
                 || uri.equals("/viewer/admin/ChangePrices.jsp") || uri.equals("/ChangePrices")
                 || uri.equals("/viewer/admin/ProduceDocuments.jsp") || uri.equals("/ProduceDocuments"));
