@@ -42,9 +42,12 @@ public class SignUpClient extends HttpServlet {
                     out.print("<small class=\"Error Error-Signup\">This Username is Already Taken</small>");
                     request.getRequestDispatcher("/SignUpClient.html").include(request, response);
                 }
+                
+                String token = new UserToken().generateToken();     // user token
+                String hashedPW = new HashPassword().hashPassword(password); // hash password
 
                 // insert new user to 'users' table
-                boolean inserted = db.insertUser(new String[]{username, password, "client", "true"});
+                boolean inserted = db.insertUser(new String[]{username, hashedPW, "client", "true", token});
                 boolean insertRole = false;
 
                 // insert user info to 'clients' table
@@ -63,6 +66,8 @@ public class SignUpClient extends HttpServlet {
             }
         }
     }
+    
+
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

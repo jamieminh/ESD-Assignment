@@ -2,6 +2,7 @@ package Login;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,11 +12,20 @@ import javax.servlet.http.HttpServletResponse;
  * @author Jamie
  */
 public class Logout extends HttpServlet {
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         // terminate session
         request.getSession().invalidate();
+
+        // delete cookies
+        System.out.println("Cookies: DELETEDD");
+
+        Cookie tokenCk = new Cookie("token", null);
+        tokenCk.setMaxAge(0);   
+        response.addCookie(tokenCk);
+
         response.sendRedirect(request.getContextPath() + "/Login.html");
     }
 

@@ -7,12 +7,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import model.dbHandler.DBBean;
 
 /**
  *
- * @author Jamie
+ * @author Bao Bui
  */
 public class SignUp extends HttpServlet {
 
@@ -39,15 +38,19 @@ public class SignUp extends HttpServlet {
                     request.getRequestDispatcher("/SignUp.html").include(request, response);
                 }
                 
-                boolean inserted = db.insertUser(new String[]{username, password, role, "false"});
+                String token = new UserToken().generateToken();     // user token
+                String hashedPW = new HashPassword().hashPassword(password); // hash password
+                
+                boolean inserted = db.insertUser(new String[]{username, hashedPW, role, "false", token});
                 boolean insertRole = false;
-                if (inserted) 
+                if (inserted) {
                     insertRole = db.insertEmployee(new String[]{username, fullName, address, rate});
-                
-                if (insertRole)
-                    request.getRequestDispatcher("/Login.html").forward(request, response);  
+                }
 
-                
+                if (insertRole) {
+                    request.getRequestDispatcher("/Login.html").forward(request, response);
+                }
+
             } else {
                 out.print("<small class=\"Error Error-Signup\">Confirmation Password is Incorrect</small>");
                 request.getRequestDispatcher("/SignUp.html").include(request, response);
@@ -55,6 +58,7 @@ public class SignUp extends HttpServlet {
 
         }
     }
+
 
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
