@@ -22,7 +22,7 @@
                 <h1>Login</h1>
             </div>
             
-            <form action="/Login" method="POST">
+            <form action="/Login" method="post">
                 <div class="formitem">
                     <span><i class="fa fa-user" aria-hidden="true"></i></span>
                     <input required type="text" class="form-control" name="username" placeholder="username"/>
@@ -32,8 +32,13 @@
                     <span><i class="fas fa-key"></i></span>
                     <input required type="password" class="form-control" name="password" placeholder="password"/>
                 </div>  
+                
+                <div class="formitem CheckboxItem">
+                    <input type="checkbox" name="remember-me"/>
+                    <span class="checkmark"></span>
+                    <label style="color: white">Remember me</label>
+                </div>
 
-                <br>
                 <input type="submit" class="btn btn-success w-100" value="Submit"/>
             </form>
             <div class="SignUp-Link">
