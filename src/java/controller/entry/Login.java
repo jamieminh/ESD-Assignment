@@ -1,5 +1,7 @@
-package Login;
+package controller.entry;
 
+import com.HashPassword;
+import dao.EntryDao;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -9,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import model.pojo.User;
 import model.dbHandler.DBBean;
 
 /**
@@ -21,9 +24,9 @@ public class Login extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            DBBean db = new DBBean();
             Connection con = (Connection) getServletContext().getAttribute("con");
-            db.connect(con);
+
+            EntryDao entryDao = new EntryDao(con);
 
             // get user token from cookie
             Cookie[] cookies = request.getCookies();
@@ -38,91 +41,75 @@ public class Login extends HttpServlet {
 
             String role = "";           // user role
             String name = "Admin";      // user full name
+            String token = null;        // cookie login token
             boolean flag = true;        // true will continue to successful login
 
-            // --------------- COOKIE LOGIN ------------------
+            // ----------- COOKIE LOGIN ------------
             if (tokenCk != null) {
-                System.out.println("[FROM COOKIE LOGIN]");
-
-                String[][] record = db.getRecords("SELECT uname, role FROM APP.USERS WHERE token='" + tokenCk + "' ");
-                String uname = record[0][0];
-                role = record[0][1];
-
-                if (role.equals("client")) {
-                    name = db.getRecords("SELECT cname FROM APP.clients WHERE uname='" + uname + "'")[0][0];
-                } else if (!role.equals("admin")) {
-                    name = db.getRecords("SELECT ename FROM APP.employees WHERE uname='" + uname + "'")[0][0];
-                }
-            } // --------------- FORM LOGIN ------------------
+                String[] userInfo = entryDao.cookieLogin(tokenCk);
+                role = userInfo[0];
+                name = userInfo[1].equals("") ? name : userInfo[1]; // if there's no name, set it to "Admin"
+            } 
+            // ----------- FORM LOGIN --------------
             else {
-                System.out.println("[FROM FORM LOGIN]");
                 String _username = request.getParameter("username").trim();
                 String _password = request.getParameter("password").trim();
-                String hasedPw = new HashPassword().hashPassword(_password);    // hash password
+                boolean isRemember = request.getParameter("remember-me") != null;
 
-                String[][] record = db.getRecords(String.format("SELECT role, authorized FROM APP.USERS WHERE uname='%s' AND passwd='%s'", _username, hasedPw));
+                User user = new User();
+                user.setUsername(_username);
+                user.setPassword(_password);
+                String[] userInfo = entryDao.formLogin(user, isRemember);
 
-                // if found, then username and password is correct
-                if (record.length != 0) {
-                    System.out.println("[CORRECT USERNAME AND PASSWORD]");
-                    String authorized = record[0][1];
-
-                    // login with unauthorized credentials --> error 
-                    if (authorized.equals("false")) {
-                        flag = false;
-                        request.setAttribute("authorized", false);
-                        out.print("<small class=\"Error Error-Login\">Unauthorized User</small>");
-                        request.getRequestDispatcher("/Login.html").include(request, response);
-                    } 
-                    // authorized credentials --> login
-                    else {
-                        System.out.println("[AUTHORIZED CREDENTIALS]");
-                        role = record[0][0];
-                        if (role.equals("client")) {
-                            name = db.getRecords("SELECT cname FROM APP.clients WHERE uname='" + _username + "'")[0][0];
-                        } else if (!role.equals("admin")) {
-                            name = db.getRecords("SELECT ename FROM APP.employees WHERE uname='" + _username + "'")[0][0];
-                        }
-
-                        // if 'Remember me' box is checked
-                        if (request.getParameter("remember-me") != null) {
-                            System.out.println("Remember: ON");
-                            String token = db.getRecords("SELECT token FROM APP.users WHERE uname='" + _username + "'")[0][0];
-                            Cookie setTokenCk = new Cookie("token", token);
-                            setTokenCk.setMaxAge(5 * 24 * 60 * 60);   // 10 days
-                            response.addCookie(setTokenCk);
-                        }
-                    }
-
-                } // if user input are incorrect
-                else {
+                if (userInfo.length == 1) {
                     flag = false;
-                    System.out.println("[FROM INCORRECT CREDENTIALS]");
-                    out.print("<small class=\"Error Error-Login\">Your Username or Password is Incorrect</small>");
+                    out.print("<small class=\"Error Error-Login\">" + userInfo[0] + "</small>");
                     request.getRequestDispatcher("/Login.html").include(request, response);
+                } else {
+                    role = userInfo[0];
+                    name = userInfo[1];
+                    token = userInfo[2];
+                    if (token != null) {
+                        Cookie setTokenCk = new Cookie("token", token);
+                        setTokenCk.setMaxAge(5 * 24 * 60 * 60);   // 10 days
+                        response.addCookie(setTokenCk);
+                    }
                 }
             }
 
+            
             // if all login info is correct
             if (flag) {
                 HttpSession session = request.getSession(); // set session
 
                 String[] pages;
+                String[] pagesIcons;
+                String userPic = "/assets/users/";
                 switch (role) {
                     case "admin":
-                        pages = new String[]{"Add Employees", "Cancel Surgery", "Change Prices", "Produce Documents"};
+                        pages = new String[]{"Staff", "Clients", "Cancel Surgery", "Documents"};
+                        pagesIcons = new String[] {"user-md", "user-injured", "syringe", "file-invoice"};
+                        userPic += "admin.png";
                         break;
                     case "client":
                         pages = new String[]{"Book Appointment", "See Schedule", "Request Prescription"};
+                        pagesIcons = new String[] {"this is", "just", "a", "placeholder"};
+                        userPic += "client.jpg";
                         break;
                     case "doctor":
                         pages = new String[]{"See Schedule", "Issue Prescription", "Forward Patient"};
+                        pagesIcons = new String[] {"this is", "just", "a", "placeholder"};
+                        userPic += "doctor.jpg";
                         break;
                     case "nurse":
                         pages = new String[]{"See Schedule", "Issue Prescription"};
+                        pagesIcons = new String[] {"this is", "just", "a", "placeholder"};
+                        userPic += "nurse.jpg";
                         break;
                     default:
                         pages = new String[]{};
+                        pagesIcons = new String[] {};
+                        userPic += "error.jpg";
                 }
 
                 session.setAttribute("isLoggedIn", true);
@@ -131,6 +118,8 @@ public class Login extends HttpServlet {
                 session.setAttribute("title", "Dashboard: " + name);
                 session.setAttribute("folderUrl", "/viewer/" + role + "/");
                 session.setAttribute("pages", pages);
+                session.setAttribute("pagesIcons", pagesIcons);
+                session.setAttribute("userPic", userPic);
 
                 response.sendRedirect("/viewer/Home.jsp");
             }

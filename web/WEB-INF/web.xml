@@ -22,35 +22,35 @@
     </servlet>
     <servlet>
         <servlet-name>Login</servlet-name>
-        <servlet-class>Login.Login</servlet-class>
+        <servlet-class>controller.entry.Login</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>Logout</servlet-name>
-        <servlet-class>Login.Logout</servlet-class>
+        <servlet-class>controller.entry.Logout</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>SignUpClient</servlet-name>
-        <servlet-class>Login.SignUpClient</servlet-class>
+        <servlet-class>controller.entry.SignUpClient</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>AddEmployees</servlet-name>
-        <servlet-class>model.Admin.AddEmployees</servlet-class>
+        <servlet-name>Staff</servlet-name>
+        <servlet-class>controller.admin.Staff</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>CancelSurgery</servlet-name>
-        <servlet-class>model.Admin.CancelSurgery</servlet-class>
+        <servlet-class>controller.admin.CancelSurgery</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>ProduceDocuments</servlet-name>
-        <servlet-class>model.Admin.ProduceDocuments</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>ChangePrices</servlet-name>
-        <servlet-class>model.Admin.ChangePrices</servlet-class>
+        <servlet-name>Documents</servlet-name>
+        <servlet-class>controller.admin.Documents</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>SignUp</servlet-name>
-        <servlet-class>Login.SignUp</servlet-class>
+        <servlet-class>controller.entry.SignUp</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Clients</servlet-name>
+        <servlet-class>controller.admin.Clients</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>test</servlet-name>
@@ -69,24 +69,24 @@
         <url-pattern>/SignUpClient</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>AddEmployees</servlet-name>
-        <url-pattern>/AddEmployees</url-pattern>
+        <servlet-name>Staff</servlet-name>
+        <url-pattern>/Staff</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>CancelSurgery</servlet-name>
         <url-pattern>/CancelSurgery</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>ProduceDocuments</servlet-name>
-        <url-pattern>/ProduceDocuments</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ChangePrices</servlet-name>
-        <url-pattern>/ChangePrices</url-pattern>
+        <servlet-name>Documents</servlet-name>
+        <url-pattern>/Documents</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>SignUp</servlet-name>
         <url-pattern>/SignUp</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Clients</servlet-name>
+        <url-pattern>/Clients</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

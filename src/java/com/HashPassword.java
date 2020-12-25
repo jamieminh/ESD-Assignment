@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Login;
+package com;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

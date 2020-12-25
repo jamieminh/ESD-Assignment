@@ -3,13 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model.Admin;
-import com.Person;
+package model.pojo;
 
 /**
  *
- * @author WIN 10
+ * @author Jamie
  */
-//public class Admin extends Person {
-//    
-//}
+public class Nurse extends Employee {
+
+}
