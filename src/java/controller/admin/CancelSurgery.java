@@ -1,11 +1,11 @@
-package model.Admin;
+package controller.admin;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.Set;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -30,39 +30,50 @@ public class CancelSurgery extends HttpServlet {
             HttpSession session = request.getSession();
 
             // if 'surgeries' is not set
-            if (session.getAttribute("surgeries") == null) {
-
+            if (request.getParameter("surg-submit") == null) {
+                System.out.println("FIRST LOAD");
                 String[][] surgeries = getSurgeriesData(db);
-                session.setAttribute("surgeries", surgeries);
-                response.sendRedirect("/viewer/admin/CancelSurgery.jsp");
+                String[][] curState = getCurrentState(surgeries);
+                request.setAttribute("surgeries", surgeries);
+                session.setAttribute("curSurgState", curState);
+                request.getRequestDispatcher("/viewer/admin/CancelSurgery.jsp").forward(request, response);
             } else {
+                System.out.println("CONFIRM BUTTON CLICKED");
                 int paramSize = request.getParameterMap().keySet().size();
                 // if admin doesn't change anything, send back
                 if (paramSize == 1) // only the submit button
                 {
-                    response.sendRedirect("/viewer/admin/CancelSurgery.jsp");
+                    request.getRequestDispatcher("/viewer/admin/CancelSurgery.jsp").forward(request, response);
                 } else {
-                    String[][] surgeries = (String[][]) session.getAttribute("surgeries");
+                    String[][] oldStates = (String[][]) session.getAttribute("curSurgState");
                     // arr to store surgery ids and their cancellation state after submit 
-                    String[][] surgChecks = new String[surgeries.length][2];
+                    ArrayList<String[]> surgsChecks = new ArrayList<String[]>();
 
                     // store surgery ids and their checked status
-                    for (int i = 0; i < surgeries.length; i++) {
-                        surgChecks[i][0] = surgeries[i][0];
-                        boolean check = request.getParameter("surg-" + surgeries[i][0]) != null;
-                        surgChecks[i][1] = String.valueOf(check);
-                    }
-
-                    for (String[] surg : surgChecks) {
-                        if (surg[1].equals("true")) {
-                            db.cancelSchedule(surg[0]);
+                    for (int i = 0; i < oldStates.length; i++) {
+                        boolean oldCanc = Boolean.parseBoolean(oldStates[i][1]);  // old cancel status
+                        boolean check = request.getParameter("surg-" + oldStates[i][0]) != null;    // true if not null
+                        // if auth is changed
+                        if (oldCanc != check) {
+                            surgsChecks.add(new String[]{oldStates[i][0], String.valueOf(check)});
                         }
+
                     }
 
-                    // re-fetch data
-                    String[][] updated = getSurgeriesData(db);
-                    session.setAttribute("surgeries", updated);
-                    response.sendRedirect("/viewer/admin/CancelSurgery.jsp");
+                    if (surgsChecks.isEmpty()) {
+                        request.getRequestDispatcher("/viewer/admin/CancelSurgery.jsp").forward(request, response);
+                    } else {
+                        // update db
+                        surgsChecks.forEach(surg -> {
+                            db.cancelSchedule(surg[0]);
+                        });
+
+                        // re-fetch info from db
+                        String[][] updated = getSurgeriesData(db);
+                        request.setAttribute("surgeries", updated);
+                        request.getRequestDispatcher("/viewer/admin/CancelSurgery.jsp").forward(request, response);
+                    }
+
                 }
 
             }
@@ -97,6 +108,17 @@ public class CancelSurgery extends HttpServlet {
             surgeries[i] = surgery;
         }
         return surgeries;
+    }
+
+    String[][] getCurrentState(String[][] data) {
+        String[][] oldData = new String[data.length][2];
+
+        for (int i = 0; i < data.length; i++) {
+            String[] item = data[i];
+            String[] oldState = new String[]{item[0], item[data.length - 1]};   // sid and cancelled
+            oldData[i] = oldState;
+        }
+        return oldData;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

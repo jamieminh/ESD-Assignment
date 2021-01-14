@@ -16,87 +16,43 @@
 
 .FormTable th {
     text-align: center;
-    background-color: #54BEE3;
+    background-color: lightseagreen;
     color: white;
 }
 
-.FormTable td:nth-child(5),
-#cancel-surgery td:nth-child(4),
-#services-price td:nth-child(4){
-    text-align: right;
-}
-
-.FormTable td:last-child{
-    text-align: center;
-}
-
-#cancel-surgery td:first-child{
-    text-align: center;
-}
-
-#services-price td:nth-child(3){
-    text-transform: capitalize;
-}
-
-#services-price input[type="number"] {
-    width: 150px;
-    border: 1px solid #f7fffe;
-    border-radius: 5px;
-    outline: none;
-    text-align: right;
-    padding: 2px 5px;    
-}
-
-td.changed {
-    background-color: lightgreen;  
-}
-
-.FormTable input[type="submit"]{
-    margin: 20px auto 0;
-    display: block;
-    width: 150px;
-    font-size: 20px;
-    background-color: #59B259;    
-    outline: none;
-    border: none;
-    border-radius: 3px;
-    padding: 10px;
-    text-transform: uppercase;
-}
 .FormTable td, .FormTable th {
     border: 1px solid #ddd;
     padding: 8px;
 }
 
-.FormTable td:nth-child(5),
+tr.changed {
+    background-color: lightgreen;  
+}
+
 #cancel-surgery td:nth-child(4),
-#services-price td:nth-child(4){
+#staff-table td:nth-child(6){
     text-align: right;
 }
 
-.FormTable td:last-child{
+.FormTable td:first-child,
+.FormTable td:last-child,
+#staff-table td:nth-child(5),
+#staff-table td:nth-child(7){
     text-align: center;
 }
 
-#cancel-surgery td:first-child{
-    text-align: center;
-}
-
-#services-price td:nth-child(3){
+#staff-table td:nth-child(5){
     text-transform: capitalize;
 }
 
-#services-price input[type="number"] {
-    width: 150px;
-    border: 1px solid #f7fffe;
+#staff-table input[type="number"] {
+    width: 85px;
+    border: none;
+    background-color: #E1E8F6;
     border-radius: 5px;
     outline: none;
     text-align: right;
     padding: 2px 5px;    
-}
-
-td.changed {
-    background-color: lightgreen;  
 }
 
 .FormTable input[type="submit"]{
@@ -111,9 +67,9 @@ td.changed {
     padding: 10px;
     text-transform: uppercase;
 }
+
 #patientList {
     border-collapse: collapse;
-
     display :grid;
     grid-template-columns: 20% 20% 20% 20% 20%;
 
@@ -142,53 +98,4 @@ td.changed {
 }
 #billingInfoList>div{
     border: 1px solid #ddd;
-    /*padding: 8px;*/
-
-.FormTable td, .FormTable th {
-    border: 1px solid #ddd;
-    padding: 8px;
-}
-
-.FormTable td:nth-child(5),
-#cancel-surgery td:nth-child(4),
-#services-price td:nth-child(4){
-    text-align: right;
-}
-
-.FormTable td:last-child{
-    text-align: center;
-}
-
-#cancel-surgery td:first-child{
-    text-align: center;
-}
-
-#services-price td:nth-child(3){
-    text-transform: capitalize;
-}
-
-#services-price input[type="number"] {
-    width: 150px;
-    border: 1px solid #f7fffe;
-    border-radius: 5px;
-    outline: none;
-    text-align: right;
-    padding: 2px 5px;    
-}
-
-td.changed {
-    background-color: lightgreen;  
-}
-
-.FormTable input[type="submit"]{
-    margin: 20px auto 0;
-    display: block;
-    width: 150px;
-    font-size: 20px;
-    background-color: #59B259;    
-    outline: none;
-    border: none;
-    border-radius: 3px;
-    padding: 10px;
-    text-transform: uppercase;
 }

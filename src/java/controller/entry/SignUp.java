@@ -1,10 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package Login;
+package controller.entry;
 
+import com.UserToken;
+import com.HashPassword;
+import dao.EntryDao;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -13,58 +11,65 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.dbHandler.DBBean;
+import model.pojo.Employee;
 
 /**
  *
- * @author Jamie
+ * @author Bao Bui
  */
-public class SignUpClient extends HttpServlet {
+public class SignUp extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            DBBean db = new DBBean();
-            Connection con = (Connection) getServletContext().getAttribute("con");
-            db.connect(con);
             String username = request.getParameter("username").trim();
             String fullName = request.getParameter("fullname").trim();
+            String role = request.getParameter("role").trim();
             String address = request.getParameter("address").trim();
-            String type = request.getParameter("type").trim();
+            String rate = request.getParameter("rate").trim();
             String password = request.getParameter("password").trim();
             String password_repeat = request.getParameter("repeat-password").trim();
 
-            // if passwords are the same
             if (password.equals(password_repeat)) {
-                String findUsername = "SELECT uname FROM APP.USERS WHERE uname='" + username + "'";
-                String[][] res = db.getRecords(findUsername);
-                if (res.length != 0) {
-                    out.print("<small class=\"Error Error-Signup\">This Username is Already Taken</small>");
-                    request.getRequestDispatcher("/SignUpClient.html").include(request, response);
-                }
-
-                // insert new user to 'users' table
-                boolean inserted = db.insertUser(new String[]{username, password, "client", "true"});
-                boolean insertRole = false;
-
-                // insert user info to 'clients' table
-                if (inserted) 
-                    insertRole = db.insertClient(new String[]{username, fullName, address, type});
+                Connection con = (Connection) getServletContext().getAttribute("con");
+                EntryDao entryDao = new EntryDao(con);
                 
-                // redirect user to Login page
-                if (insertRole)
-                    request.getRequestDispatcher("/Login.html").forward(request, response);                
-
+                boolean isTaken = entryDao.unameTaken(username);
+                if (isTaken) {
+                    out.print("<small class=\"Error Error-Signup\">This Username is Already Taken</small>");
+                    request.getRequestDispatcher("/SignUp.html").include(request, response);
+                }
+                
+                else {
+                    Employee employee = new Employee();
+                    employee.setUsername(username);
+                    employee.setPassword(password);
+                    employee.setFullName(fullName);
+                    employee.setAddress(address);
+                    employee.setRate(Float.valueOf(rate));
+                    employee.setRole(role);
+                    
+                    boolean res = entryDao.signUpStaff(employee);
+                    
+                    if (res) 
+                        request.getRequestDispatcher("/Login.html").forward(request, response);                      
+                    else {
+                        out.print("<small class=\"Error Error-Signup\">There's been some error. Please try again later.</small>");
+                        request.getRequestDispatcher("/SignUpClient.html").include(request, response);
+                    }       
+                }               
             } 
             else {
                 out.print("<small class=\"Error Error-Signup\">Confirmation Password is Incorrect</small>");
-                request.getRequestDispatcher("/SignUpClient.html").include(request, response);
-                // .include(), NOT .forward(), to print the error message
+                request.getRequestDispatcher("/SignUp.html").include(request, response);
             }
+
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

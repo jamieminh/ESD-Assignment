@@ -8,10 +8,10 @@
 <%
     String[][] surgeries = new String[1][1];
     // if the session dont have the required info to load the page
-    if (session.getAttribute("surgeries") == null) 
+    if (request.getAttribute("surgeries") == null) 
         response.sendRedirect("/CancelSurgery");
     else 
-        surgeries = (String[][]) session.getAttribute("surgeries");
+        surgeries = (String[][]) request.getAttribute("surgeries");
 
 %>
 
@@ -27,7 +27,6 @@
     <h3>Let's Cancel Some Surgeries!!</h3>
     <h3>There are <span class="data-num"><%=surgeries.length%></span> upcoming surgeries.</h3>
 
-
     <form action="/CancelSurgery" method="post" class="FormTable">
         <table id="cancel-surgery">
             <tr>
@@ -40,7 +39,7 @@
             </tr>
             <%
                 if (surgeries.length == 0) {
-                    out.print("<tr><td colspan=\"6\">Empty</td></tr>");
+                    out.print("<tr><td colspan=\"6\">No record available.</td></tr>");
                 } 
                 else {
                     for (int i = 0; i < surgeries.length; i++) {
