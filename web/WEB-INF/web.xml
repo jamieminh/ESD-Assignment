@@ -52,6 +52,14 @@
         <servlet-name>Clients</servlet-name>
         <servlet-class>controller.admin.Clients</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>PersonalInfo</servlet-name>
+        <servlet-class>controller.common.PersonalInfo</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PostcodeLookup</servlet-name>
+        <servlet-class>controller.common.PostcodeLookup</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>test</servlet-name>
         <url-pattern>/test</url-pattern>
@@ -87,6 +95,14 @@
     <servlet-mapping>
         <servlet-name>Clients</servlet-name>
         <url-pattern>/Clients</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PersonalInfo</servlet-name>
+        <url-pattern>/PersonalInfo</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PostcodeLookup</servlet-name>
+        <url-pattern>/PostcodeLookup</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
