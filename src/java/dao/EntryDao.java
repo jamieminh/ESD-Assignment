@@ -83,9 +83,14 @@ public class EntryDao extends DAO {
 
         // insert user info to 'clients' table
         if (inserted) {
-            insertRole = db.insertClient(new String[]{client.getUsername(), client.getFullName(),
-                client.getAddress(), client.getType()});
+            String query = String.format("INSERT INTO app.clients(uname, cname, ctype) VALUES ('%s', '%s', '%s')",
+                    client.getUsername(), client.getFullName(), client.getType());
+            insertRole = db.executeUpdate(query);
         }
+
+        // delete user from db if user cannot be inserted into 'clients' table
+        if (!insertRole) 
+            db.deleteUser(client.getUsername());
 
         return insertRole;
     }
@@ -96,15 +101,21 @@ public class EntryDao extends DAO {
         String hashedPW = new HashPassword().hashPassword(employee.getPassword()); // hash password
 
         // insert new user to 'users' table
-        boolean inserted = db.insertUser(new String[]{employee.getUsername(), hashedPW, 
-                                        employee.getRole().toLowerCase(), "false", token});
+        boolean inserted = db.insertUser(new String[]{employee.getUsername(), 
+            hashedPW, employee.getRole().toLowerCase(), "false", token});        
+        
         boolean insertRole = false;
 
         // insert user info to 'employees' table
         if (inserted) {
-            insertRole = db.insertEmployee(new String[]{employee.getUsername(), employee.getFullName(),
-                                        employee.getAddress(), String.valueOf(employee.getRate())});
+            String query = String.format("INSERT INTO app.employees(uname, ename) VALUES ('%s', '%s')",
+                    employee.getUsername(), employee.getFullName());
+            insertRole = db.executeUpdate(query);
         }
+        
+        // delete user from db if user cannot be inserted into 'employees' table
+        if (!insertRole) 
+            db.deleteUser(employee.getUsername());
 
         return insertRole;
     }
