@@ -27,7 +27,6 @@ public class SignUpClient extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             String username = request.getParameter("username").trim();
             String fullName = request.getParameter("fullname").trim();
-            String address = request.getParameter("address").trim();
             String type = request.getParameter("type").trim();
             String password = request.getParameter("password").trim();
             String password_repeat = request.getParameter("repeat-password").trim();            
@@ -48,7 +47,6 @@ public class SignUpClient extends HttpServlet {
                     client.setUsername(username);
                     client.setPassword(password);
                     client.setFullName(fullName);
-                    client.setAddress(address);
                     client.setType(type);
                     
                     boolean res = entryDao.signUpClient(client);
