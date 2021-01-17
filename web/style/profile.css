@@ -114,6 +114,11 @@ select#address{
     top: 84%;
 }
 
+#current-address.no-address {
+    color: #b30900;
+    font-style: italic;
+}
+
 
 
 @media (min-width: 550px) {

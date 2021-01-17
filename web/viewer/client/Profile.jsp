@@ -1,12 +1,13 @@
 <%-- 
     Document   : Profile
     Created on : Dec 28, 2020, 6:12:02 PM
-    Author     : WIN 10
+    Author     : Jamie
 --%>
 
 <%
     String postcode = "", address = "", fullName = "", type = "", id = "", username = "";
     String[] addresses = null;
+    String no_address_class = "";
 //    String[] addresses = new String[]{"Hello there", "This is just a test, This is just a test, This is just a test, This is just a test"};
 
     // if all relevant info is NOT available
@@ -15,6 +16,10 @@
     } else {
         fullName = (String) session.getAttribute("fullName");
         address = (String) session.getAttribute("address");
+        if (address.equals("null")) {
+            address = "Please provide your address";
+            no_address_class = "no-address";
+        }
         type = (String) session.getAttribute("clientType");
         id = (String) session.getAttribute("clientId");
         username = (String) session.getAttribute("username");
@@ -58,7 +63,7 @@
 
                 <div class="form-item">
                     <label>Your Address </label>
-                    <textarea name="current-address" value="<%=address%>" disabled><%out.print(address.replaceAll(",\\s+", ",\n")); %></textarea>
+                    <textarea name="current-address" id="current-address" class="<%=no_address_class%>" value="<%=address%>" disabled><%out.print(address.replaceAll(",\\s+", ",\n")); %></textarea>
                 </div>
 
                 <% if (addresses != null) {
@@ -122,7 +127,6 @@
                 document.getElementById("user-type").value = userType;
                 document.getElementById("postcode-search").value = "";
                 document.getElementById("addresses-form-item").remove();
-
             }
         }
 
@@ -135,10 +139,7 @@
 
             document.getElementById("postcode-lookup").style.visibility = "visible";
             document.getElementById("save-changes").style.visibility = "visible";
-
-
         }
-
 
     </script>
 </div>

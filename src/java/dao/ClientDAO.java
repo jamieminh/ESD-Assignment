@@ -26,6 +26,9 @@ public class ClientDAO extends DAO {
         String[] data = db.getRecords(query)[0];
 
         Client client = new Client();
+        
+        if (data[2] == null)
+            data[2] = "null";
 
         client.setId(Integer.parseInt(data[0]));
         client.setAddress(data[2]);
