@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller.common;
+package controller.client;
 
 import dao.ClientDAO;
 import java.io.IOException;
@@ -18,10 +18,19 @@ import model.pojo.Client;
 
 /**
  *
- * @author Jamie
+ * @author WIN 10
  */
-public class PersonalInfo extends HttpServlet {
+public class Profile extends HttpServlet {
 
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -39,7 +48,7 @@ public class PersonalInfo extends HttpServlet {
 
                 session.setAttribute("fetched", true);
 
-                request.getRequestDispatcher("/viewer/PersonalInfo.jsp").forward(request, response);
+                request.getRequestDispatcher("/viewer/client/Profile.jsp").forward(request, response);
             } else {
                 String fullName = request.getParameter("fullName");
                 String type = request.getParameter("user-type");
@@ -62,12 +71,11 @@ public class PersonalInfo extends HttpServlet {
                 else 
                     out.print("<script>alert(\"Changes Failed\");</script>");
                 
-                request.getRequestDispatcher("/viewer/PersonalInfo.jsp").include(request, response);
+                request.getRequestDispatcher("/viewer/client/Profile.jsp").include(request, response);
 
             }
 
         }
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

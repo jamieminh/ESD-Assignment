@@ -3,11 +3,15 @@
 .Forms {
     position: relative;
     width: 100%;
-    height: 850px;
     background-color: #82b5ff;
+    height: 650px;
     margin: 0 auto;
     padding-top: 25px;
     border-radius: 5px;
+}
+
+#change-info-forms.edit-on {
+    height: 870px
 }
 
 .Forms .form-item {
@@ -85,6 +89,11 @@ select#address{
     margin-top: 20px;
 }
 
+.control-buttons {
+    margin: 0 auto;    
+    position: static;
+}
+
 #save-changes {
     background-color: #3be379
 }
@@ -100,18 +109,16 @@ select#address{
     margin-top: 10px;
 }
 
-#change-info-forms.edit-off #toggle-edit {
+#change-info-forms.edit-on .control-buttons {
     position: absolute;
-    top: 540px;
+    top: 84%;
 }
 
-#change-info-forms.edit-off {
-    height: 650px
-}
+
 
 @media (min-width: 550px) {
     .Forms {
-        height: 680px;
+        height: 480px;
     }
 
     .Forms form {
@@ -129,7 +136,7 @@ select#address{
 
     #postcode-lookup {
         top: 380px;
-        left: 8%;
+        left: 7.5%;
     }
 
     .Forms .form-item label {
@@ -143,6 +150,7 @@ select#address{
 
     .control-buttons {
         margin: 0 auto;
+
     }
 
     select#address {        
@@ -150,36 +158,55 @@ select#address{
         margin-top: 110px;
     }
 
-    #change-info-forms.edit-off #toggle-edit {
+    #change-info-forms.edit-on .control-buttons {
         position: absolute;
-        top: 360px;
+        top: 80%;
+        left: 50%;
+        transform: translateX(-50%);
     }
 
-    #change-info-forms.edit-off {
-        height: 450px
+    #change-info-forms.edit-on {
+        height: 680px
     }
 }
 
 @media (min-width: 600px) {    
     .Forms {
-        height: 620px;
+        height: 480px;
     }
-    
+
     .control-buttons {
         display: flex;
+    }
+
+    #change-info-forms:not(.edit-on) .control-buttons {
+        margin-left: 35%;
+    }
+
+    #change-info-forms.edit-on .control-buttons {
+        position: absolute;
+        top: 85%;
     }
 
     .control-buttons #save-changes {
         margin-left: 30px;
     }
+
+    #change-info-forms.edit-on {
+        height: 660px
+    }
+
+    /*    #change-info.active .control-buttons {
+            left: calc(22% + 80px);
+        }*/
 }
 
 
 @media (min-width: 900px) {
     .Forms {
-        height: 580px;
+        height: 400px;
     }
-    
+
     .Forms .form-item label {
         width: 25%;
     }
@@ -192,10 +219,11 @@ select#address{
     .control-buttons {
         display: block;
         position: absolute;
-        right: 9%;
+        right: 14%;
         top: 50%;
         transform: translateY(-50%);
     }
+
 
     .control-buttons #save-changes {
         margin-left: 0;
@@ -209,13 +237,22 @@ select#address{
     select#address {
         width: 65%;
     }
-    
-    #change-info-forms.edit-off #toggle-edit {
-        position: static;
+
+    #change-info-forms.edit-on .control-buttons{
+        display: block;
+        position: absolute;
+        /*right: 9%;*/
+        left: 71%;
+        top: 50%;
+        transform: translateY(-50%);
     }
-    
-    #change-info-forms.edit-off {
-        height: 400px
+
+    #change-info-forms:not(.edit-on) .control-buttons {
+        margin-left: 0;
+    }
+
+    #change-info-forms.edit-on {
+        height: 560px
     }
 }
 
@@ -223,9 +260,9 @@ select#address{
     .Forms {
         width: 80%;
     }
-    
+
     .control-buttons {
         right: 15%
     }
-    
+
 }

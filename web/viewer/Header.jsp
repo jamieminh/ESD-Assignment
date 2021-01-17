@@ -41,7 +41,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
         <link rel="stylesheet" href="/style/table.css">
         <link rel="stylesheet" href="/style/main.css">
-        <link rel="stylesheet" href="/style/personalInfo.css">
+        <link rel="stylesheet" href="/style/profile.css">
 
     </head>
     <body>           
@@ -75,15 +75,16 @@
                                     <span class="page-name"><%=pageName%></span>
                                 </a>                 
                             </li>
-                    <%  }                        
-                        if (!role.equals("admin")) { %>
-                            <li class="<%=request.getRequestURI().equals("/viewer/PersonalInfo.jsp") ? "active" : ""%>">
-                                <a href="/viewer/PersonalInfo.jsp" >
+                    <%   }                          
+                        if (role.equals("client")) { %>
+                            <li class="<%=request.getRequestURI().equals("/viewer/client/Profile.jsp") ? "active" : ""%>">
+                                <a href="/viewer/client/Profile.jsp" >
                                     <span class="icon"><i class="fas fa-user-edit"></i></span>
                                     <span class="page-name">Profile</span>
                                 </a>
                             </li>                    
                     <%  } %>
+                    
                     
 
                     <li class="mt-3">

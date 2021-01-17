@@ -120,24 +120,20 @@ public class AuthenticationFilter implements Filter {
         // implement this like the adminAccess method above
         // include both the .jsp page and the servlet paths
         return (uri.endsWith("/Home.jsp")
-                || uri.equals("/viewer/PersonalInfo.jsp") || uri.equals("/PersonalInfo") ||  uri.equals("/PostcodeLookup"));
+                || uri.equals("/viewer/client/Profile.jsp") || uri.equals("/Profile") ||  uri.equals("/PostcodeLookup"));
 
     }
 
     public boolean doctorAccess(String uri) {
         // implement this like the adminAccess method above
         // include both the .jsp page and the servlet paths
-        return (uri.endsWith("/Home.jsp")
-                || uri.equals("/viewer/PersonalInfo.jsp") || uri.equals("/PersonalInfo") ||  uri.equals("/PostcodeLookup"));
-
+        return true;
     }
 
     public boolean nurseAccess(String uri) {
         // implement this like the adminAccess method above
         // include both the .jsp page and the servlet paths
-        return (uri.endsWith("/Home.jsp")
-                || uri.equals("/viewer/PersonalInfo.jsp") || uri.equals("/PersonalInfo") ||  uri.equals("/PostcodeLookup"));
-
+        return true;
     }
 
 }

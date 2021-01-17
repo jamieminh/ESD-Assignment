@@ -18,17 +18,17 @@ import org.json.simple.parser.JSONParser;
  */
 public class PostCode {
 
-    /* api keys 
+    /* api keys: change to other key if a key is out of use (20 use/day)
             - uN55lsL-j0GWUb300dl3yg29647   saxifim781@ailiking.com
-            - N9yAJZTKY0qecn8K1YFdJQ29758
-
-        
-        
+            - N9yAJZTKY0qecn8K1YFdJQ29758   pexefo8787@sofiarae.com        
+            - 0XbuPUuixk6JnvnAb-jFyg29851   yineb83566@izzum.com
      */
+    final private String API_KEY = "N9yAJZTKY0qecn8K1YFdJQ29758";
+    
     public String[] getAddrParams(String postcode) {
         try {
             postcode = postcode.replaceAll("\\s+", "");
-            String requestUrl = String.format("https://api.getaddress.io/find/%s?api-key=uN55lsL-j0GWUb300dl3yg29647", postcode);
+            String requestUrl = String.format("https://api.getaddress.io/find/%s?api-key=%s", postcode, API_KEY);
 
             // connect and get result
             URL url = new URL(requestUrl);

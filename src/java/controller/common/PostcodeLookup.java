@@ -17,6 +17,8 @@ import model.pojo.PostCode;
 /**
  *
  * @author Jamie
+ * 
+ * error can happen when API key is out of use for the day (20 use/day)
  */
 public class PostcodeLookup extends HttpServlet {
 
@@ -34,16 +36,14 @@ public class PostcodeLookup extends HttpServlet {
             // request status != 200
             if (addresses[0].equals("error")) {
                 error = addresses[1];
-                out.print(error);
-                request.getRequestDispatcher("/viewer/PersonalInfo.jsp").include(request, response);
+                out.print("<script>alert(\"Server Error. Try Again Later\");</script>");
+                request.getRequestDispatcher("/viewer/client/Profile.jsp").include(request, response);
             } // request success
             else {
-                System.out.println(Arrays.toString(addresses));
-
                 request.setAttribute("postcode", postcode.toUpperCase());
                 request.setAttribute("addresses", addresses);
 
-                request.getRequestDispatcher("/viewer/PersonalInfo.jsp").forward(request, response);
+                request.getRequestDispatcher("/viewer/client/Profile.jsp").forward(request, response);
             }
 
         }

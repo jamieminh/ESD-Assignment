@@ -1,17 +1,17 @@
 <%-- 
-    Document   : PersonalInfo
+    Document   : Profile
     Created on : Dec 28, 2020, 6:12:02 PM
     Author     : WIN 10
 --%>
 
 <%
     String postcode = "", address = "", fullName = "", type = "", id = "", username = "";
-//    String[] addresses = null;
-    String[] addresses = new String[]{"Hello there", "This is just a test, This is just a test, This is just a test, This is just a test"};
+    String[] addresses = null;
+//    String[] addresses = new String[]{"Hello there", "This is just a test, This is just a test, This is just a test, This is just a test"};
 
     // if all relevant info is NOT available
     if (session.getAttribute("fetched") == null) {
-        response.sendRedirect("/PersonalInfo");
+        response.sendRedirect("/Profile");
     } else {
         fullName = (String) session.getAttribute("fullName");
         address = (String) session.getAttribute("address");
@@ -32,7 +32,7 @@
 <div class="MainContent">   
     <div class="Forms" id="change-info-forms">        
         <div id="change-info">
-            <form method="get" action="/PersonalInfo">
+            <form method="post" action="/Profile">
                 <div class="form-item">
                     <label>Your Client ID</label>
                     <input type="text" name="user-id" value="<%=id%>" disabled />
@@ -62,7 +62,7 @@
                 </div>
 
                 <% if (addresses != null) {
-                        out.print("<div class=\"form-item\">");
+                        out.print("<div class=\"form-item\" id=\"addresses-form-item\">");
                         out.print("<select id=\"address\" name=\"address\" required>");
                         out.print("<option value=\"\">Select your address</option>");
                         for (String addr : addresses) {
@@ -99,7 +99,7 @@
         let userType = document.getElementById("user-type").value;
 
         // when addresses forwarded by the servlet are found (jsp page is reloaded)
-        if (document.getElementById("address") != null) {
+        if (document.getElementById("address") !== null) {
             ableChanges()
         }
 
@@ -109,7 +109,7 @@
                 ableChanges()
             } else if (event.target.innerHTML === "Cancel") {
                 document.getElementById("toggle-edit").innerHTML = "Edit";
-                document.getElementById("change-info-forms").classList.add("edit-off");
+                document.getElementById("change-info-forms").classList.remove("edit-on");
 
                 document.getElementById("fullName").disabled = true;
                 document.getElementById("user-type").disabled = true;
@@ -121,22 +121,24 @@
                 document.getElementById("fullName").value = fullName;
                 document.getElementById("user-type").value = userType;
                 document.getElementById("postcode-search").value = "";
+                document.getElementById("addresses-form-item").remove();
+
             }
         }
 
         function ableChanges() {
             document.getElementById("toggle-edit").innerHTML = "Cancel";
-            document.getElementById("change-info-forms").classList.remove("edit-off");
+            document.getElementById("change-info-forms").classList.add("edit-on");
 
             document.getElementById("fullName").disabled = false;
             document.getElementById("user-type").disabled = false;
 
             document.getElementById("postcode-lookup").style.visibility = "visible";
             document.getElementById("save-changes").style.visibility = "visible";
-            
+
 
         }
-        
+
 
     </script>
 </div>
