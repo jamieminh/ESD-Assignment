@@ -15,6 +15,7 @@
             $(document).ready(function () {
                 $('#sidebarCollapse').on('click', function () {
                     $('#sidebar, #content').toggleClass('active');
+                    $('#change-info, #postcode-lookup').toggleClass('active');
                 });
             });
         </script>
