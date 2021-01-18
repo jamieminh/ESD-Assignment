@@ -13,6 +13,7 @@ package model.pojo;
 public class Person extends User {
     private String fullName;
     private String address;
+    private String dob;
 
     
     public String getFullName() {
@@ -30,8 +31,14 @@ public class Person extends User {
     public void setAddress(String address) {
         this.address = address;
     }
-    
-    
+
+    public String getDob() {
+        return dob;
+    }
+
+    public void setDob(String dob) {
+        this.dob = dob;
+    }
     
 }
 

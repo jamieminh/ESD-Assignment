@@ -85,8 +85,8 @@ public class Login extends HttpServlet {
                 String userPic = "/assets/users/";
                 switch (role) {
                     case "admin":
-                        pages = new String[]{"Staff", "Clients", "Cancel Surgery", "Documents"};
-                        pagesIcons = new String[] {"user-md", "user-injured", "syringe", "file-invoice"};
+                        pages = new String[]{"Staff", "Staff Schedule", "Clients", "Cancel Surgery", "Documents"};
+                        pagesIcons = new String[] {"user-md", "calendar-alt", "user-injured", "syringe", "file-invoice"};
                         userPic += "admin.png";
                         break;
                     case "client":

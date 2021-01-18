@@ -4,14 +4,14 @@
     position: relative;
     width: 100%;
     background-color: #82b5ff;
-    height: 650px;
+    height: 690px;
     margin: 0 auto;
     padding-top: 25px;
     border-radius: 5px;
 }
 
 #change-info-forms.edit-on {
-    height: 870px
+    height: 970px
 }
 
 .Forms .form-item {
@@ -100,7 +100,7 @@ select#address{
 
 #postcode-lookup {
     position: absolute;
-    top: 535px;
+    top: 600px;
     left: 8%;
 }
 
@@ -123,7 +123,7 @@ select#address{
 
 @media (min-width: 550px) {
     .Forms {
-        height: 480px;
+        height: 520px;
     }
 
     .Forms form {
@@ -140,7 +140,7 @@ select#address{
     }
 
     #postcode-lookup {
-        top: 380px;
+        top: 430px;
         left: 7.5%;
     }
 
@@ -160,24 +160,24 @@ select#address{
 
     select#address {        
         margin: 0;
-        margin-top: 110px;
+        margin-top: 100px;
     }
 
     #change-info-forms.edit-on .control-buttons {
         position: absolute;
-        top: 80%;
+        top: 81%;
         left: 50%;
         transform: translateX(-50%);
     }
 
     #change-info-forms.edit-on {
-        height: 680px
+        height: 710px
     }
 }
 
 @media (min-width: 600px) {    
     .Forms {
-        height: 480px;
+        height: 520px;
     }
 
     .control-buttons {
@@ -209,7 +209,7 @@ select#address{
 
 @media (min-width: 900px) {
     .Forms {
-        height: 400px;
+        height: 420px;
     }
 
     .Forms .form-item label {
@@ -257,7 +257,7 @@ select#address{
     }
 
     #change-info-forms.edit-on {
-        height: 560px
+        height: 600px
     }
 }
 
