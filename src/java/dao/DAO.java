@@ -14,14 +14,20 @@ import model.dbHandler.DBBean;
  */
 public class DAO {
     private DBBean db;
+    private Connection con;
 
     public DAO(Connection con) {
         db = new DBBean();
+        this.con = con;
         db.connect(con);
     }
 
     public DBBean getDb() {
         return db;
+    }
+    
+    public Connection getCon() {
+        return con;
     }
     
     

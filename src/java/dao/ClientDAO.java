@@ -26,20 +26,30 @@ public class ClientDAO extends DAO {
         String[] data = db.getRecords(query)[0];
 
         Client client = new Client();
-        
-        if (data[2] == null)
-            data[2] = "null";
+
 
         client.setId(Integer.parseInt(data[0]));
-        client.setAddress(data[2]);
-        client.setType(data[3]);
-        client.setUsername(data[4]);
+        client.setDob(data[2]);
+        client.setAddress(data[3]);
+        client.setType(data[4]);
+        client.setUsername(data[5]);
+
+        return client;
+    }
+    
+    public Client getClientNameById(int id) {
+        String query = "SELECT cname FROM APP.CLIENTS WHERE cid=" + id + "";
+        String[] data = db.getRecords(query)[0];
+
+        Client client = new Client();
+
+        client.setFullName(data[0]);
 
         return client;
     }
 
-    public boolean updateClient(String username, String fullname, String type, String address) {
-        String query = String.format("UPDATE APP.CLIENTS SET cname='%s', ctype='%s', caddress='%s' WHERE uname='%s'", fullname, type, address, username);
+    public boolean updateClient(String username, String fullname, String dob, String type, String address) {
+        String query = String.format("UPDATE APP.CLIENTS SET cname='%s', cdob='%s', ctype='%s', caddress='%s' WHERE uname='%s'", fullname, dob, type, address, username);
         boolean res = db.executeUpdate(query);
         
         return res;

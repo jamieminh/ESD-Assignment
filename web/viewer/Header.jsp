@@ -42,6 +42,7 @@
         <link rel="stylesheet" href="/style/table.css">
         <link rel="stylesheet" href="/style/main.css">
         <link rel="stylesheet" href="/style/profile.css">
+        <link rel="stylesheet" href="/style/staffSchedule.css">
 
     </head>
     <body>           

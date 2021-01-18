@@ -55,7 +55,7 @@ tr.changed {
     padding: 2px 5px;    
 }
 
-.FormTable input[type="submit"]{
+/*.FormTable input[type="submit"]{
     margin: 20px auto 0;
     display: block;
     width: 150px;
@@ -66,6 +66,28 @@ tr.changed {
     border-radius: 3px;
     padding: 10px;
     text-transform: uppercase;
+}*/
+
+.FormTable .staff-buttons {
+    margin: 30px auto 0;
+    display: table;
+    font-size: 18px;
+}
+
+.staff-buttons *{
+    width: 150px;
+    background-color: #59B259;    
+    outline: none;
+    border: none;
+    border-radius: 3px;
+    padding: 10px;
+    text-transform: uppercase;
+}
+
+.staff-buttons button {
+    background-color: lightgrey;
+    margin-right: 30px;
+    outline: none;
 }
 
 #patientList {
@@ -98,4 +120,9 @@ tr.changed {
 }
 #billingInfoList>div{
     border: 1px solid #ddd;
+}
+
+
+#edit-staff-address-button {
+    
 }
