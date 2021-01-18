@@ -26,8 +26,6 @@ public class SignUp extends HttpServlet {
             String username = request.getParameter("username").trim();
             String fullName = request.getParameter("fullname").trim();
             String role = request.getParameter("role").trim();
-            String address = request.getParameter("address").trim();
-            String rate = request.getParameter("rate").trim();
             String password = request.getParameter("password").trim();
             String password_repeat = request.getParameter("repeat-password").trim();
 
@@ -46,8 +44,6 @@ public class SignUp extends HttpServlet {
                     employee.setUsername(username);
                     employee.setPassword(password);
                     employee.setFullName(fullName);
-                    employee.setAddress(address);
-                    employee.setRate(Float.valueOf(rate));
                     employee.setRole(role);
                     
                     boolean res = entryDao.signUpStaff(employee);
@@ -56,7 +52,7 @@ public class SignUp extends HttpServlet {
                         request.getRequestDispatcher("/Login.html").forward(request, response);                      
                     else {
                         out.print("<small class=\"Error Error-Signup\">There's been some error. Please try again later.</small>");
-                        request.getRequestDispatcher("/SignUpClient.html").include(request, response);
+                        request.getRequestDispatcher("/SignUp.html").include(request, response);
                     }       
                 }               
             } 

@@ -1,0 +1,273 @@
+/* mobile first */
+
+.Forms {
+    position: relative;
+    width: 100%;
+    background-color: #82b5ff;
+    height: 650px;
+    margin: 0 auto;
+    padding-top: 25px;
+    border-radius: 5px;
+}
+
+#change-info-forms.edit-on {
+    height: 870px
+}
+
+.Forms .form-item {
+    margin-bottom: 10px;
+    width: 90%;
+}
+
+.Forms .form-item label{
+    padding-top: 2px;
+    width: 100%;
+    font-weight: bold;
+}
+
+.Forms .form-item :not(label)[disabled]{
+    background-color: transparent;
+    border: none;
+    color: black;
+    opacity: 1;
+}
+
+.Forms .form-item :not(label) {
+    background-color: #fcfcfc;
+    border: 2px solid grey;
+    border-radius: 3px;
+    padding: 2px 5px;
+}
+
+.Forms .form-item select[disabled]{ 
+    -moz-appearance: none;      /* remove dropdown arrow (firefox) */
+    -webkit-appearance: none;   /* remove dropdown arrow (chrome) */
+}
+
+.Forms .form-item input[disabled],
+.Forms .form-item textarea[disabled]{
+    background-color: transparent;
+    border: none;
+}
+
+.Forms textarea {
+    height: 180px;
+    vertical-align: text-top;
+    resize: none;    
+}
+
+#change-info, #postcode-lookup {
+    width: 85%;
+    margin: 0 auto;
+}
+.Forms form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+form .form-item {
+    display: flex;
+    flex-direction: column;
+}
+
+select#address{
+    width: 100%;
+    margin: 0 auto;
+    margin-top: 150px;
+}
+
+.Forms button, .Forms input[type="submit"] {
+    border: none;
+    outline: none;
+    width: 150px;
+    border-radius: 3px;
+    padding: 5px 20px;
+}
+
+.control-buttons *{
+    margin-top: 20px;
+}
+
+.control-buttons {
+    margin: 0 auto;    
+    position: static;
+}
+
+#save-changes {
+    background-color: #3be379
+}
+
+#postcode-lookup {
+    position: absolute;
+    top: 535px;
+    left: 8%;
+}
+
+#postcode-lookup input[type="submit"] {
+    background-color: #E7DD1F;
+    margin-top: 10px;
+}
+
+#change-info-forms.edit-on .control-buttons {
+    position: absolute;
+    top: 84%;
+}
+
+#current-address.no-address {
+    color: #b30900;
+    font-style: italic;
+}
+
+
+
+@media (min-width: 550px) {
+    .Forms {
+        height: 480px;
+    }
+
+    .Forms form {
+        align-items: unset;
+    }
+
+    #postcode-lookup input[type="submit"]  {
+        margin-left: 50%;
+    }
+
+    .Forms .form-item {
+        width: 100%;
+        flex-direction: row;
+    }
+
+    #postcode-lookup {
+        top: 380px;
+        left: 7.5%;
+    }
+
+    .Forms .form-item label {
+        width: 40%;
+    }
+
+    .Forms .form-item :not(label) {
+        margin-left: 10%;
+        width: 50%;
+    }
+
+    .control-buttons {
+        margin: 0 auto;
+
+    }
+
+    select#address {        
+        margin: 0;
+        margin-top: 110px;
+    }
+
+    #change-info-forms.edit-on .control-buttons {
+        position: absolute;
+        top: 80%;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    #change-info-forms.edit-on {
+        height: 680px
+    }
+}
+
+@media (min-width: 600px) {    
+    .Forms {
+        height: 480px;
+    }
+
+    .control-buttons {
+        display: flex;
+    }
+
+    #change-info-forms:not(.edit-on) .control-buttons {
+        margin-left: 35%;
+    }
+
+    #change-info-forms.edit-on .control-buttons {
+        position: absolute;
+        top: 85%;
+    }
+
+    .control-buttons #save-changes {
+        margin-left: 30px;
+    }
+
+    #change-info-forms.edit-on {
+        height: 660px
+    }
+
+    /*    #change-info.active .control-buttons {
+            left: calc(22% + 80px);
+        }*/
+}
+
+
+@media (min-width: 900px) {
+    .Forms {
+        height: 400px;
+    }
+
+    .Forms .form-item label {
+        width: 25%;
+    }
+
+    .Forms .form-item :not(label) {
+        margin-left: 5%;
+        width: 35%;
+    }
+
+    .control-buttons {
+        display: block;
+        position: absolute;
+        right: 14%;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+
+    .control-buttons #save-changes {
+        margin-left: 0;
+        margin-top: 50px;
+    }
+
+    #postcode-lookup input[type="submit"]  {
+        margin-left: 30%;
+    }
+
+    select#address {
+        width: 65%;
+    }
+
+    #change-info-forms.edit-on .control-buttons{
+        display: block;
+        position: absolute;
+        /*right: 9%;*/
+        left: 71%;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    #change-info-forms:not(.edit-on) .control-buttons {
+        margin-left: 0;
+    }
+
+    #change-info-forms.edit-on {
+        height: 560px
+    }
+}
+
+@media (min-width: 1281px) {
+    .Forms {
+        width: 80%;
+    }
+
+    .control-buttons {
+        right: 15%
+    }
+
+}

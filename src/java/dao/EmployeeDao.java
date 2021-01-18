@@ -35,7 +35,7 @@ public class EmployeeDao extends DAO {
             emp.setUsername(rec[0]);
             emp.setFullName(empInfo[1]);
             emp.setAddress(empInfo[2]);
-            emp.setRate(Float.valueOf(empInfo[3]));
+            emp.setRate(Float.valueOf(empInfo[3] == null ? "0" : empInfo[3]));
             emp.setRole(rec[1]);
             emp.setAuthorized(Boolean.parseBoolean(rec[2]));
             staffs.add(emp);

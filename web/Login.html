@@ -34,9 +34,8 @@
                 </div>  
                 
                 <div class="formitem CheckboxItem">
-                    <input type="checkbox" name="remember-me"/>
-                    <span class="checkmark"></span>
-                    <label style="color: white">Remember me</label>
+                    <input type="checkbox" name="remember-me" id="remember-check"/>
+                    <label style="color: white" onclick="toggleRemember()">Remember me</label>
                 </div>
 
                 <input type="submit" class="btn btn-success w-100" value="Submit"/>
@@ -45,6 +44,13 @@
                 <p>Or Sign Up as <a href="/SignUpClient.html">Client</a> or <a href="/SignUp.html">Staff</a> </p>
             </div>
         </div>
+        
+        <script>
+            function toggleRemember() {
+                let checkbox = document.getElementById("remember-check");
+                checkbox.checked = !checkbox.checked;
+            }
+        </script>   
         
     </body>
 </html>

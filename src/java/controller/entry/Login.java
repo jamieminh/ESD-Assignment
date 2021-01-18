@@ -1,6 +1,5 @@
 package controller.entry;
 
-import com.HashPassword;
 import dao.EntryDao;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.pojo.User;
-import model.dbHandler.DBBean;
 
 /**
  *
@@ -93,17 +91,17 @@ public class Login extends HttpServlet {
                         break;
                     case "client":
                         pages = new String[]{"Book Appointment", "See Schedule", "Request Prescription"};
-                        pagesIcons = new String[] {"this is", "just", "a", "placeholder"};
-                        userPic += "client.jpg";
+                        pagesIcons = new String[] {"calendar-plus", "calendar-alt", "prescription-bottle-alt"};
+                        userPic += "client.png";
                         break;
                     case "doctor":
                         pages = new String[]{"See Schedule", "Issue Prescription", "Forward Patient"};
-                        pagesIcons = new String[] {"this is", "just", "a", "placeholder"};
+                        pagesIcons = new String[] {"calendar-alt", "prescription-bottle-alt", "hospital-user"};
                         userPic += "doctor.jpg";
                         break;
                     case "nurse":
                         pages = new String[]{"See Schedule", "Issue Prescription"};
-                        pagesIcons = new String[] {"this is", "just", "a", "placeholder"};
+                        pagesIcons = new String[] {"calendar-alt", "prescription-bottle-alt"};
                         userPic += "nurse.jpg";
                         break;
                     default:

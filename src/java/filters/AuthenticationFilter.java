@@ -59,7 +59,7 @@ public class AuthenticationFilter implements Filter {
         System.out.println(tokenCk);
 
         // preload stylesheets and images
-        if (uri.endsWith(".css") || uri.endsWith(".ico") || uri.endsWith(".png")) {
+        if (uri.endsWith(".css") || uri.endsWith(".ico") || uri.endsWith(".png") || uri.endsWith(".jpg")) {
             chain.doFilter(request, response);
         } 
         // logout
@@ -119,7 +119,8 @@ public class AuthenticationFilter implements Filter {
     public boolean clientAccess(String uri) {
         // implement this like the adminAccess method above
         // include both the .jsp page and the servlet paths
-        return true;
+        return (uri.endsWith("/Home.jsp")
+                || uri.equals("/viewer/client/Profile.jsp") || uri.equals("/Profile") ||  uri.equals("/PostcodeLookup"));
 
     }
 
@@ -127,14 +128,12 @@ public class AuthenticationFilter implements Filter {
         // implement this like the adminAccess method above
         // include both the .jsp page and the servlet paths
         return true;
-
     }
 
     public boolean nurseAccess(String uri) {
         // implement this like the adminAccess method above
         // include both the .jsp page and the servlet paths
         return true;
-
     }
 
 }

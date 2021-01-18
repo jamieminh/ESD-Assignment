@@ -20,8 +20,8 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<% 
-    String title = "SmartCare - " + (String) session.getAttribute("title");  
+<%
+    String title = "SmartCare - Dashboard: " + (String) session.getAttribute("fullName");
     String folderUrl = (String) session.getAttribute("folderUrl");
     String fullName = (String) session.getAttribute("fullName");
     String role = (String) session.getAttribute("role");
@@ -40,7 +40,8 @@
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
         <link rel="stylesheet" href="/style/table.css">
-        <link rel="stylesheet" href="/style/style1.css">
+        <link rel="stylesheet" href="/style/main.css">
+        <link rel="stylesheet" href="/style/profile.css">
 
     </head>
     <body>           
@@ -61,8 +62,8 @@
                             <span class="page-name">Home</span>
                         </a>
                     </li>
-                     <%  
-                        for (int i=0; i< pages.length; i++) {
+                    <%
+                        for (int i = 0; i < pages.length; i++) {
                             String pageName = pages[i];
                             String pageIcon = pagesIcons[i];
                             String urlName = folderUrl + pageName.trim().replace(" ", "") + ".jsp";
@@ -74,7 +75,18 @@
                                     <span class="page-name"><%=pageName%></span>
                                 </a>                 
                             </li>
-                    <%  }  %>
+                    <%   }                          
+                        if (role.equals("client")) { %>
+                            <li class="<%=request.getRequestURI().equals("/viewer/client/Profile.jsp") ? "active" : ""%>">
+                                <a href="/viewer/client/Profile.jsp" >
+                                    <span class="icon"><i class="fas fa-user-edit"></i></span>
+                                    <span class="page-name">Profile</span>
+                                </a>
+                            </li>                    
+                    <%  } %>
+                    
+                    
+
                     <li class="mt-3">
                         <a href="/Logout" >
                             <span class="icon"><i class="fas fa-power-off"></i></span>
@@ -82,9 +94,9 @@
                         </a>
                     </li>
                 </ul>
-                    
+
                 <footer class="page-footer">
-                <!--Copyright--> 
+                    <!--Copyright--> 
                     <div class="footer-copyright text-center py-3">©2021 Copyright:
                         Hue Nguyen - Bao Bui - Phong Phan - Biao Shen - Au Dam
                     </div>
@@ -96,7 +108,7 @@
                         <button type="button" id="sidebarCollapse" class="btn">
                             <i class="fas fa-bars "></i>
                         </button>      
-                        
+
                         <div class="user-info">
                             <div class="user-picture">
                                 <img src="<%=userPic%>" />

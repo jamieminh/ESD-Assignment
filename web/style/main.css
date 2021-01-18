@@ -44,9 +44,10 @@ a:focus {
 }
 
 .user-picture {
-    height: 60px;
-    margin-right: 20px;
+    height: 50px;
+    margin-right: 10px;
 }
+
 
 .user-picture img {
    height: 100%;
@@ -166,6 +167,12 @@ i, span {
 
 #sidebar ul.components {
     padding: 20px 0;
+    height: 80%;
+    overflow: scroll;
+}
+
+#sidebar ul.components::-webkit-scrollbar {
+    display: none;
 }
 
 #sidebar ul li a {
