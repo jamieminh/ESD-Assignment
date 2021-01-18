@@ -1,7 +1,5 @@
 package controller.entry;
 
-import com.UserToken;
-import com.HashPassword;
 import dao.EntryDao;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -48,7 +46,7 @@ public class SignUp extends HttpServlet {
                     employee.setAddress(address);
                     employee.setDob(dob);
                     employee.setRole(role);
-                    
+                                        
                     boolean res = entryDao.signUpStaff(employee);
                     
                     if (res) 

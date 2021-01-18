@@ -109,8 +109,8 @@ public class EntryDao extends DAO {
 
         // insert user info to 'employees' table
         if (inserted) {
-            String query = String.format("INSERT INTO app.employees(uname, ename, edob) VALUES ('%s', '%s', '%s')",
-                    employee.getUsername(), employee.getFullName(), employee.getDob());
+            String query = String.format("INSERT INTO app.employees(uname, ename, edob, eaddress) VALUES ('%s', '%s', '%s', '%s')",
+                    employee.getUsername(), employee.getFullName(), employee.getDob(), employee.getAddress());
             insertRole = db.executeUpdate(query);
         }
         
