@@ -19,7 +19,13 @@
     background-color: #54BEE3;
     color: white;
 }
-
+#services-price{
+    position: relative;
+    width: 100%;
+}
+#services-price tr{
+    position: relative;
+}
 .FormTable td:nth-child(5),
 #cancel-surgery td:nth-child(4),
 #services-price td:nth-child(4){
@@ -120,7 +126,29 @@ td.changed {
 }
 #patientList>div{
     border: 1px solid #ddd;
+    
+    text-align: center;
+    background-color: #54BEE3;
+    color: white;
+
     /*padding: 8px;*/
+
+}
+#patientItem{
+     border-collapse: collapse;
+
+    display :grid;
+    grid-template-columns: 20% 20% 20% 20% 20%;
+}
+#patientItem>div{
+    border: 1px solid #ddd;
+ 
+
+}
+.invoiceDetail>div{
+     text-align: center;
+    background-color: #54BEE3;
+    color: white;
 
 }
 #billingList{

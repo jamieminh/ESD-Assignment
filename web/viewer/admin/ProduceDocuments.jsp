@@ -17,11 +17,11 @@
     <h3>Patients</h3>
     <div id="patientList">
 
-        <div><b><center>ClientID</center></b></div>
-        <div><b><center>Full Name</center></b></div>
-        <div><b><center>Address</center></b></div>
-        <div><b><center>ClientType</center></b></div>
-        <div><b><center>Username</center></b></div>
+        <div>ClientID</div>
+        <div>Full Name</div>
+        <div>Address</div>
+        <div>ClientType</div>
+        <div>Username</div>
 
     </div>
     <%
@@ -32,7 +32,7 @@
         String[][] patientInfo = db.getRecords(getPatient);
 //            out.print(patientInfo[0][0]);
         for (String[] pat : patientInfo) {
-            out.println("<div id='patientList'>");
+            out.println("<div id='patientItem'>");
             for (String patInf : pat) {
                 out.println("<div><center>" + patInf + "</center></div>");
             }
@@ -64,7 +64,7 @@
 
     </form>
     <form>
-        <div id="billingList">
+        <div id="billingList" class="invoiceDetail">
 
             <div><b><center>Employee</center></b></div>
             <div><b><center>Patient</center></b></div>
