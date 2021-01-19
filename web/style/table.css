@@ -50,7 +50,7 @@ tr.changed {
     border: none;
     background-color: #E1E8F6;
     border-radius: 5px;
-    outline: none;
+    outline-color: lightblue;
     text-align: right;
     padding: 2px 5px;    
 }
@@ -113,7 +113,7 @@ tr.changed {
 
 }
 #billingInfoList{
-     border-collapse: collapse;
+    border-collapse: collapse;
 
     display :grid;
     grid-template-columns: 33% 33% 33% ;
@@ -123,6 +123,113 @@ tr.changed {
 }
 
 
-#edit-staff-address-button {
-    
+/* Staff Schedule Page Table  */
+
+.instructions {
+    margin-top: 30px;
+}
+
+.instructions p {
+    margin-bottom: 0;
+    display: list-item;
+    margin-left: 20px;
+}
+
+#choose-staff {
+    margin-top: 30px;
+}
+
+#choose-staff label {
+    width: 130px
+}
+
+#choose-staff select {
+    padding: 5px;
+    outline: none;
+    border-radius: 3px;
+}
+
+#choose-staff input[type="submit"] {
+    margin-left: 20px;
+    width: 130px;
+    outline: none;
+    border: none;
+    background-color: #0c8a82;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+#schedule-table td:nth-child(5),
+#schedule-table td:nth-child(6),
+#schedule-table td:nth-child(7) {
+    text-align: center
+}
+
+#schedule-table tr.passed {
+    background-color: #e3e3e3
+}
+
+#schedule-table tr.changed {
+    background-color: lightgreen;
+}
+
+#confirm-cancel-btn {
+    text-transform: uppercase;
+    font-size: large;
+    padding: 7px 20px;
+    width: 135px;
+    outline: none;
+    border: none;
+    background-color: #58B358;
+    position: absolute;
+    left: 50%;
+    margin-right: -50%;
+    transform: translateX(-50%);
+    margin-top: 30px;
+    border-radius: 5px;
+    color: white;
+}
+
+.changes-made {
+    color: red;
+    font-size: 1.3em;
+    width: fit-content;
+    margin: 0 auto;
+    background-color: #ED5650;
+    padding: 5px 50px;
+    border-radius: 5px;
+    color: white;
+    margin-top: 30px;
+}
+
+
+/***** Staff page table*/
+
+.staff-postcode-search {
+    display: flex;
+    width: 95%;
+    margin: 0 auto;
+}
+
+.staff-postcode-search > input {
+    width: 70%;
+}
+
+.staff-postcode-search > button{
+    border: none;
+    background-color: lightblue;
+    border-radius: 3px;
+    outline: none;
+    width: fit-content;
+    padding: 3px 15px;
+    margin-left: 10%
+}
+
+.address-select {
+    width: 95%;
+    display: flex;
+    margin: 0 auto;
+    margin-top: 10px;
+    padding: 5px;
 }

@@ -35,28 +35,65 @@ public class StaffSchedule extends HttpServlet {
             OperationDao operationDao = new OperationDao(con);
 
             HttpSession session = request.getSession();
+            ArrayList<Employee> staffs = employeeDao.getAllEmployees();
+            ArrayList<Operation> schedule = new ArrayList<Operation>();
             
-            if (request.getParameter("submit") == null) {
-                ArrayList<Employee> staffs = employeeDao.getAllEmployees();
-//                ArrayList<String[]> curStates = employeeDao.getFormChanges(staffs);
-                ArrayList<Operation> schedule = operationDao.getAllSchedule();
-                                
-                
-                for (Operation op : schedule) {
-                    out.print(op.getId() + " __ " + op.getClient().getFullName() + " __ " + op.getEmployee().getFullName() + " __ "+ op.getType() 
-                            + " __ " + op.getDate() + " __ "+ op.getTime() + " __ " + op.getnSlot() + " __ " + op.isIsCancelled() + "<br>");
-                }
+            session.setAttribute("staffs", staffs);
 
+            // if See Schedule button is not clicked
+            if (session.getAttribute("schedule") == null) {
+                schedule = operationDao.getAllSchedule();
 
-                request.setAttribute("staffs", staffs);
-                request.setAttribute("schedule", schedule);
-//                session.setAttribute("curentStaffStates", curStates);
+                session.setAttribute("schedule", schedule);
+                session.setAttribute("current-emp", "all");
 
                 request.getRequestDispatcher("/viewer/admin/StaffSchedule.jsp").forward(request, response);
-            }
-            else {
-//                String emp_uname = request.getParameter("staff-name");
-//                out.print(emp_uname);
+            } 
+            // if admin chose a specific employee
+            else if (request.getParameter("see-schedule") != null) {
+                String empId = request.getParameter("staff-name");  // the emplopyee that admin chose
+                if (empId.equals("all"))
+                    schedule = operationDao.getAllSchedule();
+                else
+                    schedule = operationDao.getScheduleByEmpId(Integer.parseInt(empId));
+
+                session.setAttribute("schedule", schedule);
+                session.setAttribute("current-emp", empId);
+
+                request.getRequestDispatcher("/viewer/admin/StaffSchedule.jsp").forward(request, response);
+            } 
+            // if admin confirm cancel operation
+            else if (request.getParameter("confirm-cancel") != null) {
+                int paramSize = request.getParameterMap().keySet().size();
+                String[] keySet = request.getParameterMap().keySet().toArray(new String[paramSize]);
+                
+                // if admin doesn't change anything, send back
+                if (paramSize == 1) {   // only the submit button
+                    out.print("Only submit button");
+                    request.setAttribute("changes-made", new ArrayList<Integer>());
+                    request.getRequestDispatcher("/viewer/admin/StaffSchedule.jsp").forward(request, response);
+                } 
+                else {
+                    ArrayList<Integer> changed_ids = new ArrayList<Integer>();
+
+                    for (int i=0; i < paramSize-1; i++){
+                        String opId = keySet[i].replaceAll("cancel-", "");
+                        changed_ids.add(Integer.parseInt(opId));
+                        operationDao.cancelSchedule(opId);
+                    }
+                    
+                    // re-fetch schedule
+                    if (session.getAttribute("current-emp").equals("all"))
+                        schedule = operationDao.getAllSchedule();
+                    else
+                        schedule = operationDao.getScheduleByEmpId(Integer.parseInt((String)session.getAttribute("current-emp")));
+
+                    session.setAttribute("schedule", schedule);
+                    request.setAttribute("changes-made", changed_ids);
+                    request.getRequestDispatcher("/viewer/admin/StaffSchedule.jsp").forward(request, response);
+
+
+                }
             }
         }
     }

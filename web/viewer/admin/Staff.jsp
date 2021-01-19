@@ -10,15 +10,26 @@
 <%
     ArrayList<Employee> staffs = new ArrayList<Employee>();
     ArrayList<String[]> newChanges = new ArrayList<String[]>();
-    String postcode = "";
+    boolean hasChange = false;
+    String postcode = "", staffUname = "";
+//    String[] addresses = null;
+    String no_address_class = "";
+    String[] addresses = new String[]{"Hello there", "This is just a test, This is just a test, This is just a test, This is just a test"};
 
-    if (request.getAttribute("staffs") == null) {
+    if (session.getAttribute("staffs") == null) {
         response.sendRedirect("/Staff");
     } else {
-        staffs = (ArrayList<Employee>) request.getAttribute("staffs");
+        staffs = (ArrayList<Employee>) session.getAttribute("staffs");
         if (request.getAttribute("newChanges") != null) {
-            newChanges = (ArrayList<String[]>) request.getAttribute("newChanges");
+           newChanges = (ArrayList<String[]>) request.getAttribute("newChanges");
+           hasChange = true;
         }
+    }
+    
+    if (request.getAttribute("addresses") != null) {
+        addresses = (String[]) request.getAttribute("addresses");
+        postcode = (String) request.getAttribute("postcode");
+        staffUname = (String) request.getAttribute("staff-uname");        
     }
 %>
 
@@ -32,15 +43,29 @@
 <div class="MainContent">
 
     <h3>There are <span class="data-num"><%=staffs.size()%></span> employee(s) in SmartCare.</h3>
-    <h4>There have been new change(s) in <span class="data-num"><%=newChanges.size()%></span> employee(s).</h4>
-
+    
+    <%
+        if (hasChange) 
+            out.print("<div class=\"changes-made\"><em>" + newChanges.size() + " changes made</em></div>");
+        else
+            out.print("<div class=\"changes-made\"><em>0 changes made</em></div>");
+    %>
+    
+    
+    <div class='instructions'>
+        <h4>Instructions</h4>
+        <p>Only address, rate and authorization status can be changed.</p>
+        <p>To change Address: lookup an address using postcode. <em style="color: red">Only one</em> postcode can be looked up at a time.</p>
+        <p>Once addresses have been found, choose one and click 'Confirm' to submit.</p>
+        <p>An employee's rate cannot go beyond &#163;100/slot .</p>
+    </div>
     <form action="/Staff" method="get" class="FormTable" onsubmit="return confirm('Do you really want to make these changes?');">
         <table id="staff-table">
             <tr>
                 <th style="width: 7%" >Staff ID</th>
                 <th style="width: 11%">Username</th>
-                <th style="width: 18%">Full Name</th>
-                <th style="width: 25%">Address</th>
+                <th style="width: 15%">Full Name</th>
+                <th style="width: 28%">Address</th>
                 <th style="width: 10%">Role</th>
                 <th style="width: 9%" >Rate (&#163;/slot)</th>
                 <th style="width: 10%">New Rate (&#163;/slot)</th>
@@ -57,15 +82,32 @@
                             inputClass = "changed";
                             newChanges.remove(0);
                         }
+                        String postcodeValue = staffUname.equals(emp.getUsername()) ? postcode : "";
                         out.print("<tr class=\"" + inputClass + "\">");
                         out.print("<td>" + emp.getId() + "</td>");
                         out.print("<td>" + emp.getUsername() + "</td>");
                         out.print("<td>" + emp.getFullName() + "</td>");%>
-            <td>
-                <input type="text" name="postcode-<%=emp.getUsername()%>" id="postcode-search-<%=emp.getUsername()%>" class="postcode-search" value="<%=postcode%>" style="visibility: hidden"/> 
+            <td >
                 <p><%=emp.getAddress()%></p>
+                <div class="staff-postcode-search">
+                    <input type="text" name="postcode-<%=emp.getUsername()%>" 
+                           id="<%=emp.getUsername()%>" oninput="onInputChange()" 
+                           value="<%=postcodeValue%>" placeholder="Enter postcode..."/>
+                    <button type="button" onclick="searchPostcode()">Find</button>
+                </div>
+                    <% if (addresses != null && emp.getUsername().equals(staffUname)) {
+                        out.print("<select id=\"staff-address-\"" + emp.getUsername() +" name=\"address-" + emp.getUsername() + "\" class=\"address-select\" required>");
+                        out.print("<option value=\"\">Select your address</option>");
+                        for (String addr : addresses) {
+                            out.print("<option value=\"" + addr + "\">" + addr + "</option>");
+                        }
+
+                        out.print("</select>");
+                    }%>
+
+
             </td>
-            <%    out.print("<td>" + emp.getRole() + "</td>");
+            <%          out.print("<td>" + emp.getRole() + "</td>");
                         out.print("<td>" + emp.getRate() + "</td>");
                         out.print("<td><input type=\"number\" name=\"price-" + emp.getUsername() + "\" min=\"1\" max=\"100\"  /></td>");
                         out.print("<td><input type=\"checkbox\" " + checked + " name=\"auth-" + emp.getUsername() + "\" /></td>");
@@ -75,42 +117,31 @@
             %>
         </table>
         <div class="staff-buttons">
-            <button type="button" id="edit-staff-address-button" onClick="enableEdit()">Edit Address</button>
             <input type="submit" name="staff-submit" value="Confirm"/>
         </div>
 
+    </form>
+
+    <form method="post" action="/PostcodeLookup" style="visibility: hidden">
+        <input type="text" id="main-postcode" name="postcode" />
+        <input type="text" id="staff-username" name="postocode-from-staff" />
+        <input type="submit" name="submit" id="search-postcode"/>
     </form>
 
     <script type="text/javascript">
         let postcode_search = document.getElementsByClassName("postcode-search");
 
         // when addresses forwarded by the servlet are found (jsp page is reloaded)
-        if (document.getElementById("address") !== null) {
-            ableChanges()
+        
+        function onInputChange() {
+            let value_typed = event.target.value;
+            console.log(event.target.id);
+            document.getElementById("main-postcode").value = value_typed;
+            document.getElementById("staff-username").value = event.target.id;
         }
 
-        // toggle "Edit" and "Cancel" button
-        function enableEdit() {
-            if (event.target.innerHTML === "Edit Address") {
-                ableChanges()
-            } else if (event.target.innerHTML === "Cancel") {
-                document.getElementById("edit-staff-address-button").innerHTML = "Edit Address";
-
-                for (let i = 0; i < postcode_search.length; i++) {
-                    postcode_search[i].value = "";
-                    postcode_search[i].style.visibility = "hidden";
-                }
-
-
-            }
-        }
-
-        function ableChanges() {
-            document.getElementById("edit-staff-address-button").innerHTML = "Cancel";
-
-            for (let i = 0; i < postcode_search.length; i++) {
-                postcode_search[i].style.visibility = "visible";
-            }
+        function searchPostcode() {
+            document.getElementById("search-postcode").click();
         }
 
     </script>
