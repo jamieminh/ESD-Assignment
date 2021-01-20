@@ -31,31 +31,18 @@ public class DBBean {
     }
     
     public boolean insertUser(String[] values) {
-        // [username, password, role, authorized]
-        if (values.length != 4) 
-            return false;
-        String query = String.format("INSERT INTO app.users VALUES ('%s', '%s', '%s', '%s')",
-                values[0], values[1], values[2], values[3]);
+        // [username, password, role, authorized, token]
+        String query = String.format("INSERT INTO app.users VALUES ('%s', '%s', '%s', '%s', '%s')",
+                values[0], values[1], values[2], values[3], values[4]);
         return executeUpdate(query);
     }
     
-    public boolean insertEmployee(String[] values) {
-        // [username, employeeName, employeeAddress, rate]
-        if (values.length != 4) 
-            return false;
-        
-        String query = String.format("INSERT INTO app.employees(uname, ename, eaddress, erate) "
-                + "VALUES ('%s', '%s', '%s', %s)", values[0], values[1], values[2], values[3]);
+    public boolean deleteUser(String uname) {
+        String query = "DELETE FROM APP.USERS WHERE uname='" + uname + "'";
         return executeUpdate(query);
     }
-    
-    public boolean insertClient(String[] values) {
-        // [username, clientName, clientAddress, clientType]
-        if (values.length != 4) 
-            return false;
-        
-        String query = String.format("INSERT INTO app.clients(uname, cname, caddress, ctype) "
-                + "VALUES ('%s', '%s', '%s', '%s')", values[0], values[1], values[2], values[3]);
+    public boolean deleteClient(int id) {
+        String query = "DELETE FROM APP.CLIENTS WHERE CID="+id+"";;
         return executeUpdate(query);
     }
     
@@ -149,7 +136,7 @@ public class DBBean {
         return executeUpdate(sets + where);        
     }
     
-    private boolean executeUpdate(String query) {
+    public boolean executeUpdate(String query) {
         boolean isSuccess = false;
         try {
             stm = con.createStatement();

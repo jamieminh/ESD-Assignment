@@ -1,7 +1,8 @@
 create table users(
 	uname varchar(20) primary key,
 	passwd varchar(20),
-	role varchar(10)
+	role varchar(10),
+	authorized boolean default false
 );
 
 create table clients(
@@ -44,11 +45,12 @@ create table billing(
 );
 -- charge for appointment will be calculated, for surgery will be manually entered
 
-INSERT INTO USERS (UNAME, PASSWD, "ROLE") VALUES ('meaydin', 'aydinme', 'doctor');
-INSERT INTO USERS (UNAME, PASSWD, "ROLE") VALUES ('eaydin', '12345me', 'nurse');
-INSERT INTO USERS (UNAME, PASSWD, "ROLE") VALUES ('caidan', '5432@10', 'client');
-INSERT INTO USERS (UNAME, PASSWD, "ROLE") VALUES ('princehassan', 'prince_passwd', 'client');
-INSERT INTO USERS (UNAME, PASSWD, "ROLE") VALUES ('admin', 'admin_passwd', 'admin');
+INSERT INTO USERS (UNAME, PASSWD, ROLE, AUTHORIZED) VALUES ('meaydin', 'aydinme', 'doctor', 'true');
+INSERT INTO USERS (UNAME, PASSWD, ROLE, AUTHORIZED) VALUES ('eaydin', '12345me', 'nurse', 'true');
+INSERT INTO USERS (UNAME, PASSWD, ROLE, AUTHORIZED) VALUES ('caidan', '5432@10', 'client', 'true');
+INSERT INTO USERS (UNAME, PASSWD, ROLE, AUTHORIZED) VALUES ('princehassan', 'prince_passwd', 'client', 'true');
+INSERT INTO USERS (UNAME, PASSWD, ROLE, AUTHORIZED) VALUES ('admin', 'admin_passwd', 'admin', 'true');
+INSERT INTO USERS (UNAME, PASSWD, ROLE, AUTHORIZED) VALUES ('bao', 'colin', 'doctor', 'false');
 
 INSERT INTO EMPLOYEES (ENAME, EADDRESS, ERATE, UNAME) VALUES ('Mehmet Aydin', 'Mehmets Address, London, NW4 0BH', 80, 'meaydin');
 INSERT INTO EMPLOYEES (ENAME, EADDRESS, ERATE, UNAME) VALUES ('Emin Aydin', 'Emiin''s Address, Bristol, BS16', 76, 'eaydin');
