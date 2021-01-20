@@ -52,6 +52,18 @@ public class OperationDao extends DAO {
         return schedule;
 
     }
+    
+    // add new schedule
+    public boolean addSchedule(Operation operation) {
+        boolean insertSchedule = false;
+
+        // insert schedule info to 'schedule' table
+            String query = String.format("INSERT INTO app.schedule(EID, CID, STYPE, NSLOT, SDATE, STIME, CANCELLED) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s')",
+                    operation.getEmployee().getId(), operation.getClient().getId(), operation.getType(), operation.getnSlot(), operation.getDate(), operation.getTime(), operation.isIsCancelled());
+            insertSchedule = db.executeUpdate(query);
+
+        return insertSchedule;
+    }
 
     public ArrayList<Operation> getScheduleByEmpId(int empId) {
         ArrayList<Operation> schedule = new ArrayList<Operation>();
