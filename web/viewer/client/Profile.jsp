@@ -5,7 +5,8 @@
 --%>
 
 <%
-    String postcode = "", address = "", fullName = "", type = "", id = "", username = "";
+    String postcode = "", address = "", fullName = "", type = "", 
+            id = "", username = "", dob="";
     String[] addresses = null;
     String no_address_class = "";
 //    String[] addresses = new String[]{"Hello there", "This is just a test, This is just a test, This is just a test, This is just a test"};
@@ -15,6 +16,7 @@
         response.sendRedirect("/Profile");
     } else {
         fullName = (String) session.getAttribute("fullName");
+        dob = (String) session.getAttribute("dob");
         address = (String) session.getAttribute("address");
         if (address.equals("null")) {
             address = "Please provide your address";
@@ -51,6 +53,11 @@
                 <div class="form-item">
                     <label>Your Full Name </label>
                     <input type="text" name="fullName" id="fullName" value="<%=fullName%>" disabled />
+                </div>
+                
+                <div class="form-item">
+                    <label>Your DoB </label>
+                    <input type="date" name="dob" id="dob" value="<%=dob%>" disabled />
                 </div>
 
                 <div class="form-item">
@@ -117,6 +124,7 @@
                 document.getElementById("change-info-forms").classList.remove("edit-on");
 
                 document.getElementById("fullName").disabled = true;
+                document.getElementById("dob").disabled = true;
                 document.getElementById("user-type").disabled = true;
 
                 document.getElementById("save-changes").style.visibility = "hidden";
@@ -135,6 +143,7 @@
             document.getElementById("change-info-forms").classList.add("edit-on");
 
             document.getElementById("fullName").disabled = false;
+            document.getElementById("dob").disabled = false;
             document.getElementById("user-type").disabled = false;
 
             document.getElementById("postcode-lookup").style.visibility = "visible";

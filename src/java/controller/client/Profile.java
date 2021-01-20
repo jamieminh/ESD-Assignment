@@ -32,19 +32,24 @@ public class Profile extends HttpServlet {
             ClientDAO clientDao = new ClientDAO(con);
             Client client = clientDao.getClientData((String) session.getAttribute("fullName"));  
             
+            // get data from db to show 
             if (request.getParameter("submit") == null) {
                 session.setAttribute("username", client.getUsername());
                 session.setAttribute("address", client.getAddress());
+                session.setAttribute("dob", client.getDob());
                 session.setAttribute("clientType", client.getType());
                 session.setAttribute("clientId", String.valueOf(client.getId()));
 
                 session.setAttribute("fetched", true);
 
                 request.getRequestDispatcher("/viewer/client/Profile.jsp").forward(request, response);
-            } else {
+            } 
+            // submit info changes
+            else {
                 String fullName = request.getParameter("fullName");
                 String type = request.getParameter("user-type");
                 String address = "";
+                String dob = request.getParameter("dob");
                 String username = (String) session.getAttribute("username");
                 
                 // the parameter "address" only available if user enter a postcode and choose an address
@@ -55,9 +60,10 @@ public class Profile extends HttpServlet {
                 
                 session.setAttribute("fullName", fullName);
                 session.setAttribute("address", address);
+                session.setAttribute("dob", dob);
                 session.setAttribute("clientType", type);
 
-                boolean res = clientDao.updateClient(username, fullName, type, address);
+                boolean res = clientDao.updateClient(username, fullName, dob, type, address);
                 if (res)
                     out.print("<script>alert(\"Changes Successful\");</script>");
                 else 

@@ -73,12 +73,12 @@ body{
 .Error-Login, .Error-Signup {
     position: absolute;
     left: 50%;
-    top: 27%;
+    bottom: 75%;
     transform: translate(-50%, -50%);
 }
 
 .Error-Signup {
-    top: 10%;
+    bottom: 10%;
 }
 
 .SignUp-Link {

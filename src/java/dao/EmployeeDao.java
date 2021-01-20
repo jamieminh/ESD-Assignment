@@ -7,6 +7,7 @@ package dao;
 
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.Arrays;
 import model.pojo.Employee;
 import model.dbHandler.DBBean;
 
@@ -19,9 +20,9 @@ public class EmployeeDao extends DAO {
     public EmployeeDao(Connection con) {
         super(con);
     }
-    
+
     private DBBean db = this.getDb();
-    
+
     public ArrayList<Employee> getAllEmployees() {
         String[][] records = db.getRecords("SELECT uname, role, authorized FROM APP.USERS WHERE role='doctor' OR role='nurse'");
         ArrayList<Employee> staffs = new ArrayList<Employee>();
@@ -42,30 +43,40 @@ public class EmployeeDao extends DAO {
         }
         return staffs;
     }
-    
+
     // get username and attribute that can be changed (rate, authorized)
     public ArrayList<String[]> getFormChanges(ArrayList<Employee> staffs) {
         ArrayList<String[]> changes = new ArrayList<String[]>();
-        
-        for(Employee emp : staffs) {
-            // [uname, rate, authorized]
-            String[] mainInfo = new String[] {emp.getUsername(), 
+
+        for (Employee emp : staffs) {
+            // [uname, address, rate, authorized]
+            String[] mainInfo = new String[]{emp.getUsername(), emp.getAddress(),
                 String.valueOf(emp.getRate()), String.valueOf(emp.isAuthorized())};
             changes.add(mainInfo);
         }
         return changes;
     }
-    
-    public boolean updateRateAuth(String uname, String rate, String auth) {
+
+    public Employee getEmpNameById(int id) {
+        String query = "SELECT ename FROM APP.EMPLOYEES WHERE eid=" + id + "";
+        String[] data = db.getRecords(query)[0];
+
+        Employee emp = new Employee();
+        emp.setFullName(data[0]);
+
+        return emp;
+    }
+
+    public boolean updateAddrRateAuth(String uname, String address, String rate, String auth) {
+        String addrQuery = String.format("UPDATE APP.EMPLOYEES SET eaddress='%s' WHERE uname='%s'", address, uname);
         String authQuery = String.format("UPDATE APP.USERS SET authorized='%s' WHERE uname='%s'", auth, uname);
         String rateQuery = String.format("UPDATE APP.EMPLOYEES SET erate=%s WHERE uname='%s'", rate, uname);
-        boolean res = db.executeUpdate(authQuery);
-        if (res)
-            res = db.executeUpdate(rateQuery);
-        
-        return res;
-        
+        boolean res = db.executeUpdate(addrQuery);
+        boolean res2 = db.executeUpdate(authQuery);
+        boolean res3 = db.executeUpdate(rateQuery);
+
+        return (res && res2 && res3);
+
     }
-    
-    
+
 }

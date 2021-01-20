@@ -1,7 +1,5 @@
 package controller.entry;
 
-import com.UserToken;
-import com.HashPassword;
 import dao.EntryDao;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -10,7 +8,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.dbHandler.DBBean;
 import model.pojo.Employee;
 
 /**
@@ -25,6 +22,8 @@ public class SignUp extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             String username = request.getParameter("username").trim();
             String fullName = request.getParameter("fullname").trim();
+            String dob = request.getParameter("dob").trim();
+            String address = request.getParameter("address").trim();
             String role = request.getParameter("role").trim();
             String password = request.getParameter("password").trim();
             String password_repeat = request.getParameter("repeat-password").trim();
@@ -44,8 +43,10 @@ public class SignUp extends HttpServlet {
                     employee.setUsername(username);
                     employee.setPassword(password);
                     employee.setFullName(fullName);
+                    employee.setAddress(address);
+                    employee.setDob(dob);
                     employee.setRole(role);
-                    
+                                        
                     boolean res = entryDao.signUpStaff(employee);
                     
                     if (res) 

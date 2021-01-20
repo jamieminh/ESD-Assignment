@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.pojo.Employee;
 import dao.EmployeeDao;
+import java.util.Set;
 
 /**
  *
@@ -31,52 +32,55 @@ public class Staff extends HttpServlet {
             EmployeeDao employeeDao = new EmployeeDao(con);
 
             HttpSession session = request.getSession();
-
+            ArrayList<Employee> staffs = employeeDao.getAllEmployees();
+                
+            session.setAttribute("staffs", staffs);
             // load data for the first time
             if (request.getParameter("staff-submit") == null) {
-                ArrayList<Employee> staffs = employeeDao.getAllEmployees();
                 ArrayList<String[]> curStates = employeeDao.getFormChanges(staffs);
                 
-                request.setAttribute("staffs", staffs);
                 session.setAttribute("curentStaffStates", curStates);
-
                 request.getRequestDispatcher("/viewer/admin/Staff.jsp").forward(request, response);
-            } 
+            }
             // confirm button clicked
-            else {
+            else {                
                 ArrayList<String[]> oldStates = (ArrayList<String[]>) session.getAttribute("curentStaffStates");    // old states
                 ArrayList<String[]> newChanges = new ArrayList<String[]>();             // new states
 
                 // store usernames and their checked status
                 for (String[] emp : oldStates) {
-                    boolean oldAuth = Boolean.parseBoolean(emp[2]);                      // old auth state
-                    boolean newAuth = request.getParameter("auth-" + emp[0]) != null;    // true if not null
+                    boolean oldAuth = Boolean.parseBoolean(emp[3]);                      // old auth state
+                    boolean newAuth = request.getParameter("auth-" + emp[0]) != null;    // true if not null, only not null when it is checked
 
-                    String oldRate = emp[1];                                             // old rate
-                    String newRate = request.getParameter("price-" + emp[0]);            // new rate   
+                    String oldRate = emp[2];                                             // old rate
+                    String newRate = request.getParameter("price-" + emp[0]);            // new rate 
+                    
+                    String oldAddress = String.valueOf(emp[1]);                         // old address
+                    String newAddress = (request.getParameter("address-" + emp[0])) != null ?   // new address
+                            ((String) request.getParameter("address-" + emp[0])) : emp[1];
 
-                    // if either rate or auth is changed, or both
-                    if (!newRate.equals("") || oldAuth != newAuth) {
+
+                    // if rate, auth or address is changed, or both
+                    if (!newRate.equals("") || oldAuth != newAuth || !oldAddress.equals(newAddress)) {
                         newRate = newRate.equals("") ? oldRate : newRate;       // set rate to newRate if there's rate change
                         newAuth = oldAuth == newAuth ? oldAuth : newAuth;       // set auth to newAuth if auth is changed
-                        newChanges.add(new String[]{emp[0], newRate, String.valueOf(newAuth)});
-                    }
+                        newChanges.add(new String[]{emp[0], newAddress, newRate, String.valueOf(newAuth)});
+                    }                    
                 }
+                
 
-                if (newChanges.isEmpty()) { // if there's no changes, re-fetch data, and send back
-                    ArrayList<Employee> staffs = employeeDao.getAllEmployees();
-                    request.setAttribute("staffs", staffs);
+                if (newChanges.isEmpty()) { // if there's no changes send back
                     request.getRequestDispatcher("/viewer/admin/Staff.jsp").forward(request, response);
                 } else {
                     // update db
                     for (String[] user : newChanges) 
-                        employeeDao.updateRateAuth(user[0], user[1], user[2]);
+                        employeeDao.updateAddrRateAuth(user[0], user[1], user[2], user[3]);
                     
                     // re-fetch info from db
                     ArrayList<Employee> updatedStaff = employeeDao.getAllEmployees();
                     ArrayList<String[]> curStates = employeeDao.getFormChanges(updatedStaff);
                 
-                    request.setAttribute("staffs", updatedStaff);
+                    session.setAttribute("staffs", updatedStaff);
                     session.setAttribute("curentStaffStates", curStates);
                     
                     request.setAttribute("newChanges", newChanges);
