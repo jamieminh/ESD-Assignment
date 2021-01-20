@@ -82,31 +82,40 @@ public class Login extends HttpServlet {
 
                 String[] pages;
                 String[] pagesIcons;
+                String[] pagesDescription;
                 String userPic = "/assets/users/";
                 switch (role) {
                     case "admin":
                         pages = new String[]{"Staff", "Staff Schedule", "Clients", "Documents"};
                         pagesIcons = new String[] {"user-md", "calendar-alt", "user-injured", "file-invoice"};
+                        pagesDescription = new String[] {"Manage and Change Staff Information", "Cancel Staff Schedule",
+                            "Manage Client Information", "Produce Turnovers, Invoice, Charges"};
                         userPic += "admin.png";
                         break;
                     case "client":
                         pages = new String[]{"Book Appointment", "See Schedule", "Request Prescription"};
                         pagesIcons = new String[] {"calendar-plus", "calendar-alt", "prescription-bottle-alt"};
+                        pagesDescription = new String[] {"Book a New Appointment", "Manage Your Upcoming Schedule",
+                            "Request a new Prescription from your Doctor"};
                         userPic += "client.png";
                         break;
                     case "doctor":
                         pages = new String[]{"See Schedule", "Issue Prescription", "Forward Patient"};
                         pagesIcons = new String[] {"calendar-alt", "prescription-bottle-alt", "hospital-user"};
+                        pagesDescription = new String[] {"Manage Your Upcoming Schedule", "Issue Requested Prescriptions",
+                            "Forward a Patient to another Hospital"};
                         userPic += "doctor.jpg";
                         break;
                     case "nurse":
                         pages = new String[]{"See Schedule", "Issue Prescription"};
                         pagesIcons = new String[] {"calendar-alt", "prescription-bottle-alt"};
+                        pagesDescription = new String[] {"Manage Your Upcoming Schedule", "Issue Requested Prescriptions"};
                         userPic += "nurse.jpg";
                         break;
                     default:
                         pages = new String[]{};
                         pagesIcons = new String[] {};
+                        pagesDescription = new String[] {};
                         userPic += "error.jpg";
                 }
 
@@ -117,6 +126,7 @@ public class Login extends HttpServlet {
                 session.setAttribute("folderUrl", "/viewer/" + role + "/");
                 session.setAttribute("pages", pages);
                 session.setAttribute("pagesIcons", pagesIcons);
+                session.setAttribute("pagesDescription", pagesDescription);
                 session.setAttribute("userPic", userPic);
 
                 response.sendRedirect("/viewer/Home.jsp");

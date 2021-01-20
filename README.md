@@ -1,6 +1,15 @@
 # ESD-Assignment
 Assignment for ESD
 
+## Group: 26. Members includes
+1. Au Dam - 
+2. Bao Bui	  - 19034799
+3. Biao Shen  - 18041925
+4. Hue Nguyen - 19035298
+5. Phong Phan - 19036141
+
+
+
 ## How to use
 1. Create a Java DB called 'assignment', with username='root', password='root'.    
 2. Choose 'APP' as the default schema.
