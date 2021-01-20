@@ -56,6 +56,7 @@ public class BookAppointment extends HttpServlet {
                 //get input data
                 String staffid = request.getParameter("staff-required").trim();
                 String slot = request.getParameter("slot").trim();
+                String description = request.getParameter("description").trim();
                 String dateString = request.getParameter("booking-date").trim();
                 String timeString = request.getParameter("booking-time").trim();
 
@@ -84,6 +85,7 @@ public class BookAppointment extends HttpServlet {
                     operation.setDate(dateString);
                     operation.setTime(timeString);
                     operation.setIsCancelled(false);
+                    operation.setDescription(description);
 
                     boolean res = operationDao.addAppointment(operation);
                     if (res) {

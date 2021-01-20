@@ -52,6 +52,7 @@
                 <th style="width: 12%">Type</th>
                 <th style="width: 17%">Doctor</th>
                 <th style="width: 7%">Slot(s)</th>
+                <th style="width: 15%" >Description</th>
                 <th style="width: 15%" >Date</th>
                 <th style="width: 15%">Time</th>
                 <th style="width: 8%">Cancelled</th>
@@ -78,6 +79,7 @@
                         out.print("<td style=\"text-transform: capitalize\">" + op.getType() + "</td>");
                         out.print("<td>" + op.getEmployee().getFullName() + "</td>");
                         out.print("<td>" + op.getnSlot() + "</td>");
+                        out.print("<td>" + op.getDescription() + "</td>");
                         out.print("<td>" + op.getDate() + "</td>");
                         out.print("<td>" + op.getTime().substring(0, 5) + "</td>");
                         out.print("<td><input type=\"checkbox\" " + checked

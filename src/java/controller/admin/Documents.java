@@ -83,7 +83,7 @@ public class Documents extends HttpServlet {
                         String todayStr = formatter.format(new Date());  // today
                         dateto = todayStr;
                     }
-                    ArrayList<Operation> operations = opeDao.getAllScheduleFromTo(request.getParameter("datefrom"), dateto);
+                    ArrayList<Operation> operations = opeDao.getAllScheduleFromTo(request.getParameter("datefrom"), dateto, "", 0);
                     ArrayList<String[]> arrOfBills = getScheduleAsStringArr(operations, con);
 
                     request.setAttribute("billings", arrOfBills);
@@ -102,11 +102,8 @@ public class Documents extends HttpServlet {
         ArrayList<String[]> arrOfBills = new ArrayList<String[]>();
         for (Operation ope : operations) {
             int SID = ope.getId();
-            float charge = ope.getEmployee().getRate() * ope.getnSlot();
-            if (ope.getType().equals("surgery")) {
-                Billing billing = billingDao.getBillingBySID(SID);
-                charge = billing.getCharge();
-            }
+            Billing billing = billingDao.getBillingBySID(SID);
+
             arrOfBills.add(new String[]{ope.getEmployee().getFullName(),
                 ope.getClient().getFullName(),
                 ope.getType(),
@@ -114,7 +111,7 @@ public class Documents extends HttpServlet {
                 Integer.toString(ope.getnSlot()),
                 ope.getDate(),
                 ope.getTime(),
-                Float.toString(charge)
+                Float.toString(billing.getCharge())
             });
         }
         return arrOfBills;

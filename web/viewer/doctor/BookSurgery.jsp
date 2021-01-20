@@ -60,10 +60,18 @@
                 <input type="time" name="surgery-time" required/>
 
             </div>
+                    
+            <div class="form-item">
+                <lebel>Surgery Description</lebel>
+                <textarea name="surgery-description" required> </textarea>
+
+            </div>
 
             <div class="book-surgery-submit">
                 <input type="submit" name="book-surgery" value="Book"/> 
             </div>
+
+
         </form>
     </div>
 

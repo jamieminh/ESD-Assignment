@@ -5,6 +5,7 @@
  */
 package controller.admin;
 
+import dao.BillingDao;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -13,10 +14,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import dao.ClientDAO;
+import dao.UserDao;
+import dao.OperationDao;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import javax.servlet.http.HttpSession;
+import java.util.Date;
 import model.dbHandler.DBBean;
 import model.pojo.Client;
+import model.pojo.Operation;
 
 /**
  *
@@ -33,41 +38,54 @@ public class Clients extends HttpServlet {
             db.connect(con);
             ClientDAO clientDao = new ClientDAO(con);
 
-//            HttpSession session = request.getSession();
+            // first load
             if (request.getParameter("client-submit") == null) {
-                ArrayList<Client> clients = clientDao.getAllEmployees();
-
+                ArrayList<Client> clients = clientDao.getAllClients();
                 request.setAttribute("clients", clients);
-
                 request.getRequestDispatcher("/viewer/admin/Clients.jsp").forward(request, response);
-            } else {
+            } // delete client
+            else {
+                int paramSize = request.getParameterMap().keySet().size();
+                String[] keySet = request.getParameterMap().keySet().toArray(new String[paramSize]);
 
-                ArrayList<Client> clients = clientDao.getAllEmployees();
-                for (Client client : clients) {
-                    if (request.getParameter("client" + client.getId() + "") == null) {
-//                        out.print(request.getParameter("client" + client.getId() + ""));
+                // if admin doesn't change anything, send back
+                if (paramSize == 1) {   // only the submit button
+                    request.setAttribute("changes-made", "0");
+                    ArrayList<Client> clients = clientDao.getAllClients();
+                    request.setAttribute("clients", clients);
+                    request.getRequestDispatcher("/viewer/admin/Clients.jsp").forward(request, response);
+                } else {
+                    int changedCount = paramSize - 1;
+                    BillingDao billingDao = new BillingDao(con);
+                    OperationDao operationDao = new OperationDao(con);
+                    UserDao userDao = new UserDao(con);
 
-//                        out.print(client.getFullName());
-                    } else {
-                        db.deleteClient(client.getId());
-                        db.deleteUser(client.getUsername());
-                        out.print(request.getParameter("client" + client.getId() + ""));
-                        out.print(client.getFullName());
-                        request.getRequestDispatcher("/viewer/admin/Clients.jsp").forward(request, response);
+                    for (int i = 0; i < paramSize - 1; i++) {
+                        int cliId = Integer.parseInt(keySet[i].replaceAll("client-", "")); // get client id from parameter
+                        Client client = clientDao.getClientById(cliId);   // get uname to later delete user
+
+                        // cancel operation related to this user from today
+                        SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
+                        SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm");
+                        String today = formatDate.format(new Date()); // today
+                        String nowTime = formatTime.format(new Date()); // today
+                        ArrayList<Operation> futureOps = operationDao.getAllScheduleFromTo(today, "2099-12-31", nowTime, cliId); // delete billing from operation
+
+                        for (Operation op : futureOps) {
+                            operationDao.cancelSchedule(String.valueOf(op.getId()));    // cancel operation
+                            billingDao.removeBilling(op.getId());       // delete related billing
+                        }
+                        clientDao.deleteClient(cliId);
+                        userDao.deleteUser(client.getUsername());
 
                     }
+                    // re-fetch clients
+                    ArrayList<Client> clients = clientDao.getAllClients();
+
+                    request.setAttribute("changes-made", String.valueOf(changedCount));
+                    request.setAttribute("clients", clients);
+                    request.getRequestDispatcher("/viewer/admin/Clients.jsp").forward(request, response);
                 }
-//                String a = request.getParameter("client1");
-//                if(a == null){
-//                    
-//                    out.print(1);
-//                }
-//                else
-//                {
-//                    out.print(a);
-//                    out.print(a.getClass().getName());
-//                    out.print(2);
-//                }
             }
         }
     }

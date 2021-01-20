@@ -55,9 +55,7 @@ public class BillingDao extends DAO {
         billing.setCharge(Float.parseFloat(data[2]));
         return billing;
     }
-
-
-    
+   
    
     
     public boolean insertBilling(int sId, float charge) {

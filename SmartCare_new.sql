@@ -13,7 +13,7 @@ create table clients(
 	cDob date,
 	cAddress varchar(100),
 	cType varchar(10),
-	uName varchar(20) references users(uname) on delete cascade
+	uName varchar(20) references users(uname) on delete set null
 );
 
 create table employees(
@@ -23,19 +23,20 @@ create table employees(
 	eDob date,
 	eAddress varchar(100),
 	eRate float,
-	uName varchar(20) references users(uname) on delete cascade
+	uName varchar(20) references users(uname) on delete set null
 );
 
 create table schedule (
 	sID int not null primary key
             generated always as identity (start with 1, increment by 1), 
-    eID int references employees(eID),
-    cID int references clients(cID),
+    eID int references employees(eID) on delete set null,
+    cID int references clients(cID) on delete set null,
 	sType varchar(11),
 	nSlot int default 0,
     sDate date,
     sTime time,
-	cancelled boolean default false
+	cancelled boolean default false,
+	description varchar(255)
 );
 -- nSlot=0 for surgery, nSlot will later be used to calculate billing.charge (nSlot * rate) for appointment
 -- sType is either "appointment" or "surgery"
@@ -43,7 +44,7 @@ create table schedule (
 create table billing(
     bID int not null primary key
             generated always as identity (start with 1, increment by 1),
-    sID int references schedule(sID) on delete cascade,
+    sID int references schedule(sID) on delete set null,
     charge float
 );
 -- charge for appointment will be calculated, for surgery will be manually entered
