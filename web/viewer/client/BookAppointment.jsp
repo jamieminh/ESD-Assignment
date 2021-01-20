@@ -38,10 +38,10 @@
                     <input required type="date" class="form-control" name="booking-date" placeholder="yyyy-MM-dd" required title="yyyy-MM-dd"/>
                 </th>
                 <th>Time <br>
-                    <input required type="date" class="form-control" name="booking-time" placeholder="HH:mm:ss" required title="HH:mm:ss"/>
+                    <input required type="time" class="form-control" name="booking-time" placeholder="HH:mm:ss" required title="HH:mm:ss"/>
                 </th>
                 <th>Period of consult
-                    <input required type="int" class="form-control" name="consult-slot"/>
+                    <input required type="number" class="form-control" name="consult-slot"/>
                 </th>
             </tr>
           

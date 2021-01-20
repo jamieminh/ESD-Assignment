@@ -58,7 +58,7 @@ public class OperationDao extends DAO {
         boolean insertSchedule = false;
 
         // insert schedule info to 'schedule' table
-            String query = String.format("INSERT INTO app.schedule(EID, CID, STYPE, NSLOT, SDATE, STIME, CANCELLED) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s')",
+            String query = String.format("INSERT INTO app.schedule(EID, CID, STYPE, NSLOT, SDATE, STIME, CANCELLED) VALUES (%s, %s, '%s', %s, '%s', '%s', '%s')",
                     operation.getEmployee().getId(), operation.getClient().getId(), operation.getType(), operation.getnSlot(), operation.getDate(), operation.getTime(), operation.isIsCancelled());
             insertSchedule = db.executeUpdate(query);
 

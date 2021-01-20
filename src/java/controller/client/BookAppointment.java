@@ -72,7 +72,7 @@ public class BookAppointment extends HttpServlet {
             //get require staff data
             Employee requireEmployee = employeeDao.getEmployeeData(staff);
             //get client data
-            Client client = clientDao.getClientData("fullName");
+            Client client = clientDao.getClientData((String) session.getAttribute("fullName"));  
             
             Operation operation = new Operation();
             operation.setEmployee(requireEmployee);
@@ -86,7 +86,7 @@ public class BookAppointment extends HttpServlet {
             
             boolean res = operationDao.addSchedule(operation);
             if (res) 
-                        request.getRequestDispatcher("/Home.jsp").forward(request, response);                      
+                        request.getRequestDispatcher("viewer/Home.jsp").forward(request, response);                      
                     else {
                         out.print("<small class=\"Error Error-Booking\">There's been some error. Please try again later.</small>");
                         request.getRequestDispatcher("/viewer/client/BookAppointment.jsp").include(request, response);
