@@ -48,7 +48,7 @@ public class ManageAppointment extends HttpServlet {
             Client client = clientDao.getClientData((String) session.getAttribute("fullName")); 
             
             // first load
-            if (session.getAttribute("confirm-cancel") == null) {
+            if (request.getParameter("confirm-cancel") == null) {
                 schedule = operationDao.getScheduleByCliId(client.getId());
 
                 session.setAttribute("schedule", schedule);

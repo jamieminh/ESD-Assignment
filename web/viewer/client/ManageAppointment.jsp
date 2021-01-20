@@ -40,7 +40,7 @@
         }
     %>
     <body>
-       <form action="/ManageBooking" class="FormTable" method="post" onsubmit="return confirm('Are you sure you want to make these changes?')">
+       <form action="/ManageAppointment" class="FormTable" method="post" onsubmit="return confirm('Are you sure you want to make these changes?')">
         <table id="schedule-table"> 
             <tr>
                 <th style="width: 9%" >Surgery ID</th>
