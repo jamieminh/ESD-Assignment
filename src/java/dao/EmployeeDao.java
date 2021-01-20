@@ -56,6 +56,24 @@ public class EmployeeDao extends DAO {
         }
         return changes;
     }
+    
+    //get data of 1 employee using fullName
+    public Employee getEmployeeData(String fullName) {
+        String query = "SELECT * FROM APP.EMPLOYEES WHERE ename='" + fullName + "'";
+        String[] data = db.getRecords(query)[0];
+
+        Employee employee = new Employee();
+
+
+        employee.setId(Integer.parseInt(data[0]));
+        employee.setFullName(fullName);
+        employee.setDob(data[2]);
+        employee.setAddress(data[3]);
+        employee.setRate(Float.parseFloat(data[4]));
+        employee.setUsername(data[5]);
+
+        return employee;
+    }
 
     public Employee getEmpNameById(int id) {
         String query = "SELECT ename FROM APP.EMPLOYEES WHERE eid=" + id + "";
