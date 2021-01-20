@@ -41,12 +41,14 @@ public class Login extends HttpServlet {
             String name = "Admin";      // user full name
             String token = null;        // cookie login token
             boolean flag = true;        // true will continue to successful login
+            String eid = "";
 
             // ----------- COOKIE LOGIN ------------
             if (tokenCk != null) {
                 String[] userInfo = entryDao.cookieLogin(tokenCk);
                 role = userInfo[0];
                 name = userInfo[1].equals("") ? name : userInfo[1]; // if there's no name, set it to "Admin"
+                eid = userInfo[2];
             } 
             // ----------- FORM LOGIN --------------
             else {
@@ -67,6 +69,7 @@ public class Login extends HttpServlet {
                     role = userInfo[0];
                     name = userInfo[1];
                     token = userInfo[2];
+                    eid = userInfo[3];
                     if (token != null) {
                         Cookie setTokenCk = new Cookie("token", token);
                         setTokenCk.setMaxAge(5 * 24 * 60 * 60);   // 10 days
@@ -100,10 +103,10 @@ public class Login extends HttpServlet {
                         userPic += "client.png";
                         break;
                     case "doctor":
-                        pages = new String[]{"See Schedule", "Issue Prescription", "Forward Patient"};
-                        pagesIcons = new String[] {"calendar-alt", "prescription-bottle-alt", "hospital-user"};
+                        pages = new String[]{"See Schedule", "Issue Prescription", "Forward Patient", "Book Surgery"};
+                        pagesIcons = new String[] {"calendar-alt", "prescription-bottle-alt", "hospital-user", "syringe"};
                         pagesDescription = new String[] {"Manage Your Upcoming Schedule", "Issue Requested Prescriptions",
-                            "Forward a Patient to another Hospital"};
+                            "Forward a Patient to another Hospital", "Book Surgery for a Patient"};
                         userPic += "doctor.jpg";
                         break;
                     case "nurse":
@@ -121,6 +124,7 @@ public class Login extends HttpServlet {
 
                 session.setAttribute("isLoggedIn", true);
                 session.setAttribute("fullName", name);
+                session.setAttribute("eid", eid);
                 session.setAttribute("role", role);
                 session.setAttribute("title", "Dashboard: " + name);
                 session.setAttribute("folderUrl", "/viewer/" + role + "/");

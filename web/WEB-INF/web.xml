@@ -60,6 +60,10 @@
         <servlet-name>StaffSchedule</servlet-name>
         <servlet-class>controller.admin.StaffSchedule</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>BookSurgery</servlet-name>
+        <servlet-class>controller.doctor.BookSurgery</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>test</servlet-name>
         <url-pattern>/test</url-pattern>
@@ -103,6 +107,10 @@
     <servlet-mapping>
         <servlet-name>StaffSchedule</servlet-name>
         <url-pattern>/StaffSchedule</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BookSurgery</servlet-name>
+        <url-pattern>/BookSurgery</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

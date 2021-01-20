@@ -56,7 +56,7 @@ public class SignUpClient extends HttpServlet {
                     boolean res = entryDao.signUpClient(client);
                     
                     if (res) 
-                        request.getRequestDispatcher("/Login.html").forward(request, response);                      
+                        response.sendRedirect("/Login.html");
                     else {
                         out.print("<small class=\"Error Error-Signup\">There's been some error. Please try again later.</small>");
                         request.getRequestDispatcher("/SignUpClient.html").include(request, response);
