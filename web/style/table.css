@@ -233,3 +233,50 @@ tr.changed {
     margin-top: 10px;
     padding: 5px;
 }
+
+.book-result {
+    width: fit-content;
+    margin: 0 auto;
+    padding: 15px 50px;
+    border-radius: 5px;
+    color: white;
+}
+
+.book-result.success {
+    background-color: #59B259;
+
+}
+
+.book-result.failed {
+    background-color: #D2504D;
+
+}
+
+.book-result > p{
+    margin: 0;
+}
+
+.book-surgery-form {
+    width: 70%;
+    margin: 0 auto;
+}
+
+.book-surgery-form .form-item {
+    margin-bottom: 30px;
+}
+
+.book-surgery-form .book-surgery-submit{
+    position: relative;
+}
+
+.book-surgery-form input[type="submit"] {
+    width: 100px;
+    outline: none;
+    background-color: #58BAD7;
+    border: none;
+    border-radius: 5px;
+    padding: 3px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}

@@ -50,8 +50,8 @@ a:focus {
 
 
 .user-picture img {
-   height: 100%;
-   border-radius: 7px;
+    height: 100%;
+    border-radius: 7px;
 }
 
 .user-identification {
@@ -81,7 +81,7 @@ a:focus {
     position: fixed;
     top: 0;
     left: 0;
-    width: 220px;
+    width: 230px;
     height: 100vh;
     background-image: linear-gradient( #6937EA 0%, #377FEA 65%);
     color: #fff;
@@ -167,7 +167,7 @@ i, span {
 
 #sidebar ul.components {
     padding: 20px 0;
-    height: 80%;
+    height: 72%;
     overflow: scroll;
 }
 
@@ -259,7 +259,7 @@ a.article:hover {
 ----------------------------------------------------- */
 
 #content {
-    width: calc(100% - 220px);
+    width: calc(100% - 230px);
     padding: 10px 30px;
     min-height: 100vh;
     transition: all 0.3s;
@@ -273,17 +273,204 @@ a.article:hover {
 }
 
 footer {
-   position: absolute;
-   bottom: 0px;
-   background-color: #2E63B1;
-   color: white;
-   font-size: 10px;
-   text-align: center;
+    position: absolute;
+    bottom: 0px;
+    background-color: #2E63B1;
+    color: white;
+    font-size: 10px;
+    text-align: center;
 }
 
 .MainContent {
-    margin-bottom: 15%;
+    margin-bottom: 10%;
 }
+
+
+/* Home Page  */
+ul#home-page-tasks {
+    display: flex;
+    list-style: none;
+    flex-wrap: wrap;
+    margin-top: 50px;
+}
+
+ul#home-page-tasks li {
+    width: 360px;
+    height: 120px;
+    border: 1px solid lightgrey;
+    /* margin: 0 auto; */
+    position: relative;
+    margin-right: 5%;
+    margin-bottom: 3%;
+    border-radius: 3px;
+}
+
+ul#home-page-tasks div {
+    position: absolute;
+    width: 80%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+ul#home-page-tasks > li > div > a > span{
+    color: #5017e8;
+    font-size: 25px;
+}
+
+ul#home-page-tasks > li > div > a > span:hover{
+    color: #3a0bb8;
+}
+
+ul#home-page-tasks > li > div > a > span:first-child {
+    margin-right: 20px;
+}
+
+ul#home-page-tasks > li > div p {
+    margin-top: 5%;
+}
+
+.our-team {
+    margin-top: 10%;
+}
+
+
+div.team-members {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    flex-direction: column;
+    align-items: center;
+}
+
+div.team-members .member {
+    width: 90%;
+    text-align: center;
+    padding: 15px 10px;
+}
+
+div.team-members .member img{
+    border-radius: 50%;
+    width: 80%;
+    object-fit: cover;
+    margin-bottom: 20px;
+}
+
+div.team-members .member .member-rank{
+    color: blue;
+    font-style: italic;
+    color: blue;
+}
+
+
+@media (min-width: 481px) {    
+    div.team-members .member {
+        width: 50%;
+    }
+}
+
+@media (min-width: 600px) {    
+    div.team-members .member {
+        width: 40%;
+    }
+}
+
+
+@media (min-width: 768px) {
+    div.team-members .member {
+        width: 45%;
+        height: 500px;
+        margin-bottom: 30px;
+    }
+
+    div.team-members {
+        flex-wrap: wrap;
+        flex-direction: row;
+    }
+
+    div.team-members .member h3{
+        height: 70px;
+    }
+
+    #content.active div.team-members .member h3{
+        height: 40px;
+    }
+}
+
+@media (min-width: 768px) {
+    div.team-members .member {
+        width: 45%;
+        margin-bottom: 30px;
+    }
+
+    div.team-members {
+        flex-wrap: wrap;
+        flex-direction: row;
+    }
+
+    div.team-members .member h3{
+        height: 70px;
+    }
+
+    #content.active div.team-members .member h3{
+        height: 40px;
+    }
+}
+
+@media (min-width: 900px) {
+    div.team-members {
+        justify-content: space-around;
+    }
+
+    div.team-members .member {
+        width: 35%;
+    }
+
+    div.team-members .member h3{
+        height: 70px;
+    }
+
+    #content.active div.team-members .member h3{
+        height: 50px;
+    }
+}
+
+@media (min-width: 1025px) {
+    div.team-members {
+        flex-wrap: nowrap;
+        flex-direction: row;
+    }
+
+    div.team-members .member {
+        width: 21%;
+    }
+
+    div.team-members .member h3{
+        height: 80px;
+    }
+
+    #content.active div.team-members .member h3{
+        height: 70px;
+    }
+}
+
+@media (min-width: 1512px) {    
+    div.team-members .member h3{
+        height: 30px;
+    }
+}
+
+@media (min-width: 1600px) {
+    .our-team {
+        width: 90%;
+        margin: 0 auto;
+    }
+    
+    div.team-members .member h3{
+        height: 60px;
+    }
+}
+
 /* ---------------------------------------------------
     MEDIAQUERIES
 ----------------------------------------------------- */
@@ -333,7 +520,7 @@ footer {
     #sidebarCollapse span {
         display: none;
     }
-    
+
     #content {
         width: 100%;
     }

@@ -129,7 +129,9 @@ public class AuthenticationFilter implements Filter {
     public boolean doctorAccess(String uri) {
         // implement this like the adminAccess method above
         // include both the .jsp page and the servlet paths
-        return true;
+        return (uri.endsWith("/Home.jsp")
+                || uri.equals("/viewer/doctor/BookSurgery.jsp") || uri.equals("/BookSurgery"));
+
     }
 
     public boolean nurseAccess(String uri) {
