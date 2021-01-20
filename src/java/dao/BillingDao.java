@@ -56,4 +56,18 @@ public class BillingDao extends DAO {
         return billing;
     }
 
+
+    
+   
+    
+    public boolean insertBilling(int sId, float charge) {
+        String query = String.format("INSERT INTO APP.BILLING (sid, charge) VALUES(%s, %s)", sId, charge);
+        return db.executeUpdate(query);
+    }
+    
+    public boolean removeBilling(int sId) {
+        String query = "DELETE FROM APP.BILLING WHERE sid=" + sId;
+        return db.executeUpdate(query);
+    }
+
 }

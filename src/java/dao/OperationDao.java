@@ -140,6 +140,57 @@ public class OperationDao extends DAO {
         return schedule;
     }
     
+    public ArrayList<Operation> getScheduleById(int scheduleId) {
+        ArrayList<Operation> schedule = new ArrayList<Operation>();
+        
+        String query = "SELECT * FROM APP.SCHEDULE WHERE sid=" + scheduleId;
+        String[][] result = db.getRecords(query);
+
+        EmployeeDao employeeDao = new EmployeeDao(con);
+        ClientDAO clientDao = new ClientDAO(con);
+
+        for (String[] res : result) {
+            Operation op = new Operation();
+            Employee emp = employeeDao.getEmpNameById(Integer.parseInt(res[1]));
+            Client client = clientDao.getClientNameById(Integer.parseInt(res[2]));
+
+            op.setId(Integer.parseInt(res[0]));
+            op.setEmployee(emp);
+            op.setClient(client);
+            op.setType(res[3]);
+            op.setnSlot(Integer.parseInt(res[4]));
+            op.setDate(res[5]);
+            op.setTime(res[6]);
+            op.setIsCancelled(Boolean.parseBoolean(res[7]));
+
+            schedule.add(op);
+        }
+
+        return schedule;
+    }
+    
+    
+    public boolean addSurgery(int empId, int patId, String date, String time) {
+        String query = String.format("INSERT INTO APP.SCHEDULE (eid, cid, stype, nslot, sdate, stime, cancelled) "
+                + " VALUES(%s, %s, 'surgery', 0, '%s', '%s', false)", empId, patId, date, time);
+        
+        boolean res = db.executeUpdate(query);
+        
+        if (res) {
+            double charge = 1000 + Math.random() * (5000 - 1000);
+            
+            String query2 =  String.format("SELECT sid FROM APP.SCHEDULE WHERE"
+                    + " eid=%s AND cid=%s AND sdate='%s' AND stime='%s'", empId, patId, date, time);
+            String sid = db.getRecords(query2)[0][0];
+            
+            BillingDao billingDao = new BillingDao(con);
+            res = billingDao.insertBilling(Integer.parseInt(sid), (float) Math.round(charge * 100.0 / 100.0));            
+        }
+        
+        return res;
+        
+    }
+    
     public boolean cancelSchedule(String sid ) {
         String query = "UPDATE APP.SCHEDULE SET cancelled='true' WHERE sid=" + sid;
         return db.executeUpdate(query);

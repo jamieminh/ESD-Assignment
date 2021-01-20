@@ -72,5 +72,21 @@ public class ClientDAO extends DAO {
         
         return res;
     }
+    
+    public ArrayList<Client> getAllClients() {
+        ArrayList<Client> clients = new ArrayList<Client>();
+        String[][] results = db.getAllRecords("clients");
+        
+        for (String[] res : results) {
+            Client client = new Client();
+
+            client.setId(Integer.parseInt(res[0]));
+            client.setFullName(res[1]);
+            
+            clients.add(client);
+        }
+
+        return clients;
+    }
 
 }

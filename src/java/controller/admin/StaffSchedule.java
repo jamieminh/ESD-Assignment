@@ -5,6 +5,7 @@
  */
 package controller.admin;
 
+import dao.BillingDao;
 import dao.EmployeeDao;
 import dao.OperationDao;
 import java.io.IOException;
@@ -75,11 +76,13 @@ public class StaffSchedule extends HttpServlet {
                 } 
                 else {
                     ArrayList<Integer> changed_ids = new ArrayList<Integer>();
+                    BillingDao billingDao = new BillingDao(con);                    
 
                     for (int i=0; i < paramSize-1; i++){
                         String opId = keySet[i].replaceAll("cancel-", "");
                         changed_ids.add(Integer.parseInt(opId));
                         operationDao.cancelSchedule(opId);
+                        billingDao.removeBilling(Integer.parseInt(opId));
                     }
                     
                     // re-fetch schedule
