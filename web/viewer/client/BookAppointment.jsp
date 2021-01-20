@@ -6,9 +6,19 @@
 
 
 
+<%@page import="java.util.ArrayList"%>
+<%@page import="model.pojo.Employee"%>
 <%@page import="java.time.LocalDate"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
+<%ArrayList<Employee> staffs = new ArrayList<Employee>();%>
+<%
+    if (session.getAttribute("staffs") == null)
+        response.sendRedirect("/BookAppointment");
+    else {
+        staffs = (ArrayList<Employee>) session.getAttribute("staffs");
+    }
+%>
 
 
 <!DOCTYPE html>
@@ -28,11 +38,22 @@
                         <option value="surgery">Surgery</option>
                 </th>
                 <th>Staff require <br>
-                    <select name="staff-require" >
+<!--                    <select name="staff-require" >
                         <option value="null">Select a staff........</option>
                         <option value="Au Dam">Au Dam</option>
                         <option value="Biao Shen">Biao Shen</option>
-                    </select>
+                    </select>-->
+                    
+                    <select name="staff-required" required>
+                <option value=null>Select a staff.......</option>
+                <%
+                    for (Employee emp : staffs) {
+                        out.print("<option value=\"" + emp.getFullName()+ "\">" + emp.getFullName() + "</option>");
+                    }
+                %>
+            </select>
+                    
+                    
                 </th>
                 <th>Date
                     <input required type="date" class="form-control" name="booking-date" placeholder="yyyy-MM-dd" required title="yyyy-MM-dd"/>

@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -52,7 +53,10 @@ public class BookAppointment extends HttpServlet {
             ClientDAO clientDao = new ClientDAO(con);
             EmployeeDao employeeDao = new EmployeeDao(con);
             OperationDao operationDao = new OperationDao(con);
-                       
+               
+            ArrayList<Employee> staffsList = employeeDao.getAllEmployees();
+            session.setAttribute("staffs", staffsList);
+            
             // load data for the first time
             if (request.getParameter("booking-submit") == null) {
                 request.getRequestDispatcher("/viewer/client/BookAppointment.jsp").forward(request, response);
@@ -60,7 +64,7 @@ public class BookAppointment extends HttpServlet {
             else{
             //get input data
             String type = request.getParameter("booking-type").trim();
-            String staff = request.getParameter("staff-require").trim();
+            String staff = request.getParameter("staff-required").trim();
             String period = request.getParameter("consult-slot").trim();
             String dateString = request.getParameter("booking-date").trim();
             String timeString = request.getParameter("booking-time").trim();
@@ -86,7 +90,7 @@ public class BookAppointment extends HttpServlet {
             
             boolean res = operationDao.addSchedule(operation);
             if (res) 
-                        request.getRequestDispatcher("viewer/Home.jsp").forward(request, response);                      
+                        response.sendRedirect("/viewer/Home.jsp");
                     else {
                         out.print("<small class=\"Error Error-Booking\">There's been some error. Please try again later.</small>");
                         request.getRequestDispatcher("/viewer/client/BookAppointment.jsp").include(request, response);

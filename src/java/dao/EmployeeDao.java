@@ -69,7 +69,12 @@ public class EmployeeDao extends DAO {
         employee.setFullName(fullName);
         employee.setDob(data[2]);
         employee.setAddress(data[3]);
-        employee.setRate(Float.parseFloat(data[4]));
+        if(data[4]==null){
+            employee.setRate(0);
+        }
+        else{
+            employee.setRate(Float.parseFloat(data[4]));
+        }
         employee.setUsername(data[5]);
 
         return employee;
