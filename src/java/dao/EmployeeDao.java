@@ -49,8 +49,8 @@ public class EmployeeDao extends DAO {
         ArrayList<String[]> changes = new ArrayList<String[]>();
 
         for (Employee emp : staffs) {
-            // [uname, rate, authorized]
-            String[] mainInfo = new String[]{emp.getUsername(),
+            // [uname, address, rate, authorized]
+            String[] mainInfo = new String[]{emp.getUsername(), emp.getAddress(),
                 String.valueOf(emp.getRate()), String.valueOf(emp.isAuthorized())};
             changes.add(mainInfo);
         }
@@ -67,15 +67,15 @@ public class EmployeeDao extends DAO {
         return emp;
     }
 
-    public boolean updateRateAuth(String uname, String rate, String auth) {
+    public boolean updateAddrRateAuth(String uname, String address, String rate, String auth) {
+        String addrQuery = String.format("UPDATE APP.EMPLOYEES SET eaddress='%s' WHERE uname='%s'", address, uname);
         String authQuery = String.format("UPDATE APP.USERS SET authorized='%s' WHERE uname='%s'", auth, uname);
         String rateQuery = String.format("UPDATE APP.EMPLOYEES SET erate=%s WHERE uname='%s'", rate, uname);
-        boolean res = db.executeUpdate(authQuery);
-        if (res) {
-            res = db.executeUpdate(rateQuery);
-        }
+        boolean res = db.executeUpdate(addrQuery);
+        boolean res2 = db.executeUpdate(authQuery);
+        boolean res3 = db.executeUpdate(rateQuery);
 
-        return res;
+        return (res && res2 && res3);
 
     }
 

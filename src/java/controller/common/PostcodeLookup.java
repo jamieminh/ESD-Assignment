@@ -17,7 +17,7 @@ import model.pojo.PostCode;
 /**
  *
  * @author Jamie
- * 
+ *
  * error can happen when API key is out of use for the day (20 use/day)
  */
 public class PostcodeLookup extends HttpServlet {
@@ -26,24 +26,35 @@ public class PostcodeLookup extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            String error = "";
+            boolean fromStaff = false;
 
             String postcode = request.getParameter("postcode");
             System.out.println(postcode);
+            if (request.getParameter("postocode-from-staff") != null) {
+                fromStaff = true;
+                request.setAttribute("staff-uname", request.getParameter("postocode-from-staff"));
+            }
+            
+            
 
             PostCode lookup = new PostCode();
             String[] addresses = lookup.getAddrParams(postcode);
             // request status != 200
             if (addresses[0].equals("error")) {
-                error = addresses[1];
                 out.print("<script>alert(\"Server Error. Try Again Later\");</script>");
-                request.getRequestDispatcher("/viewer/client/Profile.jsp").include(request, response);
+                if (fromStaff) 
+                    request.getRequestDispatcher("/viewer/admin/Staff.jsp").include(request, response);
+                else
+                    request.getRequestDispatcher("/viewer/client/Profile.jsp").include(request, response);
             } // request success
             else {
                 request.setAttribute("postcode", postcode.toUpperCase());
                 request.setAttribute("addresses", addresses);
 
-                request.getRequestDispatcher("/viewer/client/Profile.jsp").forward(request, response);
+                if (fromStaff) 
+                    request.getRequestDispatcher("/viewer/admin/Staff.jsp").forward(request, response);
+                else
+                    request.getRequestDispatcher("/viewer/client/Profile.jsp").forward(request, response);
             }
 
         }

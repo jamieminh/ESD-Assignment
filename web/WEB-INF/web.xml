@@ -37,10 +37,6 @@
         <servlet-class>controller.admin.Staff</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>CancelSurgery</servlet-name>
-        <servlet-class>controller.admin.CancelSurgery</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>Documents</servlet-name>
         <servlet-class>controller.admin.Documents</servlet-class>
     </servlet>
@@ -83,10 +79,6 @@
     <servlet-mapping>
         <servlet-name>Staff</servlet-name>
         <url-pattern>/Staff</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>CancelSurgery</servlet-name>
-        <url-pattern>/CancelSurgery</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Documents</servlet-name>

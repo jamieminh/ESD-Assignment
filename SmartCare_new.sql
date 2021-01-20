@@ -10,7 +10,7 @@ create table clients(
 	cID int not null primary key
             generated always as identity (start with 1, increment by 1), 
 	cName varchar(50),
-	cDob date
+	cDob date,
 	cAddress varchar(100),
 	cType varchar(10),
 	uName varchar(20) references users(uname) on delete cascade
