@@ -2,7 +2,7 @@
 Assignment for ESD
 
 ## Group: 26. Members includes
-1. Au Dam - 
+1. Au Dam     - 18032351
 2. Bao Bui	  - 19034799
 3. Biao Shen  - 18041925
 4. Hue Nguyen - 19035298
