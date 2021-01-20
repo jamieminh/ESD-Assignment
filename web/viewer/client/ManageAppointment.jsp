@@ -15,7 +15,7 @@
     ArrayList<Operation> schedule = new ArrayList<Operation>();
     ArrayList<Integer> changed_ids = new ArrayList<Integer>();
 
-    if (session.getAttribute("schedule") == null) {
+    if (request.getAttribute("schedule") == null) {
         response.sendRedirect("/ManageAppointment");
     } else {
         schedule = (ArrayList<Operation>) session.getAttribute("schedule");

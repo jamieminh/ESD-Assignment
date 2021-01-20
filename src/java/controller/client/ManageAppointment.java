@@ -51,7 +51,7 @@ public class ManageAppointment extends HttpServlet {
             if (request.getParameter("confirm-cancel") == null) {
                 schedule = operationDao.getScheduleByCliId(client.getId());
 
-                session.setAttribute("schedule", schedule);
+                request.setAttribute("schedule", schedule);
 
                 request.getRequestDispatcher("/viewer/client/ManageAppointment.jsp").forward(request, response);
             } 
@@ -78,7 +78,7 @@ public class ManageAppointment extends HttpServlet {
                     // re-fetch schedule
                     schedule = operationDao.getScheduleByCliId(client.getId());
 
-                    session.setAttribute("schedule", schedule);
+                    request.setAttribute("schedule", schedule);
                     request.setAttribute("changes-made", changed_ids);
                     request.getRequestDispatcher("/viewer/client/ManageAppointment.jsp").forward(request, response);
 
