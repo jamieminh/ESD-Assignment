@@ -58,14 +58,15 @@ public class EmployeeDao extends DAO {
     }
 
     public Employee getEmpById(int id) {
-        String query = "SELECT * FROM APP.EMPLOYEES WHERE eid=" + id + "";
+        String query = "SELECT * FROM APP.EMPLOYEES WHERE eid=" + id;
         String[] data = db.getRecords(query)[0];
 
         Employee emp = new Employee();
         emp.setFullName(data[1]);
-        emp.setAddress(data[2]);
-        emp.setRate(Float.parseFloat(data[3]));
-        emp.setUsername(data[4]);
+        emp.setAddress(data[3]);
+        emp.setRate(Float.parseFloat(data[4]));
+        emp.setUsername(data[5]);
+        emp.setId(Integer.parseInt(data[0]));
 
         return emp;
     }

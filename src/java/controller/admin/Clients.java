@@ -36,18 +36,14 @@ public class Clients extends HttpServlet {
 //            HttpSession session = request.getSession();
             if (request.getParameter("client-submit") == null) {
                 ArrayList<Client> clients = clientDao.getAllEmployees();
-//                ArrayList<String[]> curStates = clientDao.getFormChanges(staffs);
 
                 request.setAttribute("clients", clients);
 
                 request.getRequestDispatcher("/viewer/admin/Clients.jsp").forward(request, response);
             } else {
-//                out.print(1);
 
                 ArrayList<Client> clients = clientDao.getAllEmployees();
-//                out.print(clients);
                 for (Client client : clients) {
-//                    out.print(1);
                     if (request.getParameter("client" + client.getId() + "") == null) {
 //                        out.print(request.getParameter("client" + client.getId() + ""));
 
