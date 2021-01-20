@@ -45,7 +45,7 @@
             <tr>
                 <th style="width: 9%" >Surgery ID</th>
                 <th style="width: 17%">Employee</th>
-                <th style="width: 17%">Client</th>
+                <!--<th style="width: 17%">Client</th>-->
                 <th style="width: 12%">Type</th>
                 <th style="width: 7%">Slot(s)</th>
                 <th style="width: 15%" >Date</th>
@@ -69,11 +69,10 @@
                         String passed = (op_Date.compareTo(today) != 1 || checked.equals("checked")) ? "passed" : "";
                         String changed = (changed_ids.contains(op.getId())) ? "changed" : "";
                         String className = passed + " " + changed;
-                                
+                        
                         out.print("<tr id=\"op-" + op.getId() + "\" class=\"" + className + "\">");
                         out.print("<td>" + op.getId() + "</td>");
                         out.print("<td>" + op.getEmployee().getFullName() + "</td>");
-                        out.print("<td>" + op.getClient().getFullName() + "</td>");
                         out.print("<td>" + op.getType() + "</td>");
                         out.print("<td>" + op.getnSlot() + "</td>");
                         out.print("<td>" + op.getDate() + "</td>");
