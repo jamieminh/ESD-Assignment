@@ -14,6 +14,8 @@ Assignment for ESD
 1. Create a Java DB called 'assignment', with username='root', password='root'.    
 2. Choose 'APP' as the default schema.
 3. Run the SmartCare_new.sql script to create tables and populate some sample data.
+4. Add the 'json-simple-1.1.1.jar' file to libraries folder by right-click Libraries folder in project window -> Add JAR/Folder
+
 
 ## Login: use one of the following login info to get started
 1. Admin: username = 'hue' ; password = 'nguyen'
