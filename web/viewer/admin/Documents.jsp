@@ -31,28 +31,18 @@
 
     <h3>Invoices</h3>
     <form action="/Documents" method="post">
-        <div style="display: flex">
-            <div>Date from:</div>
-            <!--            <select name="month" >
-                            <option value="0">See all</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-                            <option value="10">10</option>
-                            <option value="11">11</option>
-                            <option value="12">12</option>
-                        </select>-->
-            <input type="date" name="datefrom"/>
-            <input type="date" name="dateto"/>
+        <div style="display: flex ; flex-direction:row">
+            <div style="display: flex ; flex-direction:column">
+                <div>Date from:<input type="date" name="datefrom"/></div></br>
+                <div>Date from:<input type="date" name="dateto"/></div></br>
 
-            <input type="submit" name="billing-month" value="Ok"/>
+            </div>
+            <div class="staff-buttons" style="margin-left: 50px; margin-top: 20px"> <input type="submit" name="billing-month" value="Ok"/></div>
+
+
+
         </div>
+
 
     </form>
     <form class="FormTable">
