@@ -5,12 +5,19 @@
  */
 package controller.admin;
 
+import dao.BillingDao;
+import dao.OperationDao;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.dbHandler.DBBean;
+import model.pojo.Billing;
+import model.pojo.Operation;
 
 /**
  *
@@ -31,10 +38,63 @@ public class Documents extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-           String month = request.getParameter("month");
-//           out.print(month);
-           request.getRequestDispatcher("/viewer/admin/ProduceDocuments.jsp").forward(request, response);
+
+            DBBean db = new DBBean();
+            Connection con = (Connection) getServletContext().getAttribute("con");
+            db.connect(con);
+            BillingDao billingDao = new BillingDao(con);
+            OperationDao opeDao = new OperationDao(con);
+
+            System.out.println(request.getParameter("datefrom"));
+            System.out.println(1111111111);
+            System.out.println(request.getParameter("dateto"));
+            
+//            request.setAttribute("datefrom", request.getParameter("datefrom"));
+            if (request.getParameter("billing-month") == null || (request.getParameter("dateto") == null && request.getParameter("datefrom") == null )) {
+                ArrayList<Operation> operations = opeDao.getAllSchedule();
+//                ArrayList<Billing> billingList = billingDao.getAllBillings();
+                ArrayList<String[]> arrOfBills = new ArrayList<String[]>();
+                for (Operation ope : operations) {
+                    int SID = ope.getId();
+                    Billing bill = billingDao.getBillingBySID(SID);
+                    arrOfBills.add(new String[]{ope.getEmployee().getFullName(),
+                        ope.getClient().getFullName(),
+                        ope.getType(),
+                        Float.toString(ope.getEmployee().getRate()),
+                        Integer.toString(ope.getnSlot()),
+                        ope.getDate(),
+                        ope.getTime(),
+                        Float.toString(ope.getEmployee().getRate() * ope.getnSlot())
+                    });
+                }
+
+                request.setAttribute("billings", arrOfBills);
+
+                request.getRequestDispatcher("/viewer/admin/Documents.jsp").forward(request, response);
+
+            } else if (request.getParameter("datefrom") != null && request.getParameter("dateto") != null) {
+                
+                ArrayList<Operation> operations = opeDao.getAllScheduleFromTo(request.getParameter("datefrom"), request.getParameter("dateto"));
+                ArrayList<String[]> arrOfBills = new ArrayList<String[]>();
+                for (Operation ope : operations) {
+                    System.out.println(ope.getDate().getClass().getName());
+                    int SID = ope.getId();
+                    Billing bill = billingDao.getBillingBySID(SID);
+                    arrOfBills.add(new String[]{ope.getEmployee().getFullName(),
+                        ope.getClient().getFullName(),
+                        ope.getType(),
+                        Float.toString(ope.getEmployee().getRate()),
+                        Integer.toString(ope.getnSlot()),
+                        ope.getDate(),
+                        ope.getTime(),
+                        Float.toString(ope.getEmployee().getRate() * ope.getnSlot())
+                    });
+                }
+
+                request.setAttribute("billings", arrOfBills);
+
+                request.getRequestDispatcher("/viewer/admin/Documents.jsp").forward(request, response);
+            }
         }
     }
 

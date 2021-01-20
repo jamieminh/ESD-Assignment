@@ -21,7 +21,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-    String title = "SmartCare - Dashboard: " + (String) session.getAttribute("fullName");
+    String title = "SmartCare - " + (String) session.getAttribute("fullName");
     String folderUrl = (String) session.getAttribute("folderUrl");
     String fullName = (String) session.getAttribute("fullName");
     String role = (String) session.getAttribute("role");

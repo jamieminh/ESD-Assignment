@@ -83,8 +83,9 @@ public class EntryDao extends DAO {
 
         // insert user info to 'clients' table
         if (inserted) {
-            String query = String.format("INSERT INTO app.clients(uname, cname, ctype) VALUES ('%s', '%s', '%s')",
-                    client.getUsername(), client.getFullName(), client.getType());
+            String query = String.format("INSERT INTO app.clients(uname, cname, cdob, caddress, ctype) VALUES ('%s', '%s', '%s', '%s', '%s')",
+                    client.getUsername(), client.getFullName(), client.getDob(), client.getAddress(), client.getType());
+            System.out.println("query=" + query);
             insertRole = db.executeUpdate(query);
         }
 
@@ -108,8 +109,8 @@ public class EntryDao extends DAO {
 
         // insert user info to 'employees' table
         if (inserted) {
-            String query = String.format("INSERT INTO app.employees(uname, ename) VALUES ('%s', '%s')",
-                    employee.getUsername(), employee.getFullName());
+            String query = String.format("INSERT INTO app.employees(uname, ename, edob, eaddress) VALUES ('%s', '%s', '%s', '%s')",
+                    employee.getUsername(), employee.getFullName(), employee.getDob(), employee.getAddress());
             insertRole = db.executeUpdate(query);
         }
         

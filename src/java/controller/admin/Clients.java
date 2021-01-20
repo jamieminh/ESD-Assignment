@@ -34,9 +34,7 @@ public class Clients extends HttpServlet {
             ClientDAO clientDao = new ClientDAO(con);
 
 //            HttpSession session = request.getSession();
-            System.out.println("xyz");
             if (request.getParameter("client-submit") == null) {
-                System.out.println("abc");
                 ArrayList<Client> clients = clientDao.getAllEmployees();
 //                ArrayList<String[]> curStates = clientDao.getFormChanges(staffs);
 

@@ -10,6 +10,7 @@ create table clients(
 	cID int not null primary key
             generated always as identity (start with 1, increment by 1), 
 	cName varchar(50),
+	cDob date,
 	cAddress varchar(100),
 	cType varchar(10),
 	uName varchar(20) references users(uname) on delete cascade
@@ -19,6 +20,7 @@ create table employees(
 	eID int not null primary key
             generated always as identity (start with 1, increment by 1), 
 	eName varchar(50),
+	eDob date,
 	eAddress varchar(100),
 	eRate float,
 	uName varchar(20) references users(uname) on delete cascade
@@ -52,6 +54,6 @@ INSERT INTO APP.USERS VALUES('biao', 'X59A59J33M0CZZ2M5YJXMYACY6CZ2KZ5J9JX33M3A6
 INSERT INTO APP.USERS VALUES('au', 'ZCJ95622063953ZZA557K753KCX65XXYXKXJY6MJZKC22YX0M0A63ZJMXAFKCX70', 'nurse', 'true', 'KLBJ8E7FZ4RE6DEGEFT0PYRGE2ITJB6JQILOMIDSAL1D1CH74QOBGBE5HYPKCYHR');
 INSERT INTO APP.USERS VALUES('phong', 'X95AX9FZC5Z706M0AZ7Z5YF9YY6K72CMC5M95C009C0FYAC2J75Y9622Z967CCY7', 'client', 'true', 'KGV6G240GU4KVU73QQ8FQOZAHVBF4MCB0RMOPEQJSB5HDJJ2FW2LO4VNXANMMR09');
 
-INSERT INTO APP.EMPLOYEES (ename, eaddress, erate, uname) VALUES ('Biao Shen', 'Some UK Address', 44, 'biao');
-INSERT INTO APP.EMPLOYEES (ename, eaddress, erate, uname) VALUES ('Au Dam', 'Bristol, England', 44, 'au');
-INSERT INTO APP.Clients (cname, caddress, ctype, uname) VALUES ('Phong Phan', 'Bristol, UK', 'private', 'phong');
+INSERT INTO APP.EMPLOYEES (ename, edob, eaddress, erate, uname) VALUES ('Biao Shen', '1999-01-01', 'Some UK Address', 44, 'biao');
+INSERT INTO APP.EMPLOYEES (ename, edob, eaddress, erate, uname) VALUES ('Au Dam', '1999-12-30', 'Bristol, England', 44, 'au');
+INSERT INTO APP.Clients (cname, cdob, caddress, ctype, uname) VALUES ('Phong Phan', '1999-06-15', 'Bristol, UK', 'private', 'phong');
