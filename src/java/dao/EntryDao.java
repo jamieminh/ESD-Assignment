@@ -31,14 +31,17 @@ public class EntryDao extends DAO {
         String uname = record[0][0];
         String role = record[0][1];
         String name = "";
+        String eid = "";
 
         if (role.equals("client")) {
             name = db.getRecords("SELECT cname FROM APP.clients WHERE uname='" + uname + "'")[0][0];
         } else if (!role.equals("admin")) {
-            name = db.getRecords("SELECT ename FROM APP.employees WHERE uname='" + uname + "'")[0][0];
+            String[] res = db.getRecords("SELECT ename, eid FROM APP.employees WHERE uname='" + uname + "'")[0];
+            name = res[0];
+            eid = res[1];
         }
 
-        return new String[]{role, name};
+        return new String[]{role, name, eid};
     }
 
     public String[] formLogin(User user, boolean isRemember) {
@@ -53,6 +56,7 @@ public class EntryDao extends DAO {
         String role = record[0][0];
         String name = "Admin";
         String token = null;
+        String eid = "";
 
         // login with unauthorized credentials --> error 
         if (authorized.equals("false")) {
@@ -62,14 +66,17 @@ public class EntryDao extends DAO {
         // login with authorized credentials --> login
         if (role.equals("client"))     // client
             name = db.getRecords("SELECT cname FROM APP.clients WHERE uname='" + user.getUsername() + "'")[0][0];
-        else if (!role.equals("admin"))  // employee
-            name = db.getRecords("SELECT ename FROM APP.employees WHERE uname='" + user.getUsername() + "'")[0][0];
+        else if (!role.equals("admin")) {  // employee 
+            String[] res = db.getRecords("SELECT ename, eid FROM APP.employees WHERE uname='" + user.getUsername() + "'")[0];
+            name = res[0];
+            eid = res[1];
+        }
         
         // if "Remember Me" box is checked
         if (isRemember) 
             token = db.getRecords("SELECT token FROM APP.users WHERE uname='" + user.getUsername() + "'")[0][0];
         
-        return new String[] {role, name, token};
+        return new String[] {role, name, token, eid};
     }
 
     // signup client

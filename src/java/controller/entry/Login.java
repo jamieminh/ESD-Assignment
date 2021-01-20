@@ -41,12 +41,14 @@ public class Login extends HttpServlet {
             String name = "Admin";      // user full name
             String token = null;        // cookie login token
             boolean flag = true;        // true will continue to successful login
+            String eid = "";
 
             // ----------- COOKIE LOGIN ------------
             if (tokenCk != null) {
                 String[] userInfo = entryDao.cookieLogin(tokenCk);
                 role = userInfo[0];
                 name = userInfo[1].equals("") ? name : userInfo[1]; // if there's no name, set it to "Admin"
+                eid = userInfo[2];
             } 
             // ----------- FORM LOGIN --------------
             else {
@@ -67,6 +69,7 @@ public class Login extends HttpServlet {
                     role = userInfo[0];
                     name = userInfo[1];
                     token = userInfo[2];
+                    eid = userInfo[3];
                     if (token != null) {
                         Cookie setTokenCk = new Cookie("token", token);
                         setTokenCk.setMaxAge(5 * 24 * 60 * 60);   // 10 days
@@ -82,41 +85,52 @@ public class Login extends HttpServlet {
 
                 String[] pages;
                 String[] pagesIcons;
+                String[] pagesDescription;
                 String userPic = "/assets/users/";
                 switch (role) {
                     case "admin":
                         pages = new String[]{"Staff", "Staff Schedule", "Clients", "Documents"};
                         pagesIcons = new String[] {"user-md", "calendar-alt", "user-injured", "file-invoice"};
+                        pagesDescription = new String[] {"Manage and Change Staff Information", "Cancel Staff Schedule",
+                            "Manage Client Information", "Produce Turnovers, Invoice, Charges"};
                         userPic += "admin.png";
                         break;
                     case "client":
                         pages = new String[]{"Book Appointment", "See Schedule", "Request Prescription"};
                         pagesIcons = new String[] {"calendar-plus", "calendar-alt", "prescription-bottle-alt"};
+                        pagesDescription = new String[] {"Book a New Appointment", "Manage Your Upcoming Schedule",
+                            "Request a new Prescription from your Doctor"};
                         userPic += "client.png";
                         break;
                     case "doctor":
-                        pages = new String[]{"See Schedule", "Issue Prescription", "Forward Patient"};
-                        pagesIcons = new String[] {"calendar-alt", "prescription-bottle-alt", "hospital-user"};
+                        pages = new String[]{"See Schedule", "Issue Prescription", "Forward Patient", "Book Surgery"};
+                        pagesIcons = new String[] {"calendar-alt", "prescription-bottle-alt", "hospital-user", "syringe"};
+                        pagesDescription = new String[] {"Manage Your Upcoming Schedule", "Issue Requested Prescriptions",
+                            "Forward a Patient to another Hospital", "Book Surgery for a Patient"};
                         userPic += "doctor.jpg";
                         break;
                     case "nurse":
                         pages = new String[]{"See Schedule", "Issue Prescription"};
                         pagesIcons = new String[] {"calendar-alt", "prescription-bottle-alt"};
+                        pagesDescription = new String[] {"Manage Your Upcoming Schedule", "Issue Requested Prescriptions"};
                         userPic += "nurse.jpg";
                         break;
                     default:
                         pages = new String[]{};
                         pagesIcons = new String[] {};
+                        pagesDescription = new String[] {};
                         userPic += "error.jpg";
                 }
 
                 session.setAttribute("isLoggedIn", true);
                 session.setAttribute("fullName", name);
+                session.setAttribute("eid", eid);
                 session.setAttribute("role", role);
                 session.setAttribute("title", "Dashboard: " + name);
                 session.setAttribute("folderUrl", "/viewer/" + role + "/");
                 session.setAttribute("pages", pages);
                 session.setAttribute("pagesIcons", pagesIcons);
+                session.setAttribute("pagesDescription", pagesDescription);
                 session.setAttribute("userPic", userPic);
 
                 response.sendRedirect("/viewer/Home.jsp");
