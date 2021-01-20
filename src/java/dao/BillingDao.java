@@ -46,4 +46,9 @@ public class BillingDao extends DAO {
         return db.executeUpdate(query);
     }
     
+    public boolean removeBilling(int sId) {
+        String query = "DELETE FROM APP.BILLING WHERE sid=" + sId;
+        return db.executeUpdate(query);
+    }
+    
 }
