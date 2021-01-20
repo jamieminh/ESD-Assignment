@@ -28,7 +28,14 @@
 tr.changed {
     background-color: lightgreen;  
 }
-
+#doc-table tr{
+    width: 200px;
+    text-align:center;
+}
+table#client-table tr{
+    width: 200px;
+    text-align:center;
+}
 #cancel-surgery td:nth-child(4),
 #staff-table td:nth-child(6){
     text-align: right;
@@ -93,22 +100,44 @@ tr.changed {
 #patientList {
     border-collapse: collapse;
     display :grid;
-    grid-template-columns: 20% 20% 20% 20% 20%;
+    grid-template-columns: 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5%;
 
 }
 #patientList>div{
     border: 1px solid #ddd;
+
+    text-align: center;
+    background-color: #54BEE3;
+    color: white;
+
     /*padding: 8px;*/
+
+}
+#patientItem{
+    border-collapse: collapse;
+    display :grid;
+    grid-template-columns: 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5%;
+}
+#patientItem>div{
+    border: 1px solid #ddd;
+
+
+}
+.invoiceDetail>div{
+    text-align: center;
+    background-color: #54BEE3;
+    color: white;
 
 }
 #billingList{
     border-collapse: collapse;
-
     display :grid;
     grid-template-columns: 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5%;
 }
 #billingList>div{
     border: 1px solid #ddd;
+    background-color: #54BEE3;
+    color: white;
     /*padding: 8px;*/
 
 }

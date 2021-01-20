@@ -1,15 +1,15 @@
+package controller.client;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller.admin;
 
 import dao.BillingDao;
-import dao.EmployeeDao;
+import dao.ClientDAO;
 import dao.OperationDao;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
@@ -17,97 +17,70 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import model.pojo.Employee;
+import model.pojo.Client;
 import model.pojo.Operation;
 
 /**
  *
- * @author Jamie
+ * @author ah2dam + jamie
  */
-public class StaffSchedule extends HttpServlet {
+public class ManageAppointment extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             Connection con = (Connection) getServletContext().getAttribute("con");
-            EmployeeDao employeeDao = new EmployeeDao(con);
             OperationDao operationDao = new OperationDao(con);
+            ClientDAO clientDao = new ClientDAO(con);
+            
 
             HttpSession session = request.getSession();
-            ArrayList<Employee> staffs = employeeDao.getAllEmployees();
             ArrayList<Operation> schedule = new ArrayList<Operation>();
-
-            session.setAttribute("staffs", staffs);
-
-            // if use not chose an employee 
-            if (request.getParameter("see-schedule") == null && request.getParameter("confirm-cancel") == null) {
-                schedule = operationDao.getAllSchedule();
-
-                request.setAttribute("schedule", schedule);
-                session.setAttribute("current-emp", "all");
-                
-                request.getRequestDispatcher("/viewer/admin/StaffSchedule.jsp").forward(request, response);
-            } // if admin chose a specific employee
-            else if (request.getParameter("see-schedule") != null) {
-                String empId = request.getParameter("staff-name");  // the emplopyee that admin chose
-                if (empId.equals("all")) {
-                    schedule = operationDao.getAllSchedule();
-                } else {
-                    schedule = operationDao.getScheduleByEmpId(Integer.parseInt(empId));
-                }
+            Client client = clientDao.getClientData((String) session.getAttribute("fullName")); 
+            
+            // first load
+            if (request.getParameter("confirm-cancel") == null) {
+                schedule = operationDao.getScheduleByCliId(client.getId());
 
                 request.setAttribute("schedule", schedule);
-                session.setAttribute("current-emp", empId);
-                out.print(session.getAttribute("current-emp"));
 
-                request.getRequestDispatcher("/viewer/admin/StaffSchedule.jsp").forward(request, response);
-            } // if admin confirm cancel operation
+                request.getRequestDispatcher("/viewer/client/ManageAppointment.jsp").forward(request, response);
+            } 
+            // if client confirm cancel operation
             else if (request.getParameter("confirm-cancel") != null) {
                 int paramSize = request.getParameterMap().keySet().size();
                 String[] keySet = request.getParameterMap().keySet().toArray(new String[paramSize]);
-
-                // if admin doesn't change anything, send back
+                
+                // if client doesn't change anything, send back
                 if (paramSize == 1) {   // only the submit button
-                    // return the state of the page
-                    String empId = (String) session.getAttribute("current-emp");  // the emplopyee that admin chose
-                    if (empId.equals("all")) {
-                        schedule = operationDao.getAllSchedule();
-                    } else {
-                        schedule = operationDao.getScheduleByEmpId(Integer.parseInt(empId));
-                    }
-
-                    request.setAttribute("schedule", schedule);
+                    System.out.print("Only submit button");
                     request.setAttribute("changes-made", new ArrayList<Integer>());
-                    request.getRequestDispatcher("/viewer/admin/StaffSchedule.jsp").forward(request, response);
+                    request.getRequestDispatcher("/viewer/client/ManageAppointment.jsp").forward(request, response);
                 } 
                 else {
                     ArrayList<Integer> changed_ids = new ArrayList<Integer>();
                     BillingDao billingDao = new BillingDao(con);
 
-                    for (int i = 0; i < paramSize - 1; i++) {
+                    for (int i=0; i < paramSize-1; i++){
                         String opId = keySet[i].replaceAll("cancel-", "");
                         changed_ids.add(Integer.parseInt(opId));
-                        operationDao.cancelSchedule(opId);
-                        billingDao.removeBilling(Integer.parseInt(opId));
+                        operationDao.cancelSchedule(opId);                  // cancel in schedule db
+                        billingDao.removeBilling(Integer.parseInt(opId));   // delete from billing db
                     }
-
+                    
                     // re-fetch schedule
-                    if (session.getAttribute("current-emp").equals("all")) {
-                        schedule = operationDao.getAllSchedule();
-                    } else {
-                        schedule = operationDao.getScheduleByEmpId(Integer.parseInt((String) session.getAttribute("current-emp")));
-                    }
+                    schedule = operationDao.getScheduleByCliId(client.getId());
 
                     request.setAttribute("schedule", schedule);
                     request.setAttribute("changes-made", changed_ids);
-                    request.getRequestDispatcher("/viewer/admin/StaffSchedule.jsp").forward(request, response);
+                    request.getRequestDispatcher("/viewer/client/ManageAppointment.jsp").forward(request, response);
+
 
                 }
             }
-        }
     }
+    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

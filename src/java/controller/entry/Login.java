@@ -96,7 +96,7 @@ public class Login extends HttpServlet {
                         userPic += "admin.png";
                         break;
                     case "client":
-                        pages = new String[]{"Book Appointment", "See Schedule", "Request Prescription"};
+                        pages = new String[]{"Book Appointment", "Manage Appointment", "Request Prescription"};
                         pagesIcons = new String[] {"calendar-plus", "calendar-alt", "prescription-bottle-alt"};
                         pagesDescription = new String[] {"Book a New Appointment", "Manage Your Upcoming Schedule",
                             "Request a new Prescription from your Doctor"};

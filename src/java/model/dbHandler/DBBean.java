@@ -41,6 +41,10 @@ public class DBBean {
         String query = "DELETE FROM APP.USERS WHERE uname='" + uname + "'";
         return executeUpdate(query);
     }
+    public boolean deleteClient(int id) {
+        String query = "DELETE FROM APP.CLIENTS WHERE CID="+id+"";;
+        return executeUpdate(query);
+    }
     
     // html date and time pickers should be used
     public boolean insertSchedule(String[] values) {
