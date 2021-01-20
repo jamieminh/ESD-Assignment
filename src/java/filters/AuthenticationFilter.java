@@ -121,7 +121,8 @@ public class AuthenticationFilter implements Filter {
         // include both the .jsp page and the servlet paths
         return (uri.endsWith("/Home.jsp")
                 || uri.equals("/viewer/client/Profile.jsp") || uri.equals("/Profile") ||  uri.equals("/PostcodeLookup")
-                || uri.equals("/viewer/client/BookAppointment.jsp") || uri.equals("/BookAppointment"));
+                || uri.equals("/viewer/client/BookAppointment.jsp") || uri.equals("/BookAppointment")
+                || uri.equals("/viewer/client/ManageAppointment.jsp") || uri.equals("/ManageAppointment"));
 
     }
 

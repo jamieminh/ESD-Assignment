@@ -62,39 +62,38 @@ public class BookAppointment extends HttpServlet {
                 request.getRequestDispatcher("/viewer/client/BookAppointment.jsp").forward(request, response);
             } 
             else{
-            //get input data
-            String type = request.getParameter("booking-type").trim();
-            String staff = request.getParameter("staff-required").trim();
-            String period = request.getParameter("consult-slot").trim();
-            String dateString = request.getParameter("booking-date").trim();
-            String timeString = request.getParameter("booking-time").trim();
-//            SimpleDateFormat dateformatter = new SimpleDateFormat("yyyy/MM/dd");
-//            SimpleDateFormat timeformatter = new SimpleDateFormat("HH:mm:ss");
-//            Date date = dateformatter.parse(dateString);
-//            Date time = timeformatter.parse(timeString);
-            
-            //get require staff data
-            Employee requireEmployee = employeeDao.getEmployeeData(staff);
-            //get client data
-            Client client = clientDao.getClientData((String) session.getAttribute("fullName"));  
-            
-            Operation operation = new Operation();
-            operation.setEmployee(requireEmployee);
-            operation.setClient(client);           
-            operation.setType(type); 
-            operation.setnSlot(Integer.parseInt(period));
-            operation.setDate(dateString);
-            operation.setTime(timeString);
-            operation.setIsCancelled(false);
-            
-            
-            boolean res = operationDao.addSchedule(operation);
-            if (res) 
-                        response.sendRedirect("/viewer/Home.jsp");
-                    else {
-                        out.print("<small class=\"Error Error-Booking\">There's been some error. Please try again later.</small>");
-                        request.getRequestDispatcher("/viewer/client/BookAppointment.jsp").include(request, response);
-                    }       
+                //get input data
+                String staff = request.getParameter("staff-required").trim();
+                String slot = request.getParameter("slot").trim();
+                String dateString = request.getParameter("booking-date").trim();
+                String timeString = request.getParameter("booking-time").trim();
+    //            SimpleDateFormat dateformatter = new SimpleDateFormat("yyyy/MM/dd");
+    //            SimpleDateFormat timeformatter = new SimpleDateFormat("HH:mm:ss");
+    //            Date date = dateformatter.parse(dateString);
+    //            Date time = timeformatter.parse(timeString);
+
+                //get require staff data
+                Employee requireEmployee = employeeDao.getEmployeeData(staff);
+                //get client data
+                Client client = clientDao.getClientData((String) session.getAttribute("fullName"));  
+
+                Operation operation = new Operation();
+                operation.setEmployee(requireEmployee);
+                operation.setClient(client);           
+                operation.setType("Appointment"); 
+                operation.setnSlot(Integer.parseInt(slot));
+                operation.setDate(dateString);
+                operation.setTime(timeString);
+                operation.setIsCancelled(false);
+
+
+                boolean res = operationDao.addAppointment(operation);
+                if (res)
+                    response.sendRedirect("/viewer/Home.jsp");
+                else {
+                    out.print("<small class=\"Error Error-Booking\">There's been some error. Please try again later.</small>");
+                    request.getRequestDispatcher("/viewer/client/BookAppointment.jsp").include(request, response);
+                }       
             }
             
             

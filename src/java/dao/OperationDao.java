@@ -54,7 +54,7 @@ public class OperationDao extends DAO {
     }
     
     // add new schedule
-    public boolean addSchedule(Operation operation) {
+    public boolean addAppointment(Operation operation) {
         boolean insertSchedule = false;
 
         // insert schedule info to 'schedule' table
@@ -94,6 +94,34 @@ public class OperationDao extends DAO {
         return schedule;
     }
     
+    
+    public ArrayList<Operation> getScheduleByCliId(int cliId) {
+        ArrayList<Operation> schedule = new ArrayList<Operation>();
+        
+        String query = "SELECT * FROM APP.SCHEDULE WHERE cid=" + cliId;
+        String[][] result = db.getRecords(query);
+
+        EmployeeDao employeeDao = new EmployeeDao(con);
+        ClientDAO clientDao = new ClientDAO(con);
+
+        for (String[] res : result) {
+            Operation op = new Operation();
+            Employee emp = employeeDao.getEmpNameById(Integer.parseInt(res[1]));
+
+            op.setId(Integer.parseInt(res[0]));
+            op.setEmployee(emp);
+            op.setType(res[3]);
+            op.setnSlot(Integer.parseInt(res[4]));
+            op.setDate(res[5]);
+            op.setTime(res[6]);
+            op.setIsCancelled(Boolean.parseBoolean(res[7]));
+
+            schedule.add(op);
+        }
+
+        return schedule;
+    }
+       
     public boolean cancelSchedule(String sid ) {
         String query = "UPDATE APP.SCHEDULE SET cancelled='true' WHERE sid=" + sid;
         return db.executeUpdate(query);

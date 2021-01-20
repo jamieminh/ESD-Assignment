@@ -64,6 +64,10 @@
         <servlet-name>BookAppointment</servlet-name>
         <servlet-class>controller.client.BookAppointment</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ManageAppointment</servlet-name>
+        <servlet-class>controller.client.ManageAppointment</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>test</servlet-name>
         <url-pattern>/test</url-pattern>
@@ -111,6 +115,10 @@
     <servlet-mapping>
         <servlet-name>BookAppointment</servlet-name>
         <url-pattern>/BookAppointment</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ManageAppointment</servlet-name>
+        <url-pattern>/ManageAppointment</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

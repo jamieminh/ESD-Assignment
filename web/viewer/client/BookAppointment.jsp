@@ -31,12 +31,6 @@
     <form action="/BookAppointment" method="post" class="FormTable">
         <table id="book-appointment">
             <tr>
-                <th>Booking type <br>
-                    <select name="booking-type" required>
-                        <option value="null">Select a booking type ........</option>
-                        <option value="appointment">Appointment</option>
-                        <option value="surgery">Surgery</option>
-                </th>
                 <th>Staff require <br>
 <!--                    <select name="staff-require" >
                         <option value="null">Select a staff........</option>
@@ -52,24 +46,24 @@
                     }
                 %>
             </select>
-                    
+                
                     
                 </th>
                 <th>Date
-                    <input required type="date" class="form-control" name="booking-date" placeholder="yyyy-MM-dd" required title="yyyy-MM-dd"/>
+                    <input required type="date" class="form-control" name="booking-date" placeholder="yyyy-MM-dd" title="yyyy-MM-dd"/>
                 </th>
                 <th>Time <br>
-                    <input required type="time" class="form-control" name="booking-time" placeholder="HH:mm:ss" required title="HH:mm:ss"/>
+                    <input required type="time" class="form-control" name="booking-time" placeholder="HH:mm:ss" title="HH:mm:ss"/>
                 </th>
-                <th>Period of consult
-                    <input required type="number" class="form-control" name="consult-slot"/>
+                <th>Number of slot(s)
+                    <input required type="number" class="form-control" name="slot"/>
                 </th>
             </tr>
           
         </table>
         <input type="submit" name="booking-submit" value="Book"/>
     </form>
-
+            
 </div>
 <jsp:include page="/viewer/Footer.jsp"/>
 
