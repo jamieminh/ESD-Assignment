@@ -76,6 +76,10 @@
         <servlet-name>PayBills</servlet-name>
         <servlet-class>controller.client.PayBills</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ViewPrescription</servlet-name>
+        <servlet-class>controller.client.ViewPrescription</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>test</servlet-name>
         <url-pattern>/test</url-pattern>
@@ -135,6 +139,10 @@
     <servlet-mapping>
         <servlet-name>PayBills</servlet-name>
         <url-pattern>/PayBills</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewPrescription</servlet-name>
+        <url-pattern>/ViewPrescription</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
