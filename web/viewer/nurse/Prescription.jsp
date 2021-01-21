@@ -1,7 +1,7 @@
 <%-- 
-    Document   : BookSurgery
-    Created on : Jan 20, 2021, 6:20:15 PM
-    Author     : Jamie
+    Document   : IssuePrescription
+    Created on : 2021-1-20, 18:40:05
+    Author     : 14736
 --%>
 
 <%@page import="java.util.ArrayList"%>
@@ -9,7 +9,7 @@
 <%
     ArrayList<Client> patients = new ArrayList<Client>();
     if (request.getAttribute("patient-list") == null) {
-        response.sendRedirect("/BookSurgery");
+        response.sendRedirect("/Prescription");
     } else {
         patients = (ArrayList<Client>) request.getAttribute("patient-list");
 
@@ -23,21 +23,21 @@
 
     <% if (request.getAttribute("result") != null) {
             if (request.getAttribute("result").equals("success")) {
-                out.print("<div class=\"book-result success\">");
-                out.print("<p> Booking Succesful</p>");
+                out.print("<div class=\"Update success\">");
+                out.print("<p> Update Succesful</p>");
                 out.print("</div>");
             } else {
-                out.print("<div class=\"book-result failed\">");
-                out.print("<p>Booking Failed. Invalid Date and/or Time. </p>");
+                out.print("<div class=\"Update failed\">");
+                out.print("<p>Update Failed. Invalid Date and/or Time. </p>");
                 out.print("</div>");
             }
 
         }%>
     <div class="book-surgery-form">
-        <form method="get" action="/BookSurgery">
+        <form method="get" action="/Prescription">
             <div class="form-item">
                 <label>Select Patient</label>
-                <select name="surgery-patient" required>
+                <select name="issue-patient" required>
                     <option value="">Choose a Patient...</option>
                     <%
                         for (Client pat : patients) {
@@ -47,15 +47,20 @@
                     %>
 
                 </select>
-                    
+            </div>
             <div class="form-item">
-                <lebel>Select date</lebel> 
-                <input type="date" name="surgery-date" required/>
+                <lebel>Issue Information</lebel> 
+                <input type="input" name="issue-information" required/>
 
             </div>
             <div class="form-item">
-                <lebel>Select date</lebel>
-                <input type="time" name="surgery-time" required/>
+                <lebel>Select date</lebel> 
+                <input type="date" name="issue-date" required/>
+
+            </div>
+            <div class="form-item">
+                <lebel>use time</lebel>
+                <input type="time" name="issue-time" required/>
 
             </div>
 

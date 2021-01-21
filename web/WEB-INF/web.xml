@@ -76,6 +76,18 @@
         <servlet-name>PayBills</servlet-name>
         <servlet-class>controller.client.PayBills</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ForwardPatient</servlet-name>
+        <servlet-class>controller.doctor.ForwardPatient</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>IssuePrescription</servlet-name>
+        <servlet-class>controller.doctor.IssuePrescription</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SeeSchedule</servlet-name>
+        <servlet-class>controller.doctor.SeeSchedule</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>test</servlet-name>
         <url-pattern>/test</url-pattern>
@@ -135,6 +147,18 @@
     <servlet-mapping>
         <servlet-name>PayBills</servlet-name>
         <url-pattern>/PayBills</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ForwardPatient</servlet-name>
+        <url-pattern>/ForwardPatient</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>IssuePrescription</servlet-name>
+        <url-pattern>/IssuePrescription</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SeeSchedule</servlet-name>
+        <url-pattern>/SeeSchedule</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

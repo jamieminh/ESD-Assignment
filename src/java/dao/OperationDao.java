@@ -81,6 +81,45 @@ public class OperationDao extends DAO {
         return res;
     }
 
+    public boolean addIssuePrescription(int empId, int patId, String IP, String date, String time) {
+        String query = String.format("INSERT INTO APP.SCHEDULE (eid, cid, stype, nslot, sdate, stime, cancelled) "
+                + " VALUES(%s, %s,'%s', 0,'%s', '%s', false)", empId, patId, IP, date, time);
+
+        boolean res = db.executeUpdate(query);
+
+        if (res) {
+            double charge = 1000 + Math.random() * (5000 - 1000);
+
+            String query2 = String.format("SELECT sid FROM APP.SCHEDULE WHERE"
+                    + " eid=%s AND cid=%s AND stype = '%s' AND sdate='%s' AND stime='%s'", empId, patId, IP, date, time);
+            String sid = db.getRecords(query2)[0][0];
+            BillingDao billingDao = new BillingDao(con);
+            res = billingDao.insertBilling(Integer.parseInt(sid), (float) Math.round(charge * 100.0 / 100.0));
+        }
+        return res;
+    }
+
+    public boolean addForwardPatient(int empId, int patId, String date, String time) {
+        String query = String.format("INSERT INTO APP.SCHEDULE (eid, cid, stype, nslot, sdate, stime, cancelled) "
+                + " VALUES(%s, %s, 'surgery', 0, '%s', '%s', false)", empId, patId, date, time);
+
+        boolean res = db.executeUpdate(query);
+
+        if (res) {
+            double charge = 1000 + Math.random() * (5000 - 1000);
+
+            String query2 = String.format("SELECT sid FROM APP.SCHEDULE WHERE"
+                    + " eid=%s AND cid=%s AND sdate='%s' AND stime='%s'", empId, patId, date, time);
+            String sid = db.getRecords(query2)[0][0];
+
+            BillingDao billingDao = new BillingDao(con);
+            res = billingDao.insertBilling(Integer.parseInt(sid), (float) Math.round(charge * 100.0 / 100.0));
+        }
+
+        return res;
+
+    }
+
     // get operations that have passed and not cancelled
     public ArrayList<Operation> getAllSchedulePassedNotCancelled() {
         String pattern = "yyyy-MM-dd";
@@ -209,10 +248,10 @@ public class OperationDao extends DAO {
         op.setIsCancelled(Boolean.parseBoolean(res[7]));
         op.setDescription(res[8]);
 
-    return op ;
-}
+        return op;
+    }
 
-public ArrayList<Operation> getScheduleByCliId(int cliId) {
+    public ArrayList<Operation> getScheduleByCliId(int cliId) {
         ArrayList<Operation> schedule = new ArrayList<Operation>();
 
         String query = "SELECT * FROM APP.SCHEDULE WHERE cid=" + cliId + " AND cid IS NOT NULL";

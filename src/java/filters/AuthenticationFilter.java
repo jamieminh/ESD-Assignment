@@ -132,7 +132,12 @@ public class AuthenticationFilter implements Filter {
         // implement this like the adminAccess method above
         // include both the .jsp page and the servlet paths
         return (uri.endsWith("/Home.jsp")
-                || uri.equals("/viewer/doctor/BookSurgery.jsp") || uri.equals("/BookSurgery"));
+                || uri.equals("/viewer/doctor/SeeSchedule.jsp") || uri.equals("/SeeSchedule")
+                || uri.equals("/viewer/doctor/IssuePrescription.jsp") || uri.equals("/IssuePrescription")
+                || uri.equals("/viewer/doctor/ForwardPatient.jsp") || uri.equals("/ForwardPatient")
+                || uri.equals("/viewer/doctor/BookSurgery.jsp") || uri.equals("/BookSurgery")
+                || uri.equals("/viewer/doctor/PrescriptionSchedule.jsp") || uri.equals("/PrescriptionSchedule")
+                || uri.equals("/viewer/doctor/UpdatePrescription.jsp") || uri.equals("/UpdatePrescription"));
 
     }
 
