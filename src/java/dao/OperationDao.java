@@ -64,7 +64,7 @@ public class OperationDao extends DAO {
 
         // insert schedule info to 'schedule' table
         String query = String.format("INSERT INTO app.schedule(EID, CID, STYPE, NSLOT, SDATE, STIME, CANCELLED, DESCRIPTION) "
-                + "VALUES (%s, %s, '%s', %s, '%s', '%s', '%s', '%s')", operation.getEmployee().getId(), operation.getClient().getId(), 
+                + "VALUES (%s, %s, '%s', %s, '%s', '%s', '%s', '%s')", operation.getEmployee().getId(), operation.getClient().getId(),
                 operation.getType(), operation.getnSlot(), operation.getDate(), operation.getTime(), operation.isIsCancelled(), operation.getDescription());
         res = db.executeUpdate(query);
         if (res) {
@@ -87,7 +87,7 @@ public class OperationDao extends DAO {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
         String today = simpleDateFormat.format(new Date());  // today
 
-        String query = "SELECT * FROM APP.SCHEDULE WHERE sdate<='" + today + "' AND cancelled=false AND cid IS NOT NULL";
+        String query = "SELECT * FROM APP.SCHEDULE WHERE sdate<='" + today + "' AND cancelled=false";
         String[][] results = db.getRecords(query);
 
         ArrayList<Operation> schedule = new ArrayList<Operation>();
@@ -98,7 +98,14 @@ public class OperationDao extends DAO {
         for (String[] res : results) {
             Operation op = new Operation();
             Employee emp = employeeDao.getEmpById(Integer.parseInt(res[1]));
-            Client client = clientDao.getClientById(Integer.parseInt(res[2]));
+            Client client;
+            if (res[2] != null) {   // if client not deleted
+                client = clientDao.getClientById(Integer.parseInt(res[2]));
+            } else {  // if client deleted
+                client = new Client();
+                client.setFullName("N/A");
+                client.setId(0);
+            }
 
             op.setId(Integer.parseInt(res[0]));
             op.setEmployee(emp);
@@ -181,37 +188,31 @@ public class OperationDao extends DAO {
         return schedule;
     }
 
-    public ArrayList<Operation> getScheduleById(int scheId) {
-        ArrayList<Operation> schedule = new ArrayList<Operation>();
-
+    public Operation getScheduleById(int scheId) {
         String query = "SELECT * FROM APP.SCHEDULE WHERE sid=" + scheId;
-        String[][] result = db.getRecords(query);
+        String[] res = db.getRecords(query)[0];
 
         EmployeeDao employeeDao = new EmployeeDao(con);
         ClientDAO clientDao = new ClientDAO(con);
 
-        for (String[] res : result) {
-            Operation op = new Operation();
-            Employee emp = employeeDao.getEmpById(Integer.parseInt(res[1]));
-            Client client = clientDao.getClientById(Integer.parseInt(res[2]));
+        Operation op = new Operation();
+        Employee emp = employeeDao.getEmpById(Integer.parseInt(res[1]));
+        Client client = clientDao.getClientById(Integer.parseInt(res[2]));
 
-            op.setId(Integer.parseInt(res[0]));
-            op.setEmployee(emp);
-            op.setClient(client);
-            op.setType(res[3]);
-            op.setnSlot(Integer.parseInt(res[4]));
-            op.setDate(res[5]);
-            op.setTime(res[6]);
-            op.setIsCancelled(Boolean.parseBoolean(res[7]));
-            op.setDescription(res[8]);
+        op.setId(Integer.parseInt(res[0]));
+        op.setEmployee(emp);    // all emp data is avaiable
+        op.setClient(client);   // all client data is avaiable
+        op.setType(res[3]);
+        op.setnSlot(Integer.parseInt(res[4]));
+        op.setDate(res[5]);
+        op.setTime(res[6]);
+        op.setIsCancelled(Boolean.parseBoolean(res[7]));
+        op.setDescription(res[8]);
 
-            schedule.add(op);
-        }
+    return op ;
+}
 
-        return schedule;
-    }
-
-    public ArrayList<Operation> getScheduleByCliId(int cliId) {
+public ArrayList<Operation> getScheduleByCliId(int cliId) {
         ArrayList<Operation> schedule = new ArrayList<Operation>();
 
         String query = "SELECT * FROM APP.SCHEDULE WHERE cid=" + cliId + " AND cid IS NOT NULL";
