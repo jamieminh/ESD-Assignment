@@ -122,7 +122,8 @@ public class AuthenticationFilter implements Filter {
         return (uri.endsWith("/Home.jsp")
                 || uri.equals("/viewer/client/Profile.jsp") || uri.equals("/Profile") ||  uri.equals("/PostcodeLookup")
                 || uri.equals("/viewer/client/BookAppointment.jsp") || uri.equals("/BookAppointment")
-                || uri.equals("/viewer/client/ManageAppointment.jsp") || uri.equals("/ManageAppointment"));
+                || uri.equals("/viewer/client/ManageAppointment.jsp") || uri.equals("/ManageAppointment")
+                || uri.equals("/viewer/client/RequestPrescription.jsp") || uri.equals("/RequestPrescription"));
 
     }
 

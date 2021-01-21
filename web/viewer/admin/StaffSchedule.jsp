@@ -15,11 +15,11 @@
     ArrayList<Integer> changed_ids = new ArrayList<Integer>();
     String current_emp = "";
 
-    if (session.getAttribute("staffs") == null || session.getAttribute("schedule") == null) {
+    if (session.getAttribute("staffs") == null || request.getAttribute("schedule") == null) {
         response.sendRedirect("/StaffSchedule");
     } else {
         staffs = (ArrayList<Employee>) session.getAttribute("staffs");
-        schedule = (ArrayList<Operation>) session.getAttribute("schedule");
+        schedule = (ArrayList<Operation>) request.getAttribute("schedule");
         current_emp = (String) session.getAttribute("current-emp");
     }
 %>
@@ -71,11 +71,12 @@
     <form action="/StaffSchedule" class="FormTable" method="post" onsubmit="return confirm('Are you sure you want to make these changes?')">
         <table id="schedule-table"> 
             <tr>
-                <th style="width: 9%" >Surgery ID</th>
+                <th style="width: 9%" >Schedule ID</th>
                 <th style="width: 17%">Employee</th>
                 <th style="width: 17%">Client</th>
                 <th style="width: 12%">Type</th>
                 <th style="width: 7%">Slot(s)</th>
+                <th style="width: 15%">Description</th>
                 <th style="width: 15%" >Date</th>
                 <th style="width: 15%">Time</th>
                 <th style="width: 8%">Cancelled</th>
@@ -104,6 +105,7 @@
                         out.print("<td>" + op.getClient().getFullName() + "</td>");
                         out.print("<td>" + op.getType() + "</td>");
                         out.print("<td>" + op.getnSlot() + "</td>");
+                        out.print("<td>" + op.getDescription() + "</td>");
                         out.print("<td>" + op.getDate() + "</td>");
                         out.print("<td>" + op.getTime().substring(0, 5) + "</td>");
                         out.print("<td><input type=\"checkbox\" " + checked

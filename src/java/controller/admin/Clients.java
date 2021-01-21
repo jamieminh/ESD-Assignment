@@ -5,12 +5,23 @@
  */
 package controller.admin;
 
+import dao.BillingDao;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import dao.ClientDAO;
+import dao.UserDao;
+import dao.OperationDao;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import model.dbHandler.DBBean;
+import model.pojo.Client;
+import model.pojo.Operation;
 
 /**
  *
@@ -18,29 +29,64 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class Clients extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Users</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet Users at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            DBBean db = new DBBean();
+            Connection con = (Connection) getServletContext().getAttribute("con");
+            db.connect(con);
+            ClientDAO clientDao = new ClientDAO(con);
+
+            // first load
+            if (request.getParameter("client-submit") == null) {
+                ArrayList<Client> clients = clientDao.getAllClients();
+                request.setAttribute("clients", clients);
+                request.getRequestDispatcher("/viewer/admin/Clients.jsp").forward(request, response);
+            } // delete client
+            else {
+                int paramSize = request.getParameterMap().keySet().size();
+                String[] keySet = request.getParameterMap().keySet().toArray(new String[paramSize]);
+
+                // if admin doesn't change anything, send back
+                if (paramSize == 1) {   // only the submit button
+                    request.setAttribute("changes-made", "0");
+                    ArrayList<Client> clients = clientDao.getAllClients();
+                    request.setAttribute("clients", clients);
+                    request.getRequestDispatcher("/viewer/admin/Clients.jsp").forward(request, response);
+                } else {
+                    int changedCount = paramSize - 1;
+                    BillingDao billingDao = new BillingDao(con);
+                    OperationDao operationDao = new OperationDao(con);
+                    UserDao userDao = new UserDao(con);
+
+                    for (int i = 0; i < paramSize - 1; i++) {
+                        int cliId = Integer.parseInt(keySet[i].replaceAll("client-", "")); // get client id from parameter
+                        Client client = clientDao.getClientById(cliId);   // get uname to later delete user
+
+                        // cancel operation related to this user from today
+                        SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
+                        SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm");
+                        String today = formatDate.format(new Date()); // today
+                        String nowTime = formatTime.format(new Date()); // today
+                        ArrayList<Operation> futureOps = operationDao.getAllScheduleFromTo(today, "2099-12-31", nowTime, cliId); // delete billing from operation
+
+                        for (Operation op : futureOps) {
+                            operationDao.cancelSchedule(String.valueOf(op.getId()));    // cancel operation
+                            billingDao.removeBilling(op.getId());       // delete related billing
+                        }
+                        clientDao.deleteClient(cliId);
+                        userDao.deleteUser(client.getUsername());
+
+                    }
+                    // re-fetch clients
+                    ArrayList<Client> clients = clientDao.getAllClients();
+
+                    request.setAttribute("changes-made", String.valueOf(changedCount));
+                    request.setAttribute("clients", clients);
+                    request.getRequestDispatcher("/viewer/admin/Clients.jsp").forward(request, response);
+                }
+            }
         }
     }
 

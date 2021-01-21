@@ -28,21 +28,22 @@
 
     <h3>Let's Make A Booking!!</h3>
     
+    <%
+        if (request.getAttribute("date-select-error") != null) {
+            out.print("<h3 style=\"color: red\">Chosen dates not valid. Try again.</h3>");
+        }
+        %>
+    
     <form action="/BookAppointment" method="post" class="FormTable">
         <table id="book-appointment">
             <tr>
                 <th>Staff require <br>
-<!--                    <select name="staff-require" >
-                        <option value="null">Select a staff........</option>
-                        <option value="Au Dam">Au Dam</option>
-                        <option value="Biao Shen">Biao Shen</option>
-                    </select>-->
                     
                     <select name="staff-required" required>
                 <option value=null>Select a staff.......</option>
                 <%
                     for (Employee emp : staffs) {
-                        out.print("<option value=\"" + emp.getFullName()+ "\">" + emp.getFullName() + "</option>");
+                        out.print("<option value=\"" + emp.getId()+ "\">" + emp.getFullName() + "</option>");
                     }
                 %>
             </select>
@@ -56,7 +57,10 @@
                     <input required type="time" class="form-control" name="booking-time" placeholder="HH:mm:ss" title="HH:mm:ss"/>
                 </th>
                 <th>Number of slot(s)
-                    <input required type="number" class="form-control" name="slot"/>
+                    <input required type="number" class="form-control" name="slot" min="1" max="6"/>
+                </th>
+                <th>Decription
+                    <textarea required class="form-control" name="description"></textarea>
                 </th>
             </tr>
           

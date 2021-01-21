@@ -22,23 +22,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.pojo.Client;
-import model.pojo.Operation;
 
 /**
  *
- * @author WIN 10
+ * @author Jamie
  */
 public class BookSurgery extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, ParseException {
         response.setContentType("text/html;charset=UTF-8");
@@ -57,6 +47,7 @@ public class BookSurgery extends HttpServlet {
                 String patId = request.getParameter("surgery-patient");
                 String surgDate = request.getParameter("surgery-date");
                 String surgTime = request.getParameter("surgery-time");
+                String description = request.getParameter("surgery-description");
                 String empId = (String) session.getAttribute("eid");
 
                 Date today = new Date();
@@ -75,7 +66,7 @@ public class BookSurgery extends HttpServlet {
                     request.getRequestDispatcher("/viewer/doctor/BookSurgery.jsp").forward(request, response);
 
                 } else {
-                    operationDao.addSurgery(Integer.parseInt(empId), Integer.parseInt(patId), surgDate, surgTime);
+                    operationDao.addSurgery(Integer.parseInt(empId), Integer.parseInt(patId), surgDate, surgTime, description);
 
                     request.setAttribute("result", "success");
                     request.getRequestDispatcher("/viewer/doctor/BookSurgery.jsp").forward(request, response);

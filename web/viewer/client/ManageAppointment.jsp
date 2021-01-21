@@ -18,7 +18,7 @@
     if (request.getAttribute("schedule") == null) {
         response.sendRedirect("/ManageAppointment");
     } else {
-        schedule = (ArrayList<Operation>) session.getAttribute("schedule");
+        schedule = (ArrayList<Operation>) request.getAttribute("schedule");
     }
 %>
 
@@ -39,15 +39,20 @@
             }
         }
     %>
+    <div class='instructions'>
+        <h4>Instructions</h4>
+        <p>Greyed-out row means the operation have passed or cancelled, there can be no changes made.</p>
+        <p>Cancellation of an operation is <em style="color: red">final</em>.</p>
+        <p>Click on the cancel box next to each operation and click confirm to cancel it.</p>
+    </div>
     <body>
        <form action="/ManageAppointment" class="FormTable" method="post" onsubmit="return confirm('Are you sure you want to make these changes?')">
         <table id="schedule-table"> 
             <tr>
-                <th style="width: 9%" >Surgery ID</th>
-                <th style="width: 17%">Employee</th>
-                <!--<th style="width: 17%">Client</th>-->
                 <th style="width: 12%">Type</th>
+                <th style="width: 17%">Doctor</th>
                 <th style="width: 7%">Slot(s)</th>
+                <th style="width: 15%" >Description</th>
                 <th style="width: 15%" >Date</th>
                 <th style="width: 15%">Time</th>
                 <th style="width: 8%">Cancelled</th>
@@ -71,10 +76,10 @@
                         String className = passed + " " + changed;
                         
                         out.print("<tr id=\"op-" + op.getId() + "\" class=\"" + className + "\">");
-                        out.print("<td>" + op.getId() + "</td>");
+                        out.print("<td style=\"text-transform: capitalize\">" + op.getType() + "</td>");
                         out.print("<td>" + op.getEmployee().getFullName() + "</td>");
-                        out.print("<td>" + op.getType() + "</td>");
                         out.print("<td>" + op.getnSlot() + "</td>");
+                        out.print("<td>" + op.getDescription() + "</td>");
                         out.print("<td>" + op.getDate() + "</td>");
                         out.print("<td>" + op.getTime().substring(0, 5) + "</td>");
                         out.print("<td><input type=\"checkbox\" " + checked

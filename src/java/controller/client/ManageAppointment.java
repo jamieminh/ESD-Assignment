@@ -6,6 +6,7 @@ package controller.client;
  * and open the template in the editor.
  */
 
+import dao.BillingDao;
 import dao.ClientDAO;
 import dao.OperationDao;
 import java.io.IOException;
@@ -21,19 +22,10 @@ import model.pojo.Operation;
 
 /**
  *
- * @author ah2dam
+ * @author ah2dam + jamie
  */
 public class ManageAppointment extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -68,11 +60,13 @@ public class ManageAppointment extends HttpServlet {
                 } 
                 else {
                     ArrayList<Integer> changed_ids = new ArrayList<Integer>();
+                    BillingDao billingDao = new BillingDao(con);
 
                     for (int i=0; i < paramSize-1; i++){
                         String opId = keySet[i].replaceAll("cancel-", "");
                         changed_ids.add(Integer.parseInt(opId));
-                        operationDao.cancelSchedule(opId);
+                        operationDao.cancelSchedule(opId);                  // cancel in schedule db
+                        billingDao.removeBilling(Integer.parseInt(opId));   // delete from billing db
                     }
                     
                     // re-fetch schedule

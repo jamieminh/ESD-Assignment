@@ -20,6 +20,15 @@ public class Operation {
     private String type;
     private int nSlot;
     private boolean isCancelled;
+    private String description;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public int getId() {
         return id;

@@ -12,7 +12,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -32,73 +34,74 @@ import model.pojo.Operation;
 @WebServlet(name = "BookAppointment", urlPatterns = {"/BookAppointment"})
 public class BookAppointment extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     * @throws java.text.ParseException
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, ParseException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             HttpSession session = request.getSession(); // set session
-            
+
             //connect DAO
             Connection con = (Connection) getServletContext().getAttribute("con");
             ClientDAO clientDao = new ClientDAO(con);
             EmployeeDao employeeDao = new EmployeeDao(con);
             OperationDao operationDao = new OperationDao(con);
-               
+
             ArrayList<Employee> staffsList = employeeDao.getAllEmployees();
             session.setAttribute("staffs", staffsList);
-            
+
             // load data for the first time
             if (request.getParameter("booking-submit") == null) {
                 request.getRequestDispatcher("/viewer/client/BookAppointment.jsp").forward(request, response);
-            } 
-            else{
+            } else {
                 //get input data
-                String staff = request.getParameter("staff-required").trim();
+                String staffid = request.getParameter("staff-required").trim();
                 String slot = request.getParameter("slot").trim();
+                String description = request.getParameter("description").trim();
                 String dateString = request.getParameter("booking-date").trim();
                 String timeString = request.getParameter("booking-time").trim();
-    //            SimpleDateFormat dateformatter = new SimpleDateFormat("yyyy/MM/dd");
-    //            SimpleDateFormat timeformatter = new SimpleDateFormat("HH:mm:ss");
-    //            Date date = dateformatter.parse(dateString);
-    //            Date time = timeformatter.parse(timeString);
 
-                //get require staff data
-                Employee requireEmployee = employeeDao.getEmployeeData(staff);
-                //get client data
-                Client client = clientDao.getClientData((String) session.getAttribute("fullName"));  
+                Date today = new Date();
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
-                Operation operation = new Operation();
-                operation.setEmployee(requireEmployee);
-                operation.setClient(client);           
-                operation.setType("Appointment"); 
-                operation.setnSlot(Integer.parseInt(slot));
-                operation.setDate(dateString);
-                operation.setTime(timeString);
-                operation.setIsCancelled(false);
-
-
-                boolean res = operationDao.addAppointment(operation);
-                if (res)
-                    response.sendRedirect("/viewer/Home.jsp");
+                String bookDateStr = dateString + "T" + timeString + ":00"; // "yyyy-MM-ddTHH:mm:ss";
+                Date bookDate = formatter.parse(bookDateStr);
+                
+                // compareTo returns -1/0/1 if less/equal/greater
+                if (bookDate.compareTo(today) != 1) {
+                    request.setAttribute("date-select-error", "wrong");
+                    request.getRequestDispatcher("/viewer/client/BookAppointment.jsp").forward(request, response);
+                }
                 else {
-                    out.print("<small class=\"Error Error-Booking\">There's been some error. Please try again later.</small>");
-                    request.getRequestDispatcher("/viewer/client/BookAppointment.jsp").include(request, response);
-                }       
+                    //get require staff data
+                    Employee requireEmployee = employeeDao.getEmpById(Integer.parseInt(staffid));
+                    //get client data
+                    Client client = clientDao.getClientData((String) session.getAttribute("fullName"));
+
+                    Operation operation = new Operation();
+                    operation.setEmployee(requireEmployee);
+                    operation.setClient(client);
+                    operation.setType("appointment");
+                    operation.setnSlot(Integer.parseInt(slot));
+                    operation.setDate(dateString);
+                    operation.setTime(timeString);
+                    operation.setIsCancelled(false);
+                    operation.setDescription(description);
+
+                    boolean res = operationDao.addAppointment(operation);
+                    if (res) {
+                        response.sendRedirect("/viewer/client/ManageAppointment.jsp");
+                    } else {
+                        out.print("<small class=\"Error Error-Booking\">There's been some error. Please try again later.</small>");
+                        request.getRequestDispatcher("/viewer/client/BookAppointment.jsp").include(request, response);
+                    }
+                }
+
+                
             }
-            
-            
+
         }
     }
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -146,5 +149,4 @@ public class BookAppointment extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    
 }
