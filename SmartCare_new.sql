@@ -48,7 +48,7 @@ create table prescription (
 	eID int references employees(eID) on delete set null,
     cID int references clients(cID) on delete set null, 
 	pDate date,		-- date issued
-	pUse int		-- number of uses
+	pUse int,		-- number of uses
 	pDescription varchar(255)
 );
 
