@@ -92,7 +92,13 @@ public class BillingDao extends DAO {
         for (int i = 0; i < data.length; i++) {
             int sId = Integer.parseInt(data[i][0]);
             query = "SELECT * FROM APP.BILLING WHERE sID=" + sId + "";
-            String[] aBill = db.getRecords(query)[0];
+            System.out.println("SID=" + sId);
+            
+            String[][] bills = db.getRecords(query);
+            if (bills.length == 0) 
+                continue;            
+            
+            String[] aBill = bills[0];
 
             Billing billing = new Billing();
             Operation op = new Operation();
