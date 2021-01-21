@@ -124,7 +124,8 @@ public class AuthenticationFilter implements Filter {
                 || uri.equals("/viewer/client/BookAppointment.jsp") || uri.equals("/BookAppointment")
                 || uri.equals("/viewer/client/ManageAppointment.jsp") || uri.equals("/ManageAppointment")
                 || uri.equals("/viewer/client/PayBills.jsp") || uri.equals("/PayBills")
-                || uri.equals("/viewer/client/RequestPrescription.jsp") || uri.equals("/RequestPrescription"));
+                || uri.equals("/viewer/client/RequestPrescription.jsp") || uri.equals("/RequestPrescription")        
+                || uri.equals("/viewer/client/ViewPrescription.jsp") || uri.equals("/ViewPrescription"));
 
     }
 
