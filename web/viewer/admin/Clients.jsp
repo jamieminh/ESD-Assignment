@@ -12,8 +12,10 @@
     String changesMade = "";
     if (request.getAttribute("clients") == null) {
         response.sendRedirect("/Clients");
+        System.out.println("null");
     } else {
         clients = (ArrayList<Client>) request.getAttribute("clients");
+        System.out.println("not null");
     }
 %>
 
@@ -40,7 +42,20 @@
         <p>Deleting a client is final and <em style="color:red">cannot be reverted</em>.</p>
     </div>
     <h3>There are <span class="data-num"><%=clients.size()%></span> client(s) in SmartCare.</h3>
-    <form action="/Clients" method="get" class="FormTable" onsubmit="return confirm('Do you really want to make these changes?');">
+    
+    <form action="/Clients" method="post">
+        <label>Choose Patient Type: </label>
+        <select name="patient-type">
+            <option value="all">All..</option>
+            <option value="nhs">NHS</option>
+            <option value="private">Private</option>
+        </select>
+        
+        <input type="submit" name="filter-pat-type" value="Search"/>
+        
+    </form>
+    
+    <form action="/Clients" method="post" class="FormTable" onsubmit="return confirm('Do you really want to make these changes?');">
         <table id="client-table">
             <tr>
                 <th>Client ID</th>
@@ -60,7 +75,7 @@
                         out.print("<td>" + pat.getUsername() + "</td>");
                         out.print("<td>" + pat.getFullName() + "</td>");
                         out.print("<td>" + pat.getAddress() + "</td>");
-                        out.print("<td>" + pat.getType() + "</td>");
+                        out.print("<td>" + pat.getType().toUpperCase() + "</td>");
                         out.print("<td><input type=\"checkbox\" name = client-" + pat.getId() + " ");
                         out.print("</tr>");
                     }

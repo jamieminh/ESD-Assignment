@@ -43,7 +43,7 @@
                 <option value=null>Select a staff.......</option>
                 <%
                     for (Employee emp : staffs) {
-                        out.print("<option value=\"" + emp.getId()+ "\">" + emp.getFullName() + "</option>");
+                        out.print("<option value=\"" + emp.getId()+ "\">" + emp.getFullName() + " - " + emp.getRole().toUpperCase() + "</option>");
                     }
                 %>
             </select>
