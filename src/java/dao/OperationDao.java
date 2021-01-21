@@ -258,10 +258,202 @@ public class OperationDao extends DAO {
         return res;
 
     }
-
+    
+    
     public boolean cancelSchedule(String sid) {
         String query = "UPDATE APP.SCHEDULE SET cancelled='true' WHERE sid=" + sid;
         return db.executeUpdate(query);
     }
+    
+    public ArrayList<Operation> getAllPrescription() {
+//        String[][] result = db.getAllRecords("schedule");
+        String query = "SELECT * FROM APP.PRESCRIPTION WHERE cid IS NOT NULL";
+        String[][] result = db.getRecords(query);
+        ArrayList<Operation> prescription = new ArrayList<Operation>();
 
+        EmployeeDao employeeDao = new EmployeeDao(con);
+        ClientDAO clientDao = new ClientDAO(con);
+
+        for (String[] res : result) {
+            Operation op = new Operation();
+            Employee emp = employeeDao.getEmpById(Integer.parseInt(res[1]));
+
+            Client client = clientDao.getClientById(Integer.parseInt(res[2]));
+
+            op.setId(Integer.parseInt(res[0]));
+            op.setEmployee(emp);
+            op.setClient(client);
+            op.setDate(res[5]);
+            op.setIsAproved(Boolean.parseBoolean(res[7]));
+            op.setPrescription(res[8]);
+
+            prescription.add(op);
+        }
+
+        return prescription;
+    }
+
+    // add new prescription
+    public boolean addPrescription(Operation operation) {
+        boolean res = false;
+
+        // insert prescription info to 'prescription' table
+        String query = String.format("INSERT INTO app.PRESCRIPTION(EID, CID, PDATE, APROVED, PRESCRIPTION) "
+                + "VALUES (%s, %s, '%s', '%s', '%s')", operation.getEmployee().getId(), operation.getClient().getId(), 
+               operation.getDate(), operation.isIsAproved(), operation.getPrescription());
+        res = db.executeUpdate(query);
+        if (res) {
+            double charge = operation.getnSlot() * operation.getEmployee().getRate();
+
+            String query2 = String.format("SELECT pid FROM APP.PRESCRIPTION WHERE"
+                    + " eid=%s AND cid=%s AND pdate='%s'",
+                    operation.getEmployee().getId(), operation.getClient().getId(), operation.getDate());
+            String pid = db.getRecords(query2)[0][0];
+
+           
+        }
+        return res;
+    }
+
+    // get operations that have passed and not aproved
+    public ArrayList<Operation> getAllPrescriptionPassedNotAproved() {
+        String pattern = "yyyy-MM-dd";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        String today = simpleDateFormat.format(new Date());  // today
+
+        String query = "SELECT * FROM APP.PRESCRIPTION WHERE sdate<='" + today + "' AND aproved=false AND cid IS NOT NULL";
+        String[][] results = db.getRecords(query);
+
+        ArrayList<Operation> prescription = new ArrayList<Operation>();
+
+        EmployeeDao employeeDao = new EmployeeDao(con);
+        ClientDAO clientDao = new ClientDAO(con);
+
+        for (String[] res : results) {
+            Operation op = new Operation();
+            Employee emp = employeeDao.getEmpById(Integer.parseInt(res[1]));
+            Client client = clientDao.getClientById(Integer.parseInt(res[2]));
+
+            op.setId(Integer.parseInt(res[0]));
+            op.setEmployee(emp);
+            op.setClient(client);
+            op.setDate(res[5]);
+            op.setIsAproved(Boolean.parseBoolean(res[7]));
+            op.setPrescription(res[8]);
+
+            prescription.add(op);
+        }
+
+        return prescription;
+    }
+
+    public ArrayList<Operation> getAllPrescriptionFromTo(String datefrom, String dateto, int cid) {
+
+        String query = "SELECT * FROM APP.PRESCRIPTION WHERE SDATE >='" + datefrom + "' AND PDATE <='" + dateto + "' AND cid IS NOT NULL";
+        String[][] result = db.getRecords(query);
+        ArrayList<Operation> prescription = new ArrayList<Operation>();
+
+        EmployeeDao employeeDao = new EmployeeDao(con);
+        ClientDAO clientDao = new ClientDAO(con);
+
+        for (String[] res : result) {
+            Operation op = new Operation();
+            Employee emp = employeeDao.getEmpById(Integer.parseInt(res[1]));
+            Client client = clientDao.getClientById(Integer.parseInt(res[2]));
+
+            op.setId(Integer.parseInt(res[0]));
+            op.setEmployee(emp);
+            op.setClient(client);
+            op.setDate(res[5]);
+            op.setIsAproved(Boolean.parseBoolean(res[7]));
+            op.setPrescription(res[8]);
+
+            prescription.add(op);
+        }
+
+        return prescription;
+
+    }
+
+    public ArrayList<Operation> getPrescriptionByEmpId(int empId) {
+        ArrayList<Operation> prescription = new ArrayList<Operation>();
+
+        String query = "SELECT * FROM APP.PRESCRIPTION WHERE eid=" + empId + " AND cid IS NOT NULL ";
+        String[][] result = db.getRecords(query);
+
+        EmployeeDao employeeDao = new EmployeeDao(con);
+        ClientDAO clientDao = new ClientDAO(con);
+
+        for (String[] res : result) {
+            Operation op = new Operation();
+            Employee emp = employeeDao.getEmpById(Integer.parseInt(res[1]));
+            Client client = clientDao.getClientById(Integer.parseInt(res[2]));
+
+            op.setId(Integer.parseInt(res[0]));
+            op.setEmployee(emp);
+            op.setClient(client);
+            op.setDate(res[5]);
+            op.setIsAproved(Boolean.parseBoolean(res[7]));
+            op.setPrescription(res[8]);
+
+            prescription.add(op);
+        }
+
+        return prescription;
+    }
+
+    public ArrayList<Operation> getPrescriptionById(int preId) {
+        ArrayList<Operation> prescription = new ArrayList<Operation>();
+
+        String query = "SELECT * FROM APP.PRESCRIPTION WHERE pid=" + preId;
+        String[][] result = db.getRecords(query);
+
+        EmployeeDao employeeDao = new EmployeeDao(con);
+        ClientDAO clientDao = new ClientDAO(con);
+
+        for (String[] res : result) {
+            Operation op = new Operation();
+            Employee emp = employeeDao.getEmpById(Integer.parseInt(res[1]));
+            Client client = clientDao.getClientById(Integer.parseInt(res[2]));
+
+            op.setId(Integer.parseInt(res[0]));
+            op.setEmployee(emp);
+            op.setClient(client);
+            op.setDate(res[5]);
+            op.setIsAproved(Boolean.parseBoolean(res[7]));
+            op.setPrescription(res[8]);
+
+            prescription.add(op);
+        }
+
+        return prescription;
+    }
+
+    public ArrayList<Operation> getPrescriptionByCliId(int cliId) {
+        ArrayList<Operation> prescription = new ArrayList<Operation>();
+
+        String query = "SELECT * FROM APP.PRESCRIPTION WHERE cid=" + cliId + " AND cid IS NOT NULL";
+        String[][] result = db.getRecords(query);
+
+        EmployeeDao employeeDao = new EmployeeDao(con);
+
+        for (String[] res : result) {
+            Operation op = new Operation();
+            Employee emp = employeeDao.getEmpById(Integer.parseInt(res[1]));
+
+            op.setId(Integer.parseInt(res[0]));
+            op.setEmployee(emp);
+            op.setDate(res[5]);
+            op.setIsAproved(Boolean.parseBoolean(res[7]));
+            op.setPrescription(res[8]);
+
+            prescription.add(op);
+        }
+
+        return prescription;
+    }
+    public boolean aprovePrescription(String pid) {
+        String query = "UPDATE APP.PRESCRIPTION SET aproved='false' WHERE pid=" + pid;
+        return db.executeUpdate(query);
+    }
 }

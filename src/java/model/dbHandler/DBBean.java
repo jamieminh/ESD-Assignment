@@ -66,6 +66,24 @@ public class DBBean {
         return executeUpdate(query);
     }
     
+    // html date and time pickers should be used
+    public boolean insertPrescription(String[] values) {
+        // date: yyyy-mm-dd is the default format of the HTML date picker
+        // [employeeName, clientName, date]
+        // sql formats [year: yyyy, month: m OR mm, day: d OR dd, hour: h OR hh, minute: mm]
+        if (values.length != 6) 
+            return false;
+        
+        String[][] find = getRecords("SELECT eid FROM app.employees WHERE ename='" + values[0] + "'");
+        String eid = find[0][0];
+        find = getRecords("SELECT cid FROM app.clients WHERE cname='" + values[1] + "'");
+        String cid = find[0][0];
+        
+        String query = String.format("INSERT INTO app.prescription(eid, cid, pdate) "
+                + "VALUES (%s, %s, '%s')", eid, cid, values[2]);
+        return executeUpdate(query);
+    }
+    
     public boolean insertBilling(String[] values) {
         // [employeeName, date, time, charge]
         if (values.length != 4) 
@@ -89,6 +107,11 @@ public class DBBean {
 
     public boolean cancelSchedule(String sid ) {
         String query = "UPDATE APP.SCHEDULE SET cancelled='true' WHERE sid=" + sid;
+        return executeUpdate(query);
+    }
+    
+    public boolean aprovePrescription(String pid ) {
+        String query = "UPDATE APP.Prscription SET aproved='true' WHERE sid=" + pid;
         return executeUpdate(query);
     }
     

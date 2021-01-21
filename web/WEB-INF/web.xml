@@ -61,6 +61,10 @@
         <servlet-class>controller.doctor.BookSurgery</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>IssuePrescription</servlet-name>
+        <servlet-class>controller.doctor.IssuePrescription</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>BookAppointment</servlet-name>
         <servlet-class>controller.client.BookAppointment</servlet-class>
     </servlet>
@@ -71,6 +75,14 @@
     <servlet>
         <servlet-name>StaffSchedule</servlet-name>
         <servlet-class>controller.admin.StaffSchedule</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RequestPrescription</servlet-name>
+        <servlet-class>controller.client.RequestPrescription</servlet-class>
+    </servlet>
+     <servlet>
+        <servlet-name>ViewPrescription</servlet-name>
+        <servlet-class>controller.client.ViewPrescription</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>test</servlet-name>
@@ -117,6 +129,10 @@
         <url-pattern>/BookSurgery</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>IssuePrescription</servlet-name>
+        <url-pattern>/IssuePrescription</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>BookAppointment</servlet-name>
         <url-pattern>/BookAppointment</url-pattern>
     </servlet-mapping>
@@ -127,6 +143,14 @@
     <servlet-mapping>
         <servlet-name>StaffSchedule</servlet-name>
         <url-pattern>/StaffSchedule</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RequestPrescription</servlet-name>
+        <url-pattern>/RequestPrescription</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewPrescription</servlet-name>
+        <url-pattern>/ViewPrescription</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
