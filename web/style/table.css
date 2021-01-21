@@ -309,3 +309,9 @@ table#client-table tr{
     left: 50%;
     transform: translateX(-50%);
 }
+
+
+/* PAY BILLS TABLE */
+#bills-table tr.disabled {
+    background-color: #e3e3e3;
+}

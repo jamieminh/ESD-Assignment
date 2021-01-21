@@ -48,7 +48,7 @@ public class BookSurgery extends HttpServlet {
                 String surgDate = request.getParameter("surgery-date");
                 String surgTime = request.getParameter("surgery-time");
                 String description = request.getParameter("surgery-description");
-                String empId = (String) session.getAttribute("eid");
+                String empId = (String) session.getAttribute("roleId");
 
                 Date today = new Date();
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");

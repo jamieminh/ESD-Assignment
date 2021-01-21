@@ -42,11 +42,10 @@
 
 <div class="MainContent">
 
-    <h3>There are <span class="data-num"><%=staffs.size()%></span> employee(s) in SmartCare.</h3>
-    
+    <h1>Staff Management</h1>
     <%
         if (hasChange) 
-            out.print("<div class=\"changes-made\"><em>" + newChanges.size() + " changes made</em></div>");
+            out.print("<div class=\"changes-made\"><em>" + newChanges.size() + " staff information changed</em></div>");
         else
             out.print("<div class=\"changes-made\"><em>0 changes made</em></div>");
     %>
@@ -59,6 +58,7 @@
         <p>Once addresses have been found, choose one and click 'Confirm' to submit.</p>
         <p>An employee's rate cannot go beyond &#163;100/slot .</p>
     </div>
+    <h3>There are <span class="data-num"><%=staffs.size()%></span> employee(s) in SmartCare.</h3>
     <form action="/Staff" method="get" class="FormTable" onsubmit="return confirm('Do you really want to make these changes?');">
         <table id="staff-table">
             <tr>

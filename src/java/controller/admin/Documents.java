@@ -26,19 +26,10 @@ import model.pojo.Operation;
 
 /**
  *
- * @author Admin
+ * @author Bao Bui + Jamie
  */
 public class Documents extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, ParseException {
         response.setContentType("text/html;charset=UTF-8");
@@ -50,15 +41,19 @@ public class Documents extends HttpServlet {
 
             OperationDao opeDao = new OperationDao(con);
 
+            // first-load, admin has not chosen date confines
             if (request.getParameter("billing-month") == null || (request.getParameter("dateto") == null && request.getParameter("datefrom") == null)) {
                 ArrayList<Operation> operations = opeDao.getAllSchedulePassedNotCancelled();
 
                 ArrayList<String[]> arrOfBills = getScheduleAsStringArr(operations, con);
                 request.setAttribute("billings", arrOfBills);
+                out.print(arrOfBills.size());
 
                 request.getRequestDispatcher("/viewer/admin/Documents.jsp").forward(request, response);
 
-            } else if (request.getParameter("datefrom") != null && request.getParameter("dateto") != null) {
+            } 
+            // admin chose date confines
+            else if (request.getParameter("datefrom") != null && request.getParameter("dateto") != null) {
                 Date today = new Date();
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -101,8 +96,10 @@ public class Documents extends HttpServlet {
         BillingDao billingDao = new BillingDao(con);
         ArrayList<String[]> arrOfBills = new ArrayList<String[]>();
         for (Operation ope : operations) {
-            int SID = ope.getId();
-            Billing billing = billingDao.getBillingBySID(SID);
+            Billing billing = billingDao.getPaidBillingBySID(ope.getId());
+            
+            if (billing.getbId() == 0)
+                continue;
 
             arrOfBills.add(new String[]{ope.getEmployee().getFullName(),
                 ope.getClient().getFullName(),

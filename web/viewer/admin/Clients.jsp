@@ -21,7 +21,7 @@
 <!DOCTYPE html>
 <jsp:include page="/viewer/Header.jsp"/>
 <div class="MainContent">
-    <h3>There are <span class="data-num"><%=clients.size()%></span> client(s) in SmartCare.</h3>
+    <h1>Client Management</h1>
     <%
         if (request.getAttribute("changes-made") != null) {
             changesMade = (String) request.getAttribute("changes-made");
@@ -39,6 +39,7 @@
         <p>Admin can delete client(s) from database by checking the checkbox and then click "Confirm" to submit.</p>
         <p>Deleting a client is final and <em style="color:red">cannot be reverted</em>.</p>
     </div>
+    <h3>There are <span class="data-num"><%=clients.size()%></span> client(s) in SmartCare.</h3>
     <form action="/Clients" method="get" class="FormTable" onsubmit="return confirm('Do you really want to make these changes?');">
         <table id="client-table">
             <tr>

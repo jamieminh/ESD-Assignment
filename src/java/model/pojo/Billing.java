@@ -13,6 +13,15 @@ public class Billing {
     private int bId;
     private Operation op;
     private float charge;
+    private boolean isPaid;
+
+    public boolean isIsPaid() {
+        return isPaid;
+    }
+
+    public void setIsPaid(boolean isPaid) {
+        this.isPaid = isPaid;
+    }
 
     public int getbId() {
         return bId;
