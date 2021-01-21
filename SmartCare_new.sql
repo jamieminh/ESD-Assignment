@@ -39,7 +39,7 @@ create table schedule (
 	description varchar(255)
 );
 -- nSlot=0 for surgery, nSlot will later be used to calculate billing.charge (nSlot * rate) for appointment
--- sType is either "appointment", "surgery" or prescription
+-- sType is either "appointment" or "surgery"
 
 
 create table prescription (
