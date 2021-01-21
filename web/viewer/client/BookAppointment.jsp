@@ -59,7 +59,7 @@
                 <th>Number of slot(s)
                     <input required type="number" class="form-control" name="slot" min="1" max="6"/>
                 </th>
-                <th>Decription
+                <th>Description
                     <textarea required class="form-control" name="description"></textarea>
                 </th>
             </tr>

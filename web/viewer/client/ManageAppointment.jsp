@@ -1,7 +1,7 @@
 <%-- 
     Document   : ManageAppointment
     Created on : 20-Jan-2021, 10:22:45
-    Author     : ah2dam
+    Author     : ah2dam + Jamie
 --%>
 
 <%@page import="java.text.SimpleDateFormat"%>

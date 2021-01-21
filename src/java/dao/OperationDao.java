@@ -181,32 +181,30 @@ public class OperationDao extends DAO {
         return schedule;
     }
 
-    public ArrayList<Operation> getScheduleById(int scheId) {
-        ArrayList<Operation> schedule = new ArrayList<Operation>();
+    public Operation getScheduleById(int scheId) {
+        Operation schedule = new Operation();
 
         String query = "SELECT * FROM APP.SCHEDULE WHERE sid=" + scheId;
-        String[][] result = db.getRecords(query);
+        String[] res = db.getRecords(query)[0];
 
         EmployeeDao employeeDao = new EmployeeDao(con);
         ClientDAO clientDao = new ClientDAO(con);
 
-        for (String[] res : result) {
-            Operation op = new Operation();
+            
             Employee emp = employeeDao.getEmpById(Integer.parseInt(res[1]));
             Client client = clientDao.getClientById(Integer.parseInt(res[2]));
 
-            op.setId(Integer.parseInt(res[0]));
-            op.setEmployee(emp);
-            op.setClient(client);
-            op.setType(res[3]);
-            op.setnSlot(Integer.parseInt(res[4]));
-            op.setDate(res[5]);
-            op.setTime(res[6]);
-            op.setIsCancelled(Boolean.parseBoolean(res[7]));
-            op.setDescription(res[8]);
+            schedule.setId(Integer.parseInt(res[0]));
+            schedule.setEmployee(emp);
+            schedule.setClient(client);
+            schedule.setType(res[3]);
+            schedule.setnSlot(Integer.parseInt(res[4]));
+            schedule.setDate(res[5]);
+            schedule.setTime(res[6]);
+            schedule.setIsCancelled(Boolean.parseBoolean(res[7]));
+            schedule.setDescription(res[8]);
 
-            schedule.add(op);
-        }
+        
 
         return schedule;
     }
