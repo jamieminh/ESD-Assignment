@@ -28,7 +28,7 @@
 
 <div class="MainContent">
 
-    <h2>Check Staff Schedule</h2>
+    <h1>Check Staff Schedule</h1>
     <%
         if (request.getAttribute("changes-made") != null) {
              changed_ids = (ArrayList<Integer>) request.getAttribute("changes-made");
@@ -82,7 +82,7 @@
                 <th style="width: 8%">Cancelled</th>
             </tr>
             <%                if (schedule.size() == 0) {
-                    out.print("<tr><td colspan=\"8\">There is no schedule.</td></tr>");
+                    out.print("<tr><td colspan=\"9\">There is no schedule.</td></tr>");
                 } else {
                     for (Operation op : schedule) {
                         String checked = op.isIsCancelled() ? "checked" : "";    // checkbox cheked state

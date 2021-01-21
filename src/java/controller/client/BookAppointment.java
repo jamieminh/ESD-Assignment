@@ -46,7 +46,7 @@ public class BookAppointment extends HttpServlet {
             EmployeeDao employeeDao = new EmployeeDao(con);
             OperationDao operationDao = new OperationDao(con);
 
-            ArrayList<Employee> staffsList = employeeDao.getAllEmployees();
+            ArrayList<Employee> staffsList = employeeDao.getAllAuthEmployees();
             session.setAttribute("staffs", staffsList);
 
             // load data for the first time

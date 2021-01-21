@@ -1,7 +1,7 @@
 <%-- 
-    Document   : ProduceDocuments
+    Document   : Documents
     Created on : Dec 16, 2020, 10:21:13 PM
-    Author     : Admin
+    Author     : Bao Bui
 --%>
 
 
@@ -29,21 +29,27 @@
 
 <div class="MainContent">
 
-    <h3>Invoices</h3>
+    <h1>Turnover</h1>
     <%
         if (request.getAttribute("date-select-error") != null) {
             out.print("<h3 style=\"color: red\">Chosen dates not valid. Try again.</h3>");
         }
         if (request.getAttribute("date-from") != null) {
-            out.print("<h3 style=\"color: #59B259\">Invoice within " + request.getAttribute("date-from") 
+            out.print("<h3 style=\"color: #59B259\">Invoice within " + request.getAttribute("date-from")
                     + " to " + request.getAttribute("date-to") + "</h3>");
         }
-        %>
+    %>
+    <div class='instructions' style="margin: 30px 0px">
+        <h4>Instructions</h4>
+        <p>Chose time confines to see charges within that duration.</p>
+        <p>The Turnover only shows Paid and Passed operations.</p>
+    </div>
+    
     <form action="/Documents" method="post">
         <div style="display: flex ; flex-direction:row">
             <div style="display: flex ; flex-direction:column">
-                <div>Date from:<input type="date" name="datefrom"/></div></br>
-                <div>Date to<input type="date" name="dateto"/></div></br>
+                <div><label style="width: 100px">Date from</label><input type="date" name="datefrom"/></div></br>
+                <div><label style="width: 100px">Date to</label><input type="date" name="dateto"/></div></br>
 
             </div>
             <div class="staff-buttons" style="margin-left: 50px; margin-top: 20px"> <input type="submit" name="billing-month" value="Ok"/></div>
@@ -62,13 +68,10 @@
             <th>Date</th>
             <th>Time</th>
             <th>Charge</th>
-            <!--<th style="width: 9%" >Rate (&#163;/slot)</th>-->
-            <!--                <th style="width: 10%">New Rate (&#163;/slot)</th>-->
-            <!--                <th style="width: 10%">Authorzied</th>-->
             </tr>
             <%
                 if (billings.size() == 0) {
-                    out.print("<tr><td colspan=\"7\">No record available.</td></tr>");
+                    out.print("<tr><td colspan=\"8\">No record available.</td></tr>");
                 } else {
                     for (String[] bill : billings) {
                         String inputClass = "";
@@ -88,11 +91,6 @@
                 }
             %>
         </table>
-
-
-
-
-
 
     </form>
 </div>

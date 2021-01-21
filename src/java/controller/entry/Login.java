@@ -41,14 +41,14 @@ public class Login extends HttpServlet {
             String name = "Admin";      // user full name
             String token = null;        // cookie login token
             boolean flag = true;        // true will continue to successful login
-            String eid = "";
+            String roleId = "";
 
             // ----------- COOKIE LOGIN ------------
             if (tokenCk != null) {
                 String[] userInfo = entryDao.cookieLogin(tokenCk);
                 role = userInfo[0];
                 name = userInfo[1].equals("") ? name : userInfo[1]; // if there's no name, set it to "Admin"
-                eid = userInfo[2];
+                roleId = userInfo[2];
             } 
             // ----------- FORM LOGIN --------------
             else {
@@ -69,7 +69,7 @@ public class Login extends HttpServlet {
                     role = userInfo[0];
                     name = userInfo[1];
                     token = userInfo[2];
-                    eid = userInfo[3];
+                    roleId = userInfo[3];
                     if (token != null) {
                         Cookie setTokenCk = new Cookie("token", token);
                         setTokenCk.setMaxAge(5 * 24 * 60 * 60);   // 10 days
@@ -96,10 +96,10 @@ public class Login extends HttpServlet {
                         userPic += "admin.png";
                         break;
                     case "client":
-                        pages = new String[]{"Book Appointment", "Manage Appointment", "Request Prescription"};
-                        pagesIcons = new String[] {"calendar-plus", "calendar-alt", "prescription-bottle-alt"};
+                        pages = new String[]{"Book Appointment", "Manage Appointment", "Request Prescription", "Pay Bills"};
+                        pagesIcons = new String[] {"calendar-plus", "calendar-alt", "prescription-bottle-alt", "file-invoice-dollar"};
                         pagesDescription = new String[] {"Book a New Appointment", "Manage Your Upcoming Schedule",
-                            "Request a new Prescription from your Doctor"};
+                            "Request a new Prescription from your Doctor", "See and Complete your Unpaid Charges"};
                         userPic += "client.png";
                         break;
                     case "doctor":
@@ -124,7 +124,7 @@ public class Login extends HttpServlet {
 
                 session.setAttribute("isLoggedIn", true);
                 session.setAttribute("fullName", name);
-                session.setAttribute("eid", eid);
+                session.setAttribute("roleId", roleId);
                 session.setAttribute("role", role);
                 session.setAttribute("title", "Dashboard: " + name);
                 session.setAttribute("folderUrl", "/viewer/" + role + "/");

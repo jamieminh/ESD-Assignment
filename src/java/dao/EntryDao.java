@@ -22,26 +22,27 @@ public class EntryDao extends DAO {
     public EntryDao(Connection con) {
         super(con);
     }
-    
+
     private DBBean db = this.getDb();
-    
 
     public String[] cookieLogin(String token) {
         String[][] record = db.getRecords("SELECT uname, role FROM APP.USERS WHERE token='" + token + "' ");
         String uname = record[0][0];
         String role = record[0][1];
-        String name = "";
-        String eid = "";
+        String name = "Admin";
+        String roleid = "";
 
         if (role.equals("client")) {
-            name = db.getRecords("SELECT cname FROM APP.clients WHERE uname='" + uname + "'")[0][0];
+            String[] res = db.getRecords("SELECT cname, cid FROM APP.clients WHERE uname='" + uname + "'")[0];
+            name = res[0];
+            roleid = res[1];
         } else if (!role.equals("admin")) {
             String[] res = db.getRecords("SELECT ename, eid FROM APP.employees WHERE uname='" + uname + "'")[0];
             name = res[0];
-            eid = res[1];
+            roleid = res[1];
         }
 
-        return new String[]{role, name, eid};
+        return new String[]{role, name, roleid};
     }
 
     public String[] formLogin(User user, boolean isRemember) {
@@ -56,27 +57,31 @@ public class EntryDao extends DAO {
         String role = record[0][0];
         String name = "Admin";
         String token = null;
-        String eid = "";
+        String roleid = "";
 
         // login with unauthorized credentials --> error 
         if (authorized.equals("false")) {
-            return new String[]{ "Unauthorized User"};
-        } 
+            return new String[]{"Unauthorized User"};
+        }
 
         // login with authorized credentials --> login
-        if (role.equals("client"))     // client
-            name = db.getRecords("SELECT cname FROM APP.clients WHERE uname='" + user.getUsername() + "'")[0][0];
-        else if (!role.equals("admin")) {  // employee 
+        if (role.equals("client")) // client
+        {
+            String[] res = db.getRecords("SELECT cname, cid FROM APP.clients WHERE uname='" + user.getUsername() + "'")[0];
+            name = res[0];
+            roleid = res[1];
+        } else if (!role.equals("admin")) {  // employee 
             String[] res = db.getRecords("SELECT ename, eid FROM APP.employees WHERE uname='" + user.getUsername() + "'")[0];
             name = res[0];
-            eid = res[1];
+            roleid = res[1];
         }
-        
+
         // if "Remember Me" box is checked
-        if (isRemember) 
+        if (isRemember) {
             token = db.getRecords("SELECT token FROM APP.users WHERE uname='" + user.getUsername() + "'")[0][0];
-        
-        return new String[] {role, name, token, eid};
+        }
+
+        return new String[]{role, name, token, roleid};
     }
 
     // signup client
@@ -97,21 +102,22 @@ public class EntryDao extends DAO {
         }
 
         // delete user from db if user cannot be inserted into 'clients' table
-        if (!insertRole) 
+        if (!insertRole) {
             db.deleteUser(client.getUsername());
+        }
 
         return insertRole;
     }
-    
+
     // signup staff
     public boolean signUpStaff(Employee employee) {
         String token = new UserToken().generateToken();     // user token
         String hashedPW = new HashPassword().hashPassword(employee.getPassword()); // hash password
 
         // insert new user to 'users' table
-        boolean inserted = db.insertUser(new String[]{employee.getUsername(), 
-            hashedPW, employee.getRole().toLowerCase(), "false", token});        
-        
+        boolean inserted = db.insertUser(new String[]{employee.getUsername(),
+            hashedPW, employee.getRole().toLowerCase(), "false", token});
+
         boolean insertRole = false;
 
         // insert user info to 'employees' table
@@ -120,10 +126,11 @@ public class EntryDao extends DAO {
                     employee.getUsername(), employee.getFullName(), employee.getDob(), employee.getAddress());
             insertRole = db.executeUpdate(query);
         }
-        
+
         // delete user from db if user cannot be inserted into 'employees' table
-        if (!insertRole) 
+        if (!insertRole) {
             db.deleteUser(employee.getUsername());
+        }
 
         return insertRole;
     }
