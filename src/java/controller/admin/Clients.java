@@ -45,6 +45,7 @@ public class Clients extends HttpServlet {
             // first load
             if (request.getParameter("client-submit") == null && request.getParameter("filter-pat-type") == null) {
                 clients = clientDao.getAllClients();
+                session.setAttribute("current-pat-type", "all");
                 request.setAttribute("clients", clients);
                 request.getRequestDispatcher("/viewer/admin/Clients.jsp").forward(request, response);
             }// if admin chose a specific type
