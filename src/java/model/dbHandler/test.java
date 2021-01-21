@@ -30,8 +30,9 @@ public class test extends HttpServlet {
 //            boolean in4 = db.insertClient(new String[] {"hope", "Hope Michaelson", "New Orleans", "private"});
 //            boolean in5 = db.insertSchedule(new String[] {"Josie Saltzman", "Hope Michaelson", "appointment", "2021-01-20", "9:00", "1"});
             boolean in6 = db.insertSchedule(new String[] {"Josie Saltzman", "Hope Michaelson", "surgery", "2021-2-3", "21:00", "1"});
-//            boolean in7 = db.insertBilling(new String[] {"2", "4553.6"});   // surgery
-//            boolean in8 = db.insertBilling(new String[] {"1", "thisfielddoesn'tmatter"});   // appointment
+            //boolean in7 = db.insertPrescription(new String[] {"Phong", "Hope Michaelson", "2021-2-3"});
+//            boolean in8 = db.insertBilling(new String[] {"2", "4553.6"});   // surgery
+//            boolean in9 = db.insertBilling(new String[] {"1", "thisfielddoesn'tmatter"});   // appointment
 
 
             // check if inserting is successful

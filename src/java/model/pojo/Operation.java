@@ -19,8 +19,10 @@ public class Operation {
     private String time;
     private String type;
     private int nSlot;
+    private boolean isAproved;
     private boolean isCancelled;
     private String description;
+    private String prescription;
 
     public String getDescription() {
         return description;
@@ -28,6 +30,13 @@ public class Operation {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+    public String getPrescription() {
+        return prescription;
+    }
+
+    public void setPrescription(String prescription) {
+        this.prescription = prescription;
     }
 
     public int getId() {
@@ -94,6 +103,12 @@ public class Operation {
     public void setIsCancelled(boolean isCancelled) {
         this.isCancelled = isCancelled;
     }
-    
+    public boolean isIsAproved() {
+        return isAproved;
+    }
+
+    public void setIsAproved(boolean isAproved) {
+        this.isAproved = isAproved;
+    }
     
 }

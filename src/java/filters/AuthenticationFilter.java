@@ -124,14 +124,15 @@ public class AuthenticationFilter implements Filter {
                 || uri.equals("/viewer/client/BookAppointment.jsp") || uri.equals("/BookAppointment")
                 || uri.equals("/viewer/client/ManageAppointment.jsp") || uri.equals("/ManageAppointment")
                 || uri.equals("/viewer/client/PayBills.jsp") || uri.equals("/PayBills")
-                || uri.equals("/viewer/client/RequestPrescription.jsp") || uri.equals("/RequestPrescription"));
-
+                || uri.equals("/viewer/client/RequestPrescription.jsp") || uri.equals("/RequestPrescription")
+                || uri.equals("/viewer/client/ViewPrescription.jsp") || uri.equals("/ViewPrescription"));
     }
 
     public boolean doctorAccess(String uri) {
         // implement this like the adminAccess method above
         // include both the .jsp page and the servlet paths
         return (uri.endsWith("/Home.jsp")
+                || uri.equals("/viewer/doctor/IssuePrescription.jsp") || uri.equals("/IssuePrescription")
                 || uri.equals("/viewer/doctor/BookSurgery.jsp") || uri.equals("/BookSurgery"));
 
     }
