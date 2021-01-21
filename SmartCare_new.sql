@@ -39,7 +39,19 @@ create table schedule (
 	description varchar(255)
 );
 -- nSlot=0 for surgery, nSlot will later be used to calculate billing.charge (nSlot * rate) for appointment
--- sType is either "appointment" or "surgery"
+-- sType is either "appointment", "surgery" or prescription
+
+
+create table prescription (
+	pID int not null primary key
+            generated always as identity (start with 1, increment by 1), 
+	eID int references employees(eID) on delete set null,
+    cID int references clients(cID) on delete set null, 
+	pDate date,		-- date issued
+	pUse int,		-- number of uses
+	pDescription varchar(255)
+);
+
 
 create table billing(
     bID int not null primary key
