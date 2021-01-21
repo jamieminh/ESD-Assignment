@@ -285,6 +285,10 @@ footer {
     margin-bottom: 10%;
 }
 
+.MainContent > h1 {
+    text-align: center;
+}
+
 
 /* Home Page  */
 ul#home-page-tasks {

@@ -43,6 +43,31 @@ public class EmployeeDao extends DAO {
         }
         return staffs;
     }
+    
+    public ArrayList<Employee> getAllAuthEmployees() {
+        String[][] records = db.getRecords("SELECT uname, role, authorized FROM APP.USERS WHERE role='doctor' OR role='nurse'");
+        ArrayList<Employee> staffs = new ArrayList<Employee>();
+
+        for (String[] rec : records) {  // a staff's ename, role, authorized    
+            if (rec[2].equals("false"))    // if staff not authorized
+                continue;
+            String getEmployee = "SELECT eid, ename, eaddress, erate FROM APP.EMPLOYEES WHERE uname='" + rec[0] + "'";
+            String[] empInfo = db.getRecords(getEmployee)[0];
+            // [eid, uname, full name, address, role, rate, authorized]
+            Employee emp = new Employee();
+            emp.setId(Integer.valueOf(empInfo[0]));
+            emp.setUsername(rec[0]);
+            emp.setFullName(empInfo[1]);
+            emp.setAddress(empInfo[2]);
+            emp.setRate(Float.valueOf(empInfo[3] == null ? "0" : empInfo[3]));
+            emp.setRole(rec[1]);
+            emp.setAuthorized(Boolean.parseBoolean(rec[2]));
+            staffs.add(emp);
+        }
+        return staffs;
+    }
+    
+    
 
     // get username and attribute that can be changed (rate, authorized)
     public ArrayList<String[]> getFormChanges(ArrayList<Employee> staffs) {
