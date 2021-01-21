@@ -19,13 +19,14 @@ import dao.OperationDao;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import javax.servlet.http.HttpSession;
 import model.dbHandler.DBBean;
 import model.pojo.Client;
 import model.pojo.Operation;
 
 /**
  *
- * @author WIN 10
+ * @author Jamie + Bao
  */
 public class Clients extends HttpServlet {
 
@@ -37,21 +38,34 @@ public class Clients extends HttpServlet {
             Connection con = (Connection) getServletContext().getAttribute("con");
             db.connect(con);
             ClientDAO clientDao = new ClientDAO(con);
+            HttpSession session = request.getSession();
+
+            ArrayList<Client> clients = new ArrayList<Client>();
 
             // first load
-            if (request.getParameter("client-submit") == null) {
-                ArrayList<Client> clients = clientDao.getAllClients();
+            if (request.getParameter("client-submit") == null && request.getParameter("filter-pat-type") == null) {
+                clients = clientDao.getAllClients();
                 request.setAttribute("clients", clients);
                 request.getRequestDispatcher("/viewer/admin/Clients.jsp").forward(request, response);
+            }// if admin chose a specific type
+            else if (request.getParameter("filter-pat-type") != null) {
+                String ctype = request.getParameter("patient-type");  // the emplopyee that admin chose
+                clients = getClientType(ctype, con);
+
+                request.setAttribute("clients", clients);
+                session.setAttribute("current-pat-type", ctype);
+
+                request.getRequestDispatcher("/viewer/admin/Clients.jsp").forward(request, response);
+
             } // delete client
-            else {
+            else if (request.getParameter("client-submit") != null) {
                 int paramSize = request.getParameterMap().keySet().size();
                 String[] keySet = request.getParameterMap().keySet().toArray(new String[paramSize]);
 
                 // if admin doesn't change anything, send back
                 if (paramSize == 1) {   // only the submit button
                     request.setAttribute("changes-made", "0");
-                    ArrayList<Client> clients = clientDao.getAllClients();
+                    clients = getClientType((String) session.getAttribute("current-pat-type"), con);
                     request.setAttribute("clients", clients);
                     request.getRequestDispatcher("/viewer/admin/Clients.jsp").forward(request, response);
                 } else {
@@ -80,7 +94,7 @@ public class Clients extends HttpServlet {
 
                     }
                     // re-fetch clients
-                    ArrayList<Client> clients = clientDao.getAllClients();
+                    clients = getClientType((String) session.getAttribute("current-pat-type"), con);
 
                     request.setAttribute("changes-made", String.valueOf(changedCount));
                     request.setAttribute("clients", clients);
@@ -88,6 +102,21 @@ public class Clients extends HttpServlet {
                 }
             }
         }
+    }
+
+    public ArrayList<Client> getClientType(String ctype, Connection con) {
+        ArrayList<Client> clients = new ArrayList<Client>();
+        ClientDAO clientDao = new ClientDAO(con);
+
+        if (ctype.equals("all")) {
+            clients = clientDao.getAllClients();
+        } else if (ctype.equals("nhs")) {
+            clients = clientDao.getAllNHSClients();
+        } else if (ctype.equals("private")) {
+            clients = clientDao.getAllPrivateClients();
+        }
+
+        return clients;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

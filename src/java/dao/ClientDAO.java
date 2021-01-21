@@ -40,6 +40,42 @@ public class ClientDAO extends DAO {
         return clients;
     }
     
+    public ArrayList<Client> getAllPrivateClients() {
+        String[][] records = db.getRecords("SELECT * FROM APP.CLIENTS WHERE ctype='private'");
+        ArrayList<Client> clients = new ArrayList<Client>();
+
+        for (String[] rec : records) {  //         
+            // [cid, cname, dob, address, type, uname]
+            Client client = new Client();
+            client.setId(Integer.parseInt(rec[0]));
+            client.setFullName(rec[1]);
+            client.setDob(rec[2]);
+            client.setAddress(rec[3]);
+            client.setType(rec[4]);
+            client.setUsername(rec[5]);
+            clients.add(client);
+        }
+        return clients;
+    }
+    
+    public ArrayList<Client> getAllNHSClients() {
+        String[][] records = db.getRecords("SELECT * FROM APP.CLIENTS WHERE ctype='nhs'");
+        ArrayList<Client> clients = new ArrayList<Client>();
+
+        for (String[] rec : records) {  //         
+            // [cid, cname, dob, address, type, uname]
+            Client client = new Client();
+            client.setId(Integer.parseInt(rec[0]));
+            client.setFullName(rec[1]);
+            client.setDob(rec[2]);
+            client.setAddress(rec[3]);
+            client.setType(rec[4]);
+            client.setUsername(rec[5]);
+            clients.add(client);
+        }
+        return clients;
+    }
+    
     public Client getClientData(String fullName) {
         String query = "SELECT * FROM APP.CLIENTS WHERE cname='" + fullName + "'";
         String[] data = db.getRecords(query)[0];
