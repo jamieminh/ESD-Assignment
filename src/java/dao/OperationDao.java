@@ -219,6 +219,8 @@ public ArrayList<Operation> getScheduleByCliId(int cliId) {
         String[][] result = db.getRecords(query);
 
         EmployeeDao employeeDao = new EmployeeDao(con);
+        ClientDAO client = new ClientDAO(con);
+        
 
         for (String[] res : result) {
             Operation op = new Operation();
@@ -226,6 +228,7 @@ public ArrayList<Operation> getScheduleByCliId(int cliId) {
 
             op.setId(Integer.parseInt(res[0]));
             op.setEmployee(emp);
+            op.setClient(client.getClientById(cliId));
             op.setType(res[3]);
             op.setnSlot(Integer.parseInt(res[4]));
             op.setDate(res[5]);
