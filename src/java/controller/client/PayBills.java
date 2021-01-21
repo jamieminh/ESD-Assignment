@@ -41,7 +41,7 @@ public class PayBills extends HttpServlet {
             
             // first load
             if (request.getParameter("pay-confirm") == null) {
-                returnedData = allUnpaidCharges(client.getId(), con);
+                returnedData = allCharges(client.getId(), con);
                 request.setAttribute("unpaid-bills", returnedData);
                 request.getRequestDispatcher("/viewer/client/PayBills.jsp").forward(request, response);
             }
@@ -52,7 +52,7 @@ public class PayBills extends HttpServlet {
 
                 // if admin doesn't change anything, send back
                 if (paramSize == 1) {   // only the submit button
-                    returnedData = allUnpaidCharges(client.getId(), con);
+                    returnedData = allCharges(client.getId(), con);
                     request.setAttribute("unpaid-bills", returnedData);
                     request.setAttribute("changes-made", "0");
                     request.getRequestDispatcher("/viewer/client/PayBills.jsp").forward(request, response);
@@ -67,7 +67,7 @@ public class PayBills extends HttpServlet {
                     }
 
                     // re-fetch schedule
-                    returnedData = allUnpaidCharges(client.getId(), con);
+                    returnedData = allCharges(client.getId(), con);
                     
                     request.setAttribute("unpaid-bills", returnedData);
                     request.setAttribute("changes-made", String.valueOf(changesMade));
@@ -78,10 +78,10 @@ public class PayBills extends HttpServlet {
         }
     }
 
-    public ArrayList<String[]> allUnpaidCharges(int cliId, Connection con) {
+    public ArrayList<String[]> allCharges(int cliId, Connection con) {
         BillingDao billingDao = new BillingDao(con);
 
-        ArrayList<String[]> allUnpaidCharges = new ArrayList<String[]>();
+        ArrayList<String[]> allCharges = new ArrayList<String[]>();
 
         ArrayList<Billing> unpaidBills = billingDao.getAllBillingByCliID(cliId);
         OperationDao operationDao = new OperationDao(con);
@@ -92,14 +92,14 @@ public class PayBills extends HttpServlet {
             String nslot = op.getType().equals("surgery") ? "N/A" : String.valueOf(op.getnSlot());
 
             // [bid, stype, emp name, rate, slots, description, date, time, charge, isPaid]
-            allUnpaidCharges.add(new String[]{String.valueOf(bill.getbId()),
+            allCharges.add(new String[]{String.valueOf(bill.getbId()),
                 op.getType(), op.getEmployee().getFullName(),
                 String.valueOf(op.getEmployee().getRate()), nslot, op.getDescription(),
                 op.getDate(), op.getTime(), String.valueOf(bill.getCharge()),
                 String.valueOf(bill.isIsPaid())});
 
         }
-        return allUnpaidCharges;
+        return allCharges;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
